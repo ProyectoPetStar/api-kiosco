@@ -20,6 +20,8 @@ import org.petstar.dto.ResultInteger;
  * @author Ramiro
  */
 public class CatalogoPlantaDAO {
+    
+    //Metodo para consultar si hay un nombre agregado
     public ResultInteger validaNombrePlanta(String nombre_planta) throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
@@ -33,6 +35,7 @@ public class CatalogoPlantaDAO {
         return count;
     }
     
+    //Inserta datos en el catálogo de plantas
     public void insertCatalogoPlanta(CatalogoPlantaDTO planta) throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
@@ -44,6 +47,7 @@ public class CatalogoPlantaDAO {
         qr.update(sql.toString(), params);
     }
     
+    //Consulta toda la tabla del catalogo de planta
     public List<CatalogoPlantaDTO> getAllPlantas() throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
