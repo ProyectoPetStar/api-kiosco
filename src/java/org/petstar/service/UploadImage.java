@@ -54,8 +54,7 @@ public class UploadImage extends HttpServlet {
                     ResponseJson reponseJson = new ResponseJson();
                     reponseJson.setSucessfull(false);
                     reponseJson.setMessage("Servicio no encontrado");
-                    output.setResponse(reponseJson);
-                    
+                    output.setResponse(reponseJson);                   
             }
         } catch (Exception ex) {
             ResponseJson reponseJson = new ResponseJson();

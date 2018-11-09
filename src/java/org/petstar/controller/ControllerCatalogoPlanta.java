@@ -10,6 +10,7 @@ import org.petstar.dao.CatalogoPlantaDAO;
 import org.petstar.dto.CatalogoPlantaDTO;
 import org.petstar.dto.ResultInteger;
 import org.petstar.dto.UserDTO;
+import org.petstar.model.CatalogoPlantaJson;
 import org.petstar.model.OutputJson;
 import org.petstar.model.ResponseJson;
 
@@ -71,13 +72,22 @@ public class ControllerCatalogoPlanta {
         try{
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
+                CatalogoPlantaJson data = new CatalogoPlantaJson();
+                CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
                 
+                data.setListPlanta(plantaDao.getAllPlantas());
+                output.setData(data);
+                response.setMessage(MSG_SUCESS);
+                response.setSucessfull(true);
             }else{
-                
+                response.setMessage(MSG_LOGOUT);
+                response.setSucessfull(false);
             }
         }catch(Exception ex){
-            
+            response.setMessage(MSG_ERROR + ex.getMessage());
+            response.setSucessfull(false);
         }
-        return null;
+        output.setResponse(response);
+        return output;
     }
 }
