@@ -44,7 +44,7 @@ public class ControllerAutenticacion {
                 .claim("nombre_usuario", usuario.getNombre_usuario())
                 .claim("usuario",usuario.getUsuario())
                 .claim("id_pefil", usuario.getId_perfil())
-                .claim("imagen", usuario.getImagen_administrador())
+                .claim("imagen", usuario.getImagen())
                 .signWith(
                         SignatureAlgorithm.HS256,
                         key_base64
@@ -72,7 +72,7 @@ public class ControllerAutenticacion {
                 
                 usuario.setId_usuario_kiosko(claims.get("id_usuario", Integer.class));
                 usuario.setId_perfil(claims.get("id_pefil", Integer.class));
-                usuario.setImagen_administrador(claims.get("imagen", String.class));
+                usuario.setImagen(claims.get("imagen", String.class));
                 usuario.setNombre_usuario(claims.get("nombre_usuario", String.class));
                 usuario.setUsuario(claims.get("usuario", String.class));
             } catch (SignatureException | ClaimJwtException | MalformedJwtException | UnsupportedJwtException e) {

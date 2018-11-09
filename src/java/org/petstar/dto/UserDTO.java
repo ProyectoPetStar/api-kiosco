@@ -14,11 +14,32 @@ public class UserDTO {
     private int id_usuario_kiosko;
     private String nombre_usuario;
     private String usuario;
-    private String imagen_administrador;
+    private String imagen;
     private int id_perfil;
     private String descripcion;
     private int activo;
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public String getImagen64() {
+        return imagen64;
+    }
+
+    public void setImagen64(String imagen64) {
+        this.imagen64 = imagen64;
+    }
     private String token;
+    /**
+    * Se agrega atributo donde se colocara la imagen en base64
+    */
+    private String imagen64;
+
 
     public int getId_usuario_kiosko() {
         return id_usuario_kiosko;
@@ -42,15 +63,7 @@ public class UserDTO {
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
-    }
-
-    public String getImagen_administrador() {
-        return imagen_administrador;
-    }
-
-    public void setImagen_administrador(String imagen_administrador) {
-        this.imagen_administrador = imagen_administrador;
-    }
+    }    
 
     public int getId_perfil() {
         return id_perfil;

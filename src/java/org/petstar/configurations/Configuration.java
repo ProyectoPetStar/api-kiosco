@@ -12,6 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 public class Configuration {
     
     public static final String HEADER_STRING = "Authorization";
+    
+    /**
+    * Se agregan rutas para guardar archivos de imagen
+    */
+    public static final String PATH_URLS     = "C:\\petstar\\images\\urls\\";
+    public static final String PATH_KIOSCOS  = "C:\\petstar\\images\\kioscos\\";
+    public static final String PATH_USUARIOS = "C:\\petstar\\images\\usuarios\\";
         
     /**
      * Método que permite establecer las cabeceras de un servlet, en particular 

@@ -62,4 +62,22 @@ public class ControllerCatalogoPlanta {
         output.setResponse(response);
         return output;
     }
+    
+    public OutputJson getAllPlantas(HttpServletRequest request){
+        ControllerAutenticacion autenticacion = new ControllerAutenticacion();
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+        
+        try{
+            UserDTO sesion = autenticacion.isValidToken(request);
+            if(sesion != null){
+                
+            }else{
+                
+            }
+        }catch(Exception ex){
+            
+        }
+        return null;
+    }
 }
