@@ -5,10 +5,12 @@
  */
 package org.petstar.dao;
 
+import java.util.List;
 import javax.sql.DataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.petstar.configurations.PoolDataSource;
 import org.petstar.dto.CatalogoPlantaDTO;
 import org.petstar.dto.ResultInteger;
@@ -40,5 +42,17 @@ public class CatalogoPlantaDAO {
         Object[] params = {planta.getNombre_planta(), planta.getEstado_planta(), planta.getDireccion_planta(), planta.getIp_publica()};
         
         qr.update(sql.toString(), params);
+    }
+    
+    public List<CatalogoPlantaDTO> getAllPlantas() throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_selectPetCatPlanta");
+        
+        ResultSetHandler rsh = new BeanListHandler(CatalogoPlantaDTO.class);
+        List<CatalogoPlantaDTO> lista = (List<CatalogoPlantaDTO>) qr.query(sql.toString(), rsh);
+        return lista;
     }
 }
