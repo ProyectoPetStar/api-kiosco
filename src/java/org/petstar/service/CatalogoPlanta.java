@@ -89,6 +89,11 @@ public class CatalogoPlanta extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
+    
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        Configuration.setHeadersJson(response);
+    }
 
     /**
      * Returns a short description of the servlet.
