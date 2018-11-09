@@ -30,10 +30,10 @@ public class ControllerCatalogoPlanta {
         
         try{
             CatalogoPlantaDTO planta = new CatalogoPlantaDTO();
-            planta.setNombre_planta("nombre_planta");
-            planta.setEstado_planta("estado_planta");
-            planta.setDireccion_planta("direccion_planta");
-            planta.setIp_publica("ip_publica");
+            planta.setNombre_planta(request.getParameter("nombre_planta"));
+            planta.setEstado_planta(request.getParameter("estado_planta"));
+            planta.setDireccion_planta(request.getParameter("direccion_planta"));
+            planta.setIp_publica(request.getParameter("ip_publica"));
             
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
