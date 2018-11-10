@@ -23,6 +23,7 @@ public class ControllerCatalogoPlanta {
     private static final String MSG_ERROR  = "Descripción de error: ";
     private static final String MSG_SUCESS = "OK";
     private static final String MSG_INVALID = "Valor o Descripción ya existe";
+    private static final String MSG_NOEXISTE = "La planta no existe";
     
     public OutputJson insertCatalogoPlanta(HttpServletRequest request){
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
@@ -79,6 +80,41 @@ public class ControllerCatalogoPlanta {
                 output.setData(data);
                 response.setMessage(MSG_SUCESS);
                 response.setSucessfull(true);
+            }else{
+                response.setMessage(MSG_LOGOUT);
+                response.setSucessfull(false);
+            }
+        }catch(Exception ex){
+            response.setMessage(MSG_ERROR + ex.getMessage());
+            response.setSucessfull(false);
+        }
+        output.setResponse(response);
+        return output;
+    }
+    
+    public OutputJson getAllPlantaById(HttpServletRequest request){
+        ControllerAutenticacion autenticacion = new ControllerAutenticacion();
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+        
+        try{
+            int id_planta = Integer.parseInt(request.getParameter("id_planta"));
+            
+            UserDTO sesion = autenticacion.isValidToken(request);
+            if(sesion != null){
+                CatalogoPlantaJson data = new CatalogoPlantaJson();
+                CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();                
+                   
+                ResultInteger result = plantaDao.validaId(id_planta);
+                if(result.equals(1)){
+                    data.setListPlanta(plantaDao.getAllPlantasById(id_planta));
+                    output.setData(data);
+                    response.setMessage(MSG_SUCESS);
+                    response.setSucessfull(true);
+                }else{
+                    response.setMessage(MSG_NOEXISTE);
+                    response.setSucessfull(false);
+                }
             }else{
                 response.setMessage(MSG_LOGOUT);
                 response.setSucessfull(false);

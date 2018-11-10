@@ -73,4 +73,20 @@ public class CatalogoPlantaDAO {
         List<CatalogoPlantaDTO> lista = (List<CatalogoPlantaDTO>) qr.query(sql.toString(), rsh, params);
         return lista;
     }
+    
+    public ResultInteger validaId(int id_perfil) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("SELECT COUNT(1) AS result ")
+                .append("FROM pet_cat_planta ")
+                .append("WHERE id_planta = ?");
+        
+        Object[] params = {id_perfil};
+        
+        ResultSetHandler rsh = new BeanHandler(ResultInteger.class);
+        ResultInteger count = (ResultInteger) qr.query(sql.toString(), rsh, params);                       
+        return count;
+    }
 }
