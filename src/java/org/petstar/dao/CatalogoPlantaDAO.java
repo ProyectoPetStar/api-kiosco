@@ -59,4 +59,18 @@ public class CatalogoPlantaDAO {
         List<CatalogoPlantaDTO> lista = (List<CatalogoPlantaDTO>) qr.query(sql.toString(), rsh);
         return lista;
     }
+    
+    public List<CatalogoPlantaDTO> getAllPlantas(int idCatalogoPlanta) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_selectPetCatPlantaById ?");
+        
+        Object[] params = {idCatalogoPlanta};
+        
+        ResultSetHandler rsh = new BeanListHandler(CatalogoPlantaDTO.class);
+        List<CatalogoPlantaDTO> lista = (List<CatalogoPlantaDTO>) qr.query(sql.toString(), rsh, params);
+        return lista;
+    }
 }
