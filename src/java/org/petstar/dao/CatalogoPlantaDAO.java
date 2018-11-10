@@ -60,6 +60,7 @@ public class CatalogoPlantaDAO {
         return lista;
     }
     
+    //Consulta para traer los datos por id de una planta
     public List<CatalogoPlantaDTO> getAllPlantasById(int idCatalogoPlanta) throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
@@ -74,19 +75,47 @@ public class CatalogoPlantaDAO {
         return lista;
     }
     
+    //Consulta para validar si existe ese id
     public ResultInteger validaId(int id_perfil) throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
         
-        sql.append("SELECT COUNT(1) AS result ")
-                .append("FROM pet_cat_planta ")
-                .append("WHERE id_planta = ?");
+        sql.append("EXEC sp_validaIdCatPlanta ?");              
         
         Object[] params = {id_perfil};
         
         ResultSetHandler rsh = new BeanHandler(ResultInteger.class);
         ResultInteger count = (ResultInteger) qr.query(sql.toString(), rsh, params);                       
         return count;
+    }
+    
+    //Consulta para validar si ya existe un nombre en otro doat cuando se hace una modificación
+    public ResultInteger updateValidaCatalogoPlanta(int id_planta, String nombre_planta) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_updateValidaCatPlanta ?, ?");
+        
+        Object[] params = {id_planta, nombre_planta};
+        
+        ResultSetHandler rsh = new BeanHandler(ResultInteger.class);
+        ResultInteger count = (ResultInteger) qr.query(sql.toString(), rsh, params);
+        return count;
+    }
+    
+    //Consulta para hacer una modificación
+    public void updateCatalogoPlanta(CatalogoPlantaDTO planta) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_updateCatPlanta ?, ?, ?, ?, ?, ?");
+        
+        Object[] params = {planta.getId_planta(), planta.getNombre_planta(), planta.getEstado_planta()
+            , planta.getDireccion_planta(), planta.getIp_publica(), planta.getActivo()};
+        
+        qr.update(sql.toString(), params);
     }
 }
