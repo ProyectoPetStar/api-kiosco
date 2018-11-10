@@ -106,7 +106,7 @@ public class ControllerCatalogoPlanta {
                 CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();                
                    
                 ResultInteger result = plantaDao.validaId(id_planta);
-                if(result.equals(1)){
+                if(result.getResult().equals(1)){
                     data.setListPlanta(plantaDao.getAllPlantasById(id_planta));
                     output.setData(data);
                     response.setMessage(MSG_SUCESS);
