@@ -55,6 +55,9 @@ public class CatalogoPlanta extends HttpServlet {
                case "getAllPlantaById":
                    output = controllerPlanta.getAllPlantaById(request);
                    break;
+               case "updateCatalogoPlanta":
+                   output = controllerPlanta.updateCatalogoPlanta(request);
+                   break;
            }
        }catch(Exception ex){
            ResponseJson responseJson = new ResponseJson();
