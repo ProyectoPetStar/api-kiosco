@@ -60,7 +60,7 @@ public class CatalogoPlantaDAO {
         return lista;
     }
     
-    public List<CatalogoPlantaDTO> getAllPlantas(int idCatalogoPlanta) throws Exception{
+    public List<CatalogoPlantaDTO> getAllPlantasById(int idCatalogoPlanta) throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
