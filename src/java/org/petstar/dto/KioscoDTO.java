@@ -20,6 +20,24 @@ public class KioscoDTO {
     private String imagen;
     private int activo;
     private int id_usuario_registro;
+    private String fecha_registro_string;
+    private String fecha_modifica_registro_string;
+
+    public String getFecha_registro_string() {
+        return fecha_registro_string;
+    }
+
+    public void setFecha_registro_string(String fecha_registro_string) {
+        this.fecha_registro_string = fecha_registro_string;
+    }
+
+    public String getFecha_modifica_registro_string() {
+        return fecha_modifica_registro_string;
+    }
+
+    public void setFecha_modifica_registro_string(String fecha_modifica_registro_string) {
+        this.fecha_modifica_registro_string = fecha_modifica_registro_string;
+    }
 
     public String getNombre_planta() {
         return nombre_planta;

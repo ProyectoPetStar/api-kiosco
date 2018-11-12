@@ -5,11 +5,14 @@
  */
 package org.petstar.controller;
 
+import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
+import static org.petstar.configurations.Utils.convertSqlToDay;
 import org.petstar.dto.KioscoDTO;
 import org.petstar.model.OutputJson;
 import org.petstar.model.ResponseJson;
 import static org.petstar.configurations.Utils.convertStringToSql;
+import static org.petstar.configurations.Utils.sumarFechasDias;
 import org.petstar.dao.KioscoDAO;
 import org.petstar.dto.ResultInteger;
 import org.petstar.dto.UserDTO;
@@ -77,6 +80,17 @@ public class ControllerKiosco {
                 KioscoDAO kioscoDao = new KioscoDAO();
                 
                 data.setListKiosco(kioscoDao.getAllKioscos());
+                
+                for(KioscoDTO kiosco:data.getListKiosco()){
+                    kiosco.setFecha_registro(sumarFechasDias(kiosco.getFecha_registro(), 2));
+                    kiosco.setFecha_registro_string(convertSqlToDay(kiosco.getFecha_registro()));
+                    
+                    if(null != kiosco.getFecha_modifica_registro()){
+                        kiosco.setFecha_modifica_registro(sumarFechasDias(kiosco.getFecha_modifica_registro(), 2));
+                        kiosco.setFecha_modifica_registro_string(convertSqlToDay(kiosco.getFecha_modifica_registro()));
+                    }
+                }
+                
                 output.setData(data);
                 response.setMessage(MSG_SUCESS);
                 response.setSucessfull(true);

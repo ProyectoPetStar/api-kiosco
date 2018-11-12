@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -26,6 +28,19 @@ public class Utils {
         return sql;
     }
     
+    public static String convertSqlToDay(java.sql.Date fecha){
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        String sFecha = format.format(fecha);
+        
+        return sFecha;
+    }
+    
+    public static java.sql.Date sumarFechasDias(java.sql.Date fch, int dias) {
+        Calendar cal = new GregorianCalendar();
+        cal.setTimeInMillis(fch.getTime());
+        cal.add(Calendar.DATE, dias);
+        return new java.sql.Date(cal.getTimeInMillis());
+    }
     
     /**
      * Metodo que codifica un archivo a base 64
