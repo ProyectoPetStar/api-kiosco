@@ -13,6 +13,7 @@ import static org.petstar.configurations.Utils.convertStringToSql;
 import org.petstar.dao.KioscoDAO;
 import org.petstar.dto.ResultInteger;
 import org.petstar.dto.UserDTO;
+import org.petstar.model.KioscoJson;
 
 /**
  *
@@ -60,6 +61,33 @@ public class ControllerKiosco {
             response.setMessage(MSG_ERROR + ex.getMessage());
             response.setSucessfull(false);
         }             
+        output.setResponse(response);
+        return output;
+    }
+    
+    public OutputJson getAllKioscos(HttpServletRequest request){
+        ControllerAutenticacion autenticacion = new ControllerAutenticacion();
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+        
+        try{
+            UserDTO sesion = autenticacion.isValidToken(request);
+            if(sesion != null){
+                KioscoJson data = new KioscoJson();
+                KioscoDAO kioscoDao = new KioscoDAO();
+                
+                data.setListKiosco(kioscoDao.getAllKioscos());
+                output.setData(data);
+                response.setMessage(MSG_SUCESS);
+                response.setSucessfull(true);
+            }else{
+                response.setMessage(MSG_LOGOUT);
+                response.setSucessfull(false);
+            }
+        }catch(Exception ex){
+            response.setMessage(MSG_ERROR + ex.getMessage());
+            response.setSucessfull(false);
+        }
         output.setResponse(response);
         return output;
     }
