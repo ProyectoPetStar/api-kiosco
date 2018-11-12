@@ -5,10 +5,12 @@
  */
 package org.petstar.dao;
 
+import java.util.List;
 import javax.sql.DataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.petstar.configurations.PoolDataSource;
 import org.petstar.dto.KioscoDTO;
 import org.petstar.dto.ResultInteger;
@@ -42,5 +44,17 @@ public class KioscoDAO {
                 , kiosco.getFecha_registro()};
         
         qr.update(sql.toString(), params);
+    }
+    
+    public List<KioscoDTO> getAllKioscos() throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_selectPetKiosco");
+        
+        ResultSetHandler rsh = new BeanListHandler(KioscoDTO.class);
+        List<KioscoDTO> lista = (List<KioscoDTO>) qr.query(sql.toString(), rsh);
+        return lista;
     }
 }

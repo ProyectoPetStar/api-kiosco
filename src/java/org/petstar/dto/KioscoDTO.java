@@ -15,10 +15,19 @@ public class KioscoDTO {
     private int id_kiosko;
     private String nombre_kiosko;
     private int id_planta;
+    private String nombre_planta;
     private String ip_privada;
     private String imagen;
     private int activo;
     private int id_usuario_registro;
+
+    public String getNombre_planta() {
+        return nombre_planta;
+    }
+
+    public void setNombre_planta(String nombre_planta) {
+        this.nombre_planta = nombre_planta;
+    }
     private Date fecha_registro;
     private int id_usuario_modifica_registro;
     private Date fecha_modifica_registro;
