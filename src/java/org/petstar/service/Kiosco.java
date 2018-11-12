@@ -49,6 +49,9 @@ public class Kiosco extends HttpServlet {
                 case "insertKiosco":
                     output = controllerKiosco.insertCatalogoPlanta(request);
                     break;
+                case "getAllKioscos":
+                    output = controllerKiosco.getAllKioscos(request);
+                    break;
             }
         }catch(Exception ex){
             ResponseJson responseJson = new ResponseJson();
