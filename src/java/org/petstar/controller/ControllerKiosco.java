@@ -22,8 +22,7 @@ public class ControllerKiosco {
     private static final String MSG_LOGOUT = "Inicie sesión nuevamente";
     private static final String MSG_ERROR  = "Descripción de error: ";
     private static final String MSG_SUCESS = "OK";
-    private static final String MSG_INVALID = "Valor o Descripción ya existe";
-    private static final String MSG_NOEXISTE = "La planta no existe";
+    private static final String MSG_INVALID = "Valor o Descripción ya existe";    
     
     public OutputJson insertCatalogoPlanta(HttpServletRequest request){
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
