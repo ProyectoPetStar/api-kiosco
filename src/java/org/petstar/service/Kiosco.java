@@ -90,6 +90,11 @@ public class Kiosco extends HttpServlet {
         processRequest(request, response);
     }
 
+     @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        Configuration.setHeadersJson(response);
+    }
+    
     /**
      * Returns a short description of the servlet.
      *
