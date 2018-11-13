@@ -63,7 +63,7 @@ public class KioscoDAO {
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
         
-        sql.append("sp_selectKioscoById ?");
+        sql.append("EXEC sp_selectKioscoById ?");
         
         Object[] params = {idKiosco};
         ResultSetHandler rsh = new BeanListHandler(KioscoDTO.class);
