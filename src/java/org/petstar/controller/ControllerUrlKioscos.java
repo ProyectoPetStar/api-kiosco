@@ -24,6 +24,7 @@ public class ControllerUrlKioscos {
     private static final String MSG_ERROR  = "Descripción de error: ";
     private static final String MSG_SUCESS = "OK";
     private static final String MSG_INVALID = "Valor o Descripción ya existe";
+    private static final String MSG_PERFIL = "Este perfil no cuenta con los permisos para realizar la acción";
     
     public OutputJson insertUrlKioscos(HttpServletRequest request){
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
@@ -39,17 +40,22 @@ public class ControllerUrlKioscos {
             
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
-                UrlKioscoDao urlDao = new UrlKioscoDao();
-                
-                ResultInteger result = urlDao.validaUrl(url.getUrl());
-                
-                if(result.getResult().equals(0)){
-                    urlDao.insertUrlKiosco(url);
-                    
-                    response.setMessage(MSG_SUCESS);
-                    response.setSucessfull(true);
+                if(sesion.getId_perfil() == 1){
+                    UrlKioscoDao urlDao = new UrlKioscoDao();
+
+                    ResultInteger result = urlDao.validaUrl(url.getUrl());
+
+                    if(result.getResult().equals(0)){
+                        urlDao.insertUrlKiosco(url);
+
+                        response.setMessage(MSG_SUCESS);
+                        response.setSucessfull(true);
+                    }else{
+                        response.setMessage(MSG_INVALID);
+                        response.setSucessfull(false);
+                    }
                 }else{
-                    response.setMessage(MSG_INVALID);
+                    response.setMessage(MSG_PERFIL);
                     response.setSucessfull(false);
                 }
             }else{
