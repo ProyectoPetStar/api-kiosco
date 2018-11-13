@@ -26,7 +26,8 @@ public class ControllerKiosco {
     private static final String MSG_LOGOUT = "Inicie sesión nuevamente";
     private static final String MSG_ERROR  = "Descripción de error: ";
     private static final String MSG_SUCESS = "OK";
-    private static final String MSG_INVALID = "Valor o Descripción ya existe";    
+    private static final String MSG_INVALID = "Valor o Descripción ya existe";
+    private static final String MSG_PERFIL = "Este perfil no cuenta con los permisos para realizar la acción";
     
     public OutputJson insertCatalogoPlanta(HttpServletRequest request){
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
@@ -43,16 +44,21 @@ public class ControllerKiosco {
             
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
-                KioscoDAO kioscoDao = new KioscoDAO();
-                ResultInteger result = kioscoDao.insertValidaKiosco(kiosco.getNombre_kiosko());
-                
-                if(result.getResult().equals(0)){
-                    kioscoDao.insertKiosco(kiosco);
-                    
-                    response.setMessage(MSG_SUCESS);
-                    response.setSucessfull(true);
+                if(sesion.getId_perfil() == 1){
+                    KioscoDAO kioscoDao = new KioscoDAO();
+                    ResultInteger result = kioscoDao.insertValidaKiosco(kiosco.getNombre_kiosko());
+
+                    if(result.getResult().equals(0)){
+                        kioscoDao.insertKiosco(kiosco);
+
+                        response.setMessage(MSG_SUCESS);
+                        response.setSucessfull(true);
+                    }else{
+                        response.setMessage(MSG_INVALID);
+                        response.setSucessfull(false);
+                    }
                 }else{
-                    response.setMessage(MSG_INVALID);
+                    response.setMessage(MSG_PERFIL);
                     response.setSucessfull(false);
                 }
             }else{
@@ -76,24 +82,28 @@ public class ControllerKiosco {
         try{
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
-                KioscoJson data = new KioscoJson();
-                KioscoDAO kioscoDao = new KioscoDAO();
-                
-                data.setListKiosco(kioscoDao.getAllKioscos());
-                
-                for(KioscoDTO kiosco:data.getListKiosco()){
-                    kiosco.setFecha_registro(sumarFechasDias(kiosco.getFecha_registro(), 2));
-                    kiosco.setFecha_registro_string(convertSqlToDay(kiosco.getFecha_registro()));
-                    
-                    if(null != kiosco.getFecha_modifica_registro()){
-                        kiosco.setFecha_modifica_registro(sumarFechasDias(kiosco.getFecha_modifica_registro(), 2));
-                        kiosco.setFecha_modifica_registro_string(convertSqlToDay(kiosco.getFecha_modifica_registro()));
+                if(sesion.getId_perfil() == 1){
+                    KioscoJson data = new KioscoJson();
+                    KioscoDAO kioscoDao = new KioscoDAO();
+
+                    data.setListKiosco(kioscoDao.getAllKioscos());
+
+                    for(KioscoDTO kiosco:data.getListKiosco()){
+                        kiosco.setFecha_registro(sumarFechasDias(kiosco.getFecha_registro(), 2));
+                        kiosco.setFecha_registro_string(convertSqlToDay(kiosco.getFecha_registro()));
+
+                        if(null != kiosco.getFecha_modifica_registro()){
+                            kiosco.setFecha_modifica_registro(sumarFechasDias(kiosco.getFecha_modifica_registro(), 2));
+                            kiosco.setFecha_modifica_registro_string(convertSqlToDay(kiosco.getFecha_modifica_registro()));
+                        }
                     }
+                    output.setData(data);
+                    response.setMessage(MSG_SUCESS);
+                    response.setSucessfull(true);
+                }else{
+                    response.setMessage(MSG_PERFIL);
+                    response.setSucessfull(false);
                 }
-                
-                output.setData(data);
-                response.setMessage(MSG_SUCESS);
-                response.setSucessfull(true);
             }else{
                 response.setMessage(MSG_LOGOUT);
                 response.setSucessfull(false);
