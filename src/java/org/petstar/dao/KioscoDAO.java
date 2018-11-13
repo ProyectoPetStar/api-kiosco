@@ -57,4 +57,17 @@ public class KioscoDAO {
         List<KioscoDTO> lista = (List<KioscoDTO>) qr.query(sql.toString(), rsh);
         return lista;
     }
+    
+    public List<KioscoDTO> getKioscoById(int idKiosco) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("sp_selectKioscoById ?");
+        
+        Object[] params = {idKiosco};
+        ResultSetHandler rsh = new BeanListHandler(KioscoDTO.class);
+        List<KioscoDTO> lista = (List<KioscoDTO>) qr.query(sql.toString(), rsh, params);
+        return lista;
+    }
 }
