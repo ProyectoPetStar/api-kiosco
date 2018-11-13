@@ -24,6 +24,7 @@ public class ControllerCatalogoPlanta {
     private static final String MSG_SUCESS = "OK";
     private static final String MSG_INVALID = "Valor o Descripción ya existe";
     private static final String MSG_NOEXISTE = "La planta no existe";
+    private static final String MSG_PERFIL = "Este perfil no cuenta con los permisos para realizar la acción";
     
     public OutputJson insertCatalogoPlanta(HttpServletRequest request){
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
@@ -39,18 +40,23 @@ public class ControllerCatalogoPlanta {
             
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
-                CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
-                
-                ResultInteger result = plantaDao.validaNombrePlanta(planta.getNombre_planta());
-                
-                if(result.getResult().equals(0)){
-                    plantaDao.insertCatalogoPlanta(planta);
-                    
-                    response.setMessage(MSG_SUCESS);
-                    response.setSucessfull(true);
-                }
-                else{
-                    response.setMessage(MSG_INVALID);
+                if(sesion.getId_perfil() == 1){
+                    CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
+
+                    ResultInteger result = plantaDao.validaNombrePlanta(planta.getNombre_planta());
+
+                    if(result.getResult().equals(0)){
+                        plantaDao.insertCatalogoPlanta(planta);
+
+                        response.setMessage(MSG_SUCESS);
+                        response.setSucessfull(true);
+                    }
+                    else{
+                        response.setMessage(MSG_INVALID);
+                        response.setSucessfull(false);
+                    }
+                }else{
+                    response.setMessage(MSG_PERFIL);
                     response.setSucessfull(false);
                 }
             }else{
@@ -73,13 +79,18 @@ public class ControllerCatalogoPlanta {
         try{
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
-                CatalogoPlantaJson data = new CatalogoPlantaJson();
-                CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
-                
-                data.setListPlanta(plantaDao.getAllPlantas());
-                output.setData(data);
-                response.setMessage(MSG_SUCESS);
-                response.setSucessfull(true);
+                if(sesion.getId_perfil() == 1){
+                    CatalogoPlantaJson data = new CatalogoPlantaJson();
+                    CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
+
+                    data.setListPlanta(plantaDao.getAllPlantas());
+                    output.setData(data);
+                    response.setMessage(MSG_SUCESS);
+                    response.setSucessfull(true);
+                }else{
+                    response.setMessage(MSG_PERFIL);
+                    response.setSucessfull(false);
+                }
             }else{
                 response.setMessage(MSG_LOGOUT);
                 response.setSucessfull(false);
@@ -102,17 +113,22 @@ public class ControllerCatalogoPlanta {
             
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
-                CatalogoPlantaJson data = new CatalogoPlantaJson();
-                CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();                
-                   
-                ResultInteger result = plantaDao.validaId(id_planta);
-                if(result.getResult().equals(1)){
-                    data.setListPlanta(plantaDao.getAllPlantasById(id_planta));
-                    output.setData(data);
-                    response.setMessage(MSG_SUCESS);
-                    response.setSucessfull(true);
+                if(sesion.getId_perfil() == 1){
+                    CatalogoPlantaJson data = new CatalogoPlantaJson();
+                    CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();                
+
+                    ResultInteger result = plantaDao.validaId(id_planta);
+                    if(result.getResult().equals(1)){
+                        data.setListPlanta(plantaDao.getAllPlantasById(id_planta));
+                        output.setData(data);
+                        response.setMessage(MSG_SUCESS);
+                        response.setSucessfull(true);
+                    }else{
+                        response.setMessage(MSG_NOEXISTE);
+                        response.setSucessfull(false);
+                    }
                 }else{
-                    response.setMessage(MSG_NOEXISTE);
+                    response.setMessage(MSG_PERFIL);
                     response.setSucessfull(false);
                 }
             }else{
@@ -144,17 +160,22 @@ public class ControllerCatalogoPlanta {
             UserDTO sesion = autenticacion.isValidToken(request);
             
             if(sesion != null){
-                CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
-                
-                ResultInteger result = plantaDao.updateValidaCatalogoPlanta(planta.getId_planta(), planta.getNombre_planta());
-                
-                if(result.getResult().equals(0)){
-                    plantaDao.updateCatalogoPlanta(planta);
-                    
-                    response.setMessage(MSG_SUCESS);
-                    response.setSucessfull(true);
+                if(sesion.getId_perfil() == 1){
+                    CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
+
+                    ResultInteger result = plantaDao.updateValidaCatalogoPlanta(planta.getId_planta(), planta.getNombre_planta());
+
+                    if(result.getResult().equals(0)){
+                        plantaDao.updateCatalogoPlanta(planta);
+
+                        response.setMessage(MSG_SUCESS);
+                        response.setSucessfull(true);
+                    }else{
+                        response.setMessage(MSG_INVALID);
+                        response.setSucessfull(false);
+                    }
                 }else{
-                    response.setMessage(MSG_INVALID);
+                    response.setMessage(MSG_PERFIL);
                     response.setSucessfull(false);
                 }
             }else{
