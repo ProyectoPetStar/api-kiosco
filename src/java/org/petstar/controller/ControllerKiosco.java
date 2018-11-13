@@ -115,4 +115,34 @@ public class ControllerKiosco {
         output.setResponse(response);
         return output;
     }
+    
+    public OutputJson getKioscoById(HttpServletRequest request){
+        ControllerAutenticacion autenticacion = new ControllerAutenticacion();
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+        
+        try{
+            UserDTO sesion = autenticacion.isValidToken(request);
+            if(sesion != null){
+                if(sesion.getId_perfil() == 1){
+                    KioscoJson data = new KioscoJson();
+                    KioscoDAO kioscoDao = new KioscoDAO();
+                    
+                    int idKiosco = Integer.parseInt(request.getParameter("id_kiosco"));                    
+                    data.setListKiosco(kioscoDao.getKioscoById(idKiosco));
+                }else{
+                    response.setMessage(MSG_PERFIL);
+                    response.setSucessfull(false);
+                }
+            }else{
+                response.setMessage(MSG_LOGOUT);
+                response.setSucessfull(false);
+            }
+        }catch(Exception ex){
+            response.setMessage(MSG_ERROR + ex.getMessage());
+            response.setSucessfull(false);
+        }
+        output.setResponse(response);
+        return output;
+    }
 }
