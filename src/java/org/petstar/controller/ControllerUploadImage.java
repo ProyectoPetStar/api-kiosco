@@ -32,35 +32,40 @@ public class ControllerUploadImage {
             UserDTO sesion = autenticacion.isValidToken(request);
             
             if(sesion != null){
-                String[][] data = {
-                    {"urls","pet_url_kioskos",Configuration.PATH_URLS,"id_url_kiosko"},
-                    {"kiosco","pet_kiosko",Configuration.PATH_KIOSCOS,"id_kiosko"},
-                    {"usuario","pet_usuario_kiosko",Configuration.PATH_USUARIOS,"id_usuario_kiosko"}
-                };
-                
-                StringBuilder stringFile = new StringBuilder();
-                
-                String object = request.getParameter("object");
-                stringFile.append(request.getParameter("file"));
-                int id = Integer.parseInt(request.getParameter("id"));
-                
-                int index = -1;
-                for (int y = 0; y<data.length; y++) {
-                    if(data[y][0].equals(object)){
-                        index = y;
+                if(sesion.getId_perfil() == 1){
+                    String[][] data = {
+                        {"urls","pet_url_kioskos",Configuration.PATH_URLS,"id_url_kiosko"},
+                        {"kiosco","pet_kiosko",Configuration.PATH_KIOSCOS,"id_kiosko"},
+                        {"usuario","pet_usuario_kiosko",Configuration.PATH_USUARIOS,"id_usuario_kiosko"}
+                    };
+
+                    StringBuilder stringFile = new StringBuilder();
+
+                    String object = request.getParameter("object");
+                    stringFile.append(request.getParameter("file"));
+                    int id = Integer.parseInt(request.getParameter("id"));
+
+                    int index = -1;
+                    for (int y = 0; y<data.length; y++) {
+                        if(data[y][0].equals(object)){
+                            index = y;
+                        }
                     }
-                }
-                
-                String fileName = object+"_"+UUID.randomUUID()+".jpg";
-                boolean save = saveFIle(stringFile, fileName, data[index][2]);
-                if(save){
-                    UploadImageDAO imageDAO = new UploadImageDAO();
-                    imageDAO.changeImage(data[index][1], data[index][3], fileName, id);
-                    responseJson.setSucessfull(true);
-                    responseJson.setMessage("Success");
-                }else{
+
+                    String fileName = object+"_"+UUID.randomUUID()+".jpg";
+                    boolean save = saveFIle(stringFile, fileName, data[index][2]);
+                    if(save){
+                        UploadImageDAO imageDAO = new UploadImageDAO();
+                        imageDAO.changeImage(data[index][1], data[index][3], fileName, id);
+                        responseJson.setSucessfull(true);
+                        responseJson.setMessage("Success");
+                    }else{
+                        responseJson.setSucessfull(false);
+                        responseJson.setMessage("Ocurrio un Error al Guardar la Imagen");
+                    }
+                }else{                    
                     responseJson.setSucessfull(false);
-                    responseJson.setMessage("Ocurrio un Error al Guardar la Imagen");
+                    responseJson.setMessage("Este perfil no cuenta con los permisos para realizar la acción");
                 }
             }else{
                 responseJson.setSucessfull(false);
