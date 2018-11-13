@@ -127,9 +127,23 @@ public class ControllerKiosco {
                 if(sesion.getId_perfil() == 1){
                     KioscoJson data = new KioscoJson();
                     KioscoDAO kioscoDao = new KioscoDAO();
-                    
+                                        
                     int idKiosco = Integer.parseInt(request.getParameter("id_kiosco"));                    
                     data.setListKiosco(kioscoDao.getKioscoById(idKiosco));
+                    
+                    for(KioscoDTO kiosco:data.getListKiosco()){
+                        kiosco.setFecha_registro(sumarFechasDias(kiosco.getFecha_registro(), 2));
+                        kiosco.setFecha_registro_string(convertSqlToDay(kiosco.getFecha_registro()));
+
+                        if(null != kiosco.getFecha_modifica_registro()){
+                            kiosco.setFecha_modifica_registro(sumarFechasDias(kiosco.getFecha_modifica_registro(), 2));
+                            kiosco.setFecha_modifica_registro_string(convertSqlToDay(kiosco.getFecha_modifica_registro()));
+                        }
+                    }
+                    
+                    output.setData(data);
+                    response.setMessage(MSG_SUCESS);
+                    response.setSucessfull(true);
                 }else{
                     response.setMessage(MSG_PERFIL);
                     response.setSucessfull(false);
