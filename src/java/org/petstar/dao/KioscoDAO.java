@@ -20,7 +20,7 @@ import org.petstar.dto.ResultInteger;
  * @author Ramiro
  */
 public class KioscoDAO {
-    public ResultInteger insertValidaKiosco (String nombre_kiosco) throws Exception{
+    public ResultInteger insertValidaNombreKiosco (String nombre_kiosco) throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
@@ -56,5 +56,56 @@ public class KioscoDAO {
         ResultSetHandler rsh = new BeanListHandler(KioscoDTO.class);
         List<KioscoDTO> lista = (List<KioscoDTO>) qr.query(sql.toString(), rsh);
         return lista;
+    }
+    
+    public List<KioscoDTO> getKioscoById(int idKiosco) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_selectKioscoById ?");
+        
+        Object[] params = {idKiosco};
+        ResultSetHandler rsh = new BeanListHandler(KioscoDTO.class);
+        List<KioscoDTO> lista = (List<KioscoDTO>) qr.query(sql.toString(), rsh, params);
+        return lista;
+    }
+    
+    public void updateKiosco(KioscoDTO kiosco) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_updateKiosco ?, ?, ?, ?, ?, ?");
+        Object[] params = {kiosco.getId_kiosko(), kiosco.getNombre_kiosko(), kiosco.getId_planta(), kiosco.getIp_privada()
+            , kiosco.getId_usuario_modifica_registro(), kiosco.getFecha_modifica_registro_string()};
+        
+        qr.update(sql.toString(), params);
+    }
+    
+    public ResultInteger updateValidaKiosco(int idKiosco, String nombreKiosco) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_updateValidaNombreKiosco ?, ?");
+        Object[] params = {idKiosco, nombreKiosco};
+        
+        ResultSetHandler rsh = new BeanListHandler(KioscoDTO.class);
+        ResultInteger count = (ResultInteger) qr.query(sql.toString(), rsh, params);
+        return count;
+    }
+    
+    public ResultInteger updateValidaIpPrivada(int idKiosco, int idPlanta, String ipPrivada) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_updateValidaIpPrivada ?, ?, ?");
+        Object[] params = {idKiosco, idPlanta, ipPrivada};
+        
+        ResultSetHandler rsh = new BeanListHandler(KioscoDTO.class);
+        ResultInteger count = (ResultInteger) qr.query(sql.toString(), rsh, params);
+        return count;
     }
 }
