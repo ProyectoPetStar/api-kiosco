@@ -46,7 +46,7 @@ public class ControllerKiosco {
             if(sesion != null){
                 if(sesion.getId_perfil() == 1){
                     KioscoDAO kioscoDao = new KioscoDAO();
-                    ResultInteger result = kioscoDao.insertValidaKiosco(kiosco.getNombre_kiosko());
+                    ResultInteger result = kioscoDao.insertValidaNombreKiosco(kiosco.getNombre_kiosko());
 
                     if(result.getResult().equals(0)){
                         kioscoDao.insertKiosco(kiosco);
