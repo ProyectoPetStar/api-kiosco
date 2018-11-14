@@ -15,9 +15,11 @@ public class UserDTO {
     private String nombre_usuario;
     private String usuario;
     private String imagen;
-    private int id_perfil;
-    private String descripcion;
+    private String correo_electronico;
+    private String apellidos;
+    private int id_perfil;   
     private int activo;
+    private CatalogoPerfilDTO perfil;
 
     public String getImagen() {
         return imagen;
@@ -73,14 +75,6 @@ public class UserDTO {
         this.id_perfil = id_perfil;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     public int getActivo() {
         return activo;
     }
@@ -96,4 +90,32 @@ public class UserDTO {
     public void setToken(String token) {
         this.token = token;
     }
+
+    public String getCorreo_electronico() {
+        return correo_electronico;
+    }
+
+    public void setCorreo_electronico(String correo_electronico) {
+        this.correo_electronico = correo_electronico;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+    
+    
+
+    public CatalogoPerfilDTO getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(CatalogoPerfilDTO perfil) {
+        this.perfil = perfil;
+    }
+    
+    
 }

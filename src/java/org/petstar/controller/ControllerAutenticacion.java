@@ -45,6 +45,8 @@ public class ControllerAutenticacion {
                 .claim("usuario",usuario.getUsuario())
                 .claim("id_pefil", usuario.getId_perfil())
                 .claim("imagen", usuario.getImagen())
+                .claim("apellidos", usuario.getApellidos())
+                .claim("correo_electronico", usuario.getCorreo_electronico())
                 .signWith(
                         SignatureAlgorithm.HS256,
                         key_base64
