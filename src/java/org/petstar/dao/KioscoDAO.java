@@ -78,7 +78,7 @@ public class KioscoDAO {
         
         sql.append("EXEC sp_updateKiosco ?, ?, ?, ?, ?, ?");
         Object[] params = {kiosco.getId_kiosko(), kiosco.getNombre_kiosko(), kiosco.getId_planta(), kiosco.getIp_privada()
-            , kiosco.getId_usuario_modifica_registro(), kiosco.getFecha_modifica_registro_string()};
+            , kiosco.getId_usuario_modifica_registro(), kiosco.getFecha_modifica_registro()};
         
         qr.update(sql.toString(), params);
     }
@@ -91,7 +91,7 @@ public class KioscoDAO {
         sql.append("EXEC sp_updateValidaNombreKiosco ?, ?");
         Object[] params = {idKiosco, nombreKiosco};
         
-        ResultSetHandler rsh = new BeanListHandler(KioscoDTO.class);
+        ResultSetHandler rsh = new BeanHandler(ResultInteger.class);
         ResultInteger count = (ResultInteger) qr.query(sql.toString(), rsh, params);
         return count;
     }
@@ -104,7 +104,7 @@ public class KioscoDAO {
         sql.append("EXEC sp_updateValidaIpPrivada ?, ?, ?");
         Object[] params = {idKiosco, idPlanta, ipPrivada};
         
-        ResultSetHandler rsh = new BeanListHandler(KioscoDTO.class);
+        ResultSetHandler rsh = new BeanHandler(ResultInteger.class);
         ResultInteger count = (ResultInteger) qr.query(sql.toString(), rsh, params);
         return count;
     }
