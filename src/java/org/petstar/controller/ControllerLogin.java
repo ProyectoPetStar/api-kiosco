@@ -6,7 +6,10 @@
 package org.petstar.controller;
 
 
+import java.io.File;
 import javax.servlet.http.HttpServletRequest;
+import org.petstar.configurations.Configuration;
+import static org.petstar.configurations.Utils.encodeFileToBase64;
 import org.petstar.dao.LoginDAO;
 import org.petstar.dto.UserDTO;
 import org.petstar.model.OutputJson;
@@ -40,6 +43,14 @@ public class ControllerLogin {
             if (datos_usuario != null) {
                 String token = auth.createJWT(datos_usuario);
                 datos_usuario.setToken(token);
+                 /**
+                 * Aqui inicia transformacion de imagen a base 64
+                 */
+                File file =  new File(Configuration.PATH_USUARIOS + datos_usuario.getImagen());
+                datos_usuario.setImagen64(encodeFileToBase64(file));                
+                /**
+                 * Aqui termina transformacion de file a base64
+                 */
                 response.setSucessfull(true);
                 response.setUsuario(datos_usuario);
             } else {

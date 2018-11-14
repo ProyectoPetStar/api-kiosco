@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.petstar.dto.ResultInteger;
 import org.petstar.dto.ResultString;
 
 /**
@@ -55,5 +56,18 @@ public class AutenticacionDAO {
         Object[] params = { idUsuario, token_key };
         
         qr.update(sql.toString(), params);
+    }
+    
+    public ResultInteger getIdPerfil(int idUsuario) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("");
+        Object[] params = {idUsuario};
+        
+        ResultSetHandler rsh = new BeanHandler(ResultInteger.class);
+        ResultInteger result = (ResultInteger) qr.query(sql.toString(), rsh, params);
+        return result;
     }
 }
