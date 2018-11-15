@@ -34,6 +34,20 @@ public class KioscoDAO {
         return count;
     }
     
+    public ResultInteger insertValidaIpPrivada(int idPlanta, String ipPrivada) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_insertValidaIpPrivada ?, ?");
+        
+        Object[] params = {idPlanta, ipPrivada};
+        
+        ResultSetHandler rsh = new BeanHandler(ResultInteger.class);
+        ResultInteger count = (ResultInteger) qr.query(sql.toString(), rsh, params);
+        return count;        
+    }
+    
     public void insertKiosco(KioscoDTO kiosco) throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
