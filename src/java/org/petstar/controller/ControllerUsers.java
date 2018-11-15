@@ -28,6 +28,7 @@ public class ControllerUsers {
     private static final String MSG_SUCESS = "OK";
     private static final String MSG_INVALID = "No existe el usuario";
     private static final String MSG_PERFIL = "Este perfil no cuenta con los permisos para realizar la acción";
+    private static final String MSG_PASS = "La contraseña actual no coincide, favor de corroborar";
 
     /**
      * Perfil Metodo para obtener datos del usuario
@@ -84,7 +85,8 @@ public class ControllerUsers {
     public OutputJson changePasswordUser(HttpServletRequest request) {
         int idAcceso = Integer.parseInt(request.getParameter("id_acceso"));
         String newPassword = request.getParameter("new_password");
-
+        String contraseniaActual = request.getParameter("password_actual");
+        
         UserResponseJson response = new UserResponseJson();
         OutputJson output = new OutputJson();
         ControllerAutenticacion auth = new ControllerAutenticacion();
@@ -93,11 +95,17 @@ public class ControllerUsers {
             UserDTO usuario = auth.isValidToken(request);
             if (usuario != null) {
                 UsersDAO userDAO = new UsersDAO();
-
-                userDAO.changePassword(newPassword, idAcceso);
-
-                response.setMessage("OK");
-                response.setSucessfull(true);
+                
+                ResultInteger result = userDAO.changeValidaPassword(contraseniaActual, idAcceso);
+                if(result.getResult().equals(1)){
+                    userDAO.changePassword(newPassword, idAcceso);
+                    
+                    response.setMessage("OK");
+                    response.setSucessfull(true);
+                }else{
+                    response.setMessage(MSG_PASS);
+                    response.setSucessfull(false);
+                }                
             } else {
                 response.setSucessfull(false);
                 response.setMessage("Inicie sesión nuevamente");
