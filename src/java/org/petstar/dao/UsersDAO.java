@@ -36,7 +36,7 @@ public class UsersDAO {
       
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
-        sql.append("EXEC sp_selectPerfilById ?");
+        sql.append("EXEC sp_selectUsuarioKioscoById ?");
         Object[] params = {
             id_usuario_kiosko
         };
@@ -67,10 +67,21 @@ public class UsersDAO {
         sql.append("EXEC sp_updateContrasenia ?, ?");
         Object[] params = {
             idAcceso, contraseniaNueva 
-        };
+        };        
+        qr.update(sql.toString(), params);       
+    }
+    
+    public ResultInteger changeValidaPassword(String contraseniaActual, int idAcceso) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
         
-        qr.update(sql.toString(), params);
-       
+        sql.append("EXEC sp_changeValidaPassword ?, ?");
+        Object[] params = {contraseniaActual, idAcceso};
+        
+        ResultSetHandler rsh = new BeanHandler(ResultInteger.class);
+        ResultInteger count = (ResultInteger) qr.query(sql.toString(), rsh, params);
+        return count;
     }
 
     /**
