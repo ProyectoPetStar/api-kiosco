@@ -36,7 +36,7 @@ public class UsersDAO {
       
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
-        sql.append("EXEC sp_selectPerfilById ?");
+        sql.append("EXEC sp_selectUsuarioKioscoById ?");
         Object[] params = {
             id_usuario_kiosko
         };
