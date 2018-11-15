@@ -12,6 +12,15 @@ package org.petstar.dto;
 public class CatalogoPerfilDTO {
     private int id;
     private String descripcion;
+    private String nombre_perfil;
+
+    public String getNombre_perfil() {
+        return nombre_perfil;
+    }
+
+    public void setNombre_perfil(String nombre_perfil) {
+        this.nombre_perfil = nombre_perfil;
+    }
     private int activo;
 
     public int getId() {

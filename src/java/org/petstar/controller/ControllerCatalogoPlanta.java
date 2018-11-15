@@ -5,7 +5,9 @@
  */
 package org.petstar.controller;
 
+import com.google.gson.Gson;
 import javax.servlet.http.HttpServletRequest;
+import org.json.JSONObject;
 import org.petstar.dao.CatalogoPlantaDAO;
 import org.petstar.dto.CatalogoPlantaDTO;
 import org.petstar.dto.ResultInteger;
@@ -30,19 +32,17 @@ public class ControllerCatalogoPlanta {
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
+        Gson gson = new Gson();
         
         try{
-            CatalogoPlantaDTO planta = new CatalogoPlantaDTO();
-            planta.setNombre_planta(request.getParameter("nombre_planta"));
-            planta.setEstado_planta(request.getParameter("estado_planta"));
-            planta.setDireccion_planta(request.getParameter("direccion_planta"));
-            planta.setIp_publica(request.getParameter("ip_publica"));
-            
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
                 if(sesion.getId_perfil() == 1){
                     CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
-
+                    String jsonString = request.getParameter("data");
+                    JSONObject jsonResponse = new JSONObject(jsonString);
+                    CatalogoPlantaDTO planta = gson.fromJson(jsonResponse.getJSONObject("planta").toString(), CatalogoPlantaDTO.class);
+                    
                     ResultInteger result = plantaDao.validaNombrePlanta(planta.getNombre_planta());
 
                     if(result.getResult().equals(0)){
@@ -148,21 +148,18 @@ public class ControllerCatalogoPlanta {
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
         
+        Gson gson = new Gson();
+        
         try{
-            CatalogoPlantaDTO planta = new CatalogoPlantaDTO();
-            planta.setId_planta(Integer.parseInt(request.getParameter("id_planta")));
-            planta.setNombre_planta(request.getParameter("nombre_planta"));
-            planta.setEstado_planta(request.getParameter("estado_planta"));
-            planta.setDireccion_planta(request.getParameter("direccion_planta"));
-            planta.setIp_publica(request.getParameter("ip_publica"));
-            planta.setActivo(Integer.parseInt(request.getParameter("activo")));
-            
             UserDTO sesion = autenticacion.isValidToken(request);
             
             if(sesion != null){
                 if(sesion.getId_perfil() == 1){
                     CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
-
+                    String jsonString = request.getParameter("data");
+                    JSONObject jsonResponse = new JSONObject();
+                    CatalogoPlantaDTO planta = gson.fromJson(jsonResponse.getJSONObject("planta").toString(), CatalogoPlantaDTO.class);
+                    
                     ResultInteger result = plantaDao.updateValidaCatalogoPlanta(planta.getId_planta(), planta.getNombre_planta());
 
                     if(result.getResult().equals(0)){
