@@ -25,6 +25,15 @@ public class KioscoDTO {
     private Date fecha_modifica_registro;
     private String fecha_registro_string;
     private String fecha_modifica_registro_string;
+    private CatalogoPlantaDTO planta;
+
+    public CatalogoPlantaDTO getPlanta() {
+        return planta;
+    }
+
+    public void setPlanta(CatalogoPlantaDTO planta) {
+        this.planta = planta;
+    }
 
     public String getFecha_registro_string() {
         return fecha_registro_string;

@@ -157,7 +157,7 @@ public class ControllerCatalogoPlanta {
                 if(sesion.getId_perfil() == 1){
                     CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
                     String jsonString = request.getParameter("data");
-                    JSONObject jsonResponse = new JSONObject();
+                    JSONObject jsonResponse = new JSONObject(jsonString);
                     CatalogoPlantaDTO planta = gson.fromJson(jsonResponse.getJSONObject("planta").toString(), CatalogoPlantaDTO.class);
                     
                     ResultInteger result = plantaDao.updateValidaCatalogoPlanta(planta.getId_planta(), planta.getNombre_planta());
