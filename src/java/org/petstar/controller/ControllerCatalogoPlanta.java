@@ -119,7 +119,7 @@ public class ControllerCatalogoPlanta {
 
                     ResultInteger result = plantaDao.validaId(id_planta);
                     if(result.getResult().equals(1)){
-                        data.setListPlanta(plantaDao.getAllPlantasById(id_planta));
+                        data.setPlanta(plantaDao.getAllPlantasById(id_planta));
                         output.setData(data);
                         response.setMessage(MSG_SUCESS);
                         response.setSucessfull(true);

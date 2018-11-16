@@ -61,7 +61,7 @@ public class CatalogoPlantaDAO {
     }
     
     //Consulta para traer los datos por id de una planta
-    public List<CatalogoPlantaDTO> getAllPlantasById(int idCatalogoPlanta) throws Exception{
+    public CatalogoPlantaDTO getAllPlantasById(int idCatalogoPlanta) throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
@@ -70,9 +70,9 @@ public class CatalogoPlantaDAO {
         
         Object[] params = {idCatalogoPlanta};
         
-        ResultSetHandler rsh = new BeanListHandler(CatalogoPlantaDTO.class);
-        List<CatalogoPlantaDTO> lista = (List<CatalogoPlantaDTO>) qr.query(sql.toString(), rsh, params);
-        return lista;
+        ResultSetHandler rsh = new BeanHandler(CatalogoPlantaDTO.class);
+        CatalogoPlantaDTO planta = (CatalogoPlantaDTO) qr.query(sql.toString(), rsh, params);
+        return planta;
     }
     
     //Consulta para validar si existe ese id
