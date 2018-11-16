@@ -37,33 +37,25 @@ public class ControllerKiosco {
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
         
-        Gson gson = new Gson();
-        
         try{
-                       
+            KioscoDTO kiosco = new KioscoDTO();
+            kiosco.setNombre_kiosko(request.getParameter("nombre_kiosco"));
+            kiosco.setId_planta(Integer.parseInt(request.getParameter("id_planta")));
+            kiosco.setIp_privada(request.getParameter("ip_privada"));
+            kiosco.setId_usuario_registro(Integer.parseInt(request.getParameter("id_usuario_registro")));
+            kiosco.setFecha_registro(convertStringToSql(request.getParameter("fecha_registro")));
+            
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
                 if(sesion.getId_perfil() == 1){
                     KioscoDAO kioscoDao = new KioscoDAO();
-                    String jsonString = request.getParameter("data");
-                    JSONObject jsonResponse = new JSONObject(jsonString);
-                    KioscoDTO kiosco = gson.fromJson(jsonResponse.getJSONObject("kiosco").toString(), KioscoDTO.class);
-                    
                     ResultInteger result = kioscoDao.insertValidaNombreKiosco(kiosco.getNombre_kiosko());
 
                     if(result.getResult().equals(0)){
-                        ResultInteger ip = kioscoDao.insertValidaIpPrivada(kiosco.getId_planta(), kiosco.getIp_privada());
-                        if(ip.getResult().equals(0)){
-                            kiosco.setFecha_registro(convertStringToSql(kiosco.getFecha_registro_string()));
-                        
-                            kioscoDao.insertKiosco(kiosco);
-                            
-                            response.setMessage(MSG_SUCESS);
-                            response.setSucessfull(true);
-                        }else{
-                            response.setMessage(MSG_IP);
-                            response.setSucessfull(false);
-                        }                        
+                        kioscoDao.insertKiosco(kiosco);
+
+                        response.setMessage(MSG_SUCESS);
+                        response.setSucessfull(true);
                     }else{
                         response.setMessage(MSG_INVALID);
                         response.setSucessfull(false);
