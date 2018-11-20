@@ -12,6 +12,8 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.petstar.configurations.PoolDataSource;
+import static org.petstar.configurations.Utils.convertSqlToDay;
+import static org.petstar.configurations.Utils.sumarFechasDias;
 import org.petstar.dto.KioscoDTO;
 import org.petstar.dto.ResultInteger;
 
@@ -55,10 +57,22 @@ public class KioscoDAO {
         
         ResultSetHandler rsh = new BeanListHandler(KioscoDTO.class);
         List<KioscoDTO> lista = (List<KioscoDTO>) qr.query(sql.toString(), rsh);
+        CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
+        
+        for(KioscoDTO kiosco : lista){
+            kiosco.setFecha_registro(sumarFechasDias(kiosco.getFecha_registro(), 2));
+            kiosco.setFecha_registro_string(convertSqlToDay(kiosco.getFecha_registro()));
+
+            if(null != kiosco.getFecha_modifica_registro()){
+                kiosco.setFecha_modifica_registro(sumarFechasDias(kiosco.getFecha_modifica_registro(), 2));
+                kiosco.setFecha_modifica_registro_string(convertSqlToDay(kiosco.getFecha_modifica_registro()));
+            }
+            kiosco.setPlanta(plantaDao.getAllPlantasById(kiosco.getId_planta()));
+        }
         return lista;
     }
     
-    public List<KioscoDTO> getKioscoById(int idKiosco) throws Exception{
+    public KioscoDTO getKioscoById(int idKiosco) throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
@@ -66,9 +80,21 @@ public class KioscoDAO {
         sql.append("EXEC sp_selectKioscoById ?");
         
         Object[] params = {idKiosco};
-        ResultSetHandler rsh = new BeanListHandler(KioscoDTO.class);
-        List<KioscoDTO> lista = (List<KioscoDTO>) qr.query(sql.toString(), rsh, params);
-        return lista;
+        ResultSetHandler rsh = new BeanHandler(KioscoDTO.class);
+        KioscoDTO datosKiosco = (KioscoDTO) qr.query(sql.toString(), rsh, params);
+        CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
+        
+        if(datosKiosco!= null){
+            datosKiosco.setFecha_registro(sumarFechasDias(datosKiosco.getFecha_registro(), 2));
+            datosKiosco.setFecha_registro_string(convertSqlToDay(datosKiosco.getFecha_registro()));
+
+            if(null != datosKiosco.getFecha_modifica_registro()){
+                datosKiosco.setFecha_modifica_registro(sumarFechasDias(datosKiosco.getFecha_modifica_registro(), 2));
+                datosKiosco.setFecha_modifica_registro_string(convertSqlToDay(datosKiosco.getFecha_modifica_registro()));
+            }
+            datosKiosco.setPlanta(plantaDao.getAllPlantasById(datosKiosco.getId_planta()));
+        }
+        return datosKiosco;
     }
     
     public void updateKiosco(KioscoDTO kiosco) throws Exception{

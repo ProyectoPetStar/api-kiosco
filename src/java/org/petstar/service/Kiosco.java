@@ -47,7 +47,7 @@ public class Kiosco extends HttpServlet {
             String action = request.getParameter("action");
             switch(action){
                 case "insertKiosco":
-                    output = controllerKiosco.insertCatalogoPlanta(request);
+                    output = controllerKiosco.insertKiosco(request);
                     break;
                 case "getAllKioscos":
                     output = controllerKiosco.getAllKioscos(request);
