@@ -12,6 +12,8 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.petstar.configurations.PoolDataSource;
+import static org.petstar.configurations.Utils.convertSqlToDay;
+import static org.petstar.configurations.Utils.sumarFechasDias;
 import org.petstar.dto.KioscoDTO;
 import org.petstar.dto.ResultInteger;
 
@@ -71,6 +73,13 @@ public class KioscoDAO {
         CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
         
         if(datosKiosco!= null){
+            datosKiosco.setFecha_registro(sumarFechasDias(datosKiosco.getFecha_registro(), 2));
+            datosKiosco.setFecha_registro_string(convertSqlToDay(datosKiosco.getFecha_registro()));
+
+            if(null != datosKiosco.getFecha_modifica_registro()){
+                datosKiosco.setFecha_modifica_registro(sumarFechasDias(datosKiosco.getFecha_modifica_registro(), 2));
+                datosKiosco.setFecha_modifica_registro_string(convertSqlToDay(datosKiosco.getFecha_modifica_registro()));
+            }
             datosKiosco.setPlanta(plantaDao.getAllPlantasById(datosKiosco.getId_planta()));
         }
         return datosKiosco;
