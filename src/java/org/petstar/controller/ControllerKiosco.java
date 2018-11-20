@@ -32,7 +32,7 @@ public class ControllerKiosco {
     private static final String MSG_PERFIL = "Este perfil no cuenta con los permisos para realizar la acción";
     private static final String MSG_IP = "Ip ya registrada";
     
-    public OutputJson insertCatalogoPlanta(HttpServletRequest request){
+    public OutputJson insertKiosco(HttpServletRequest request){
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
@@ -120,21 +120,24 @@ public class ControllerKiosco {
     }
     
     public OutputJson getKioscoById(HttpServletRequest request){
+        int idKiosco = Integer.parseInt(request.getParameter("id_kiosco"));
+        
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
         
         try{
+            
+            
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
                 if(sesion.getId_perfil() == 1){
                     KioscoJson data = new KioscoJson();
-                    KioscoDAO kioscoDao = new KioscoDAO();
+                    KioscoDAO kioscoDao = new KioscoDAO();                                        
                                         
-                    int idKiosco = Integer.parseInt(request.getParameter("id_kiosco"));                    
-                    data.setListKiosco(kioscoDao.getKioscoById(idKiosco));
+                    data.setKiosco(kioscoDao.getKioscoById(idKiosco));
                     
-                    for(KioscoDTO kiosco:data.getListKiosco()){
+                    KioscoDTO kiosco = new KioscoDTO();
                         kiosco.setFecha_registro(sumarFechasDias(kiosco.getFecha_registro(), 2));
                         kiosco.setFecha_registro_string(convertSqlToDay(kiosco.getFecha_registro()));
 
@@ -142,7 +145,7 @@ public class ControllerKiosco {
                             kiosco.setFecha_modifica_registro(sumarFechasDias(kiosco.getFecha_modifica_registro(), 2));
                             kiosco.setFecha_modifica_registro_string(convertSqlToDay(kiosco.getFecha_modifica_registro()));
                         }
-                    }
+                    
                     
                     output.setData(data);
                     response.setMessage(MSG_SUCESS);

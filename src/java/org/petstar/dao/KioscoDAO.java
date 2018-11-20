@@ -58,7 +58,7 @@ public class KioscoDAO {
         return lista;
     }
     
-    public List<KioscoDTO> getKioscoById(int idKiosco) throws Exception{
+    public KioscoDTO getKioscoById(int idKiosco) throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
@@ -66,9 +66,14 @@ public class KioscoDAO {
         sql.append("EXEC sp_selectKioscoById ?");
         
         Object[] params = {idKiosco};
-        ResultSetHandler rsh = new BeanListHandler(KioscoDTO.class);
-        List<KioscoDTO> lista = (List<KioscoDTO>) qr.query(sql.toString(), rsh, params);
-        return lista;
+        ResultSetHandler rsh = new BeanHandler(KioscoDTO.class);
+        KioscoDTO datosKiosco = (KioscoDTO) qr.query(sql.toString(), rsh, params);
+        CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
+        
+        if(datosKiosco!= null){
+            datosKiosco.setPlanta(plantaDao.getAllPlantasById(datosKiosco.getId_planta()));
+        }
+        return datosKiosco;
     }
     
     public void updateKiosco(KioscoDTO kiosco) throws Exception{
