@@ -32,26 +32,26 @@ public class ControllerKiosco {
     private static final String MSG_PERFIL = "Este perfil no cuenta con los permisos para realizar la acción";
     private static final String MSG_IP = "Ip ya registrada";
     
-    public OutputJson insertKiosco(HttpServletRequest request){
+     public OutputJson insertKiosco(HttpServletRequest request){
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
         
+        Gson gson = new Gson();
+        
         try{
-            KioscoDTO kiosco = new KioscoDTO();
-            kiosco.setNombre_kiosko(request.getParameter("nombre_kiosco"));
-            kiosco.setId_planta(Integer.parseInt(request.getParameter("id_planta")));
-            kiosco.setIp_privada(request.getParameter("ip_privada"));
-            kiosco.setId_usuario_registro(Integer.parseInt(request.getParameter("id_usuario_registro")));
-            kiosco.setFecha_registro(convertStringToSql(request.getParameter("fecha_registro")));
-            
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
                 if(sesion.getId_perfil() == 1){
                     KioscoDAO kioscoDao = new KioscoDAO();
+                    String jsonString = request.getParameter("data");
+                    JSONObject jsonResponse = new JSONObject(jsonString);
+                    KioscoDTO kiosco = gson.fromJson(jsonResponse.getJSONObject("kiosco").toString(), KioscoDTO.class);
+                    
                     ResultInteger result = kioscoDao.insertValidaNombreKiosco(kiosco.getNombre_kiosko());
 
                     if(result.getResult().equals(0)){
+                        kiosco.setFecha_registro(convertStringToSql(kiosco.getFecha_registro_string()));
                         kioscoDao.insertKiosco(kiosco);
 
                         response.setMessage(MSG_SUCESS);
@@ -90,16 +90,7 @@ public class ControllerKiosco {
                     KioscoDAO kioscoDao = new KioscoDAO();
 
                     data.setListKiosco(kioscoDao.getAllKioscos());
-
-                    for(KioscoDTO kiosco:data.getListKiosco()){
-                        kiosco.setFecha_registro(sumarFechasDias(kiosco.getFecha_registro(), 2));
-                        kiosco.setFecha_registro_string(convertSqlToDay(kiosco.getFecha_registro()));
-
-                        if(null != kiosco.getFecha_modifica_registro()){
-                            kiosco.setFecha_modifica_registro(sumarFechasDias(kiosco.getFecha_modifica_registro(), 2));
-                            kiosco.setFecha_modifica_registro_string(convertSqlToDay(kiosco.getFecha_modifica_registro()));
-                        }
-                    }
+                    
                     output.setData(data);
                     response.setMessage(MSG_SUCESS);
                     response.setSucessfull(true);
