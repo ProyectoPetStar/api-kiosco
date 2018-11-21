@@ -26,6 +26,24 @@ public class KioscoDTO {
     private String fecha_registro_string;
     private String fecha_modifica_registro_string;
     private CatalogoPlantaDTO planta;
+    private String marca_kiosco;
+    private String modelo_kiosco;
+
+    public String getMarca_kiosco() {
+        return marca_kiosco;
+    }
+
+    public void setMarca_kiosco(String marca_kiosco) {
+        this.marca_kiosco = marca_kiosco;
+    }
+
+    public String getModelo_kiosco() {
+        return modelo_kiosco;
+    }
+
+    public void setModelo_kiosco(String modelo_kiosco) {
+        this.modelo_kiosco = modelo_kiosco;
+    }
 
     public CatalogoPlantaDTO getPlanta() {
         return planta;
