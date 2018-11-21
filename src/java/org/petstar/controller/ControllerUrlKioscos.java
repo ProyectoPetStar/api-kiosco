@@ -5,8 +5,10 @@
  */
 package org.petstar.controller;
 
+import com.google.gson.Gson;
 import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
+import org.json.JSONObject;
 import org.petstar.dto.UrlKioscosDTO;
 import org.petstar.model.OutputJson;
 import org.petstar.model.ResponseJson;
@@ -31,21 +33,21 @@ public class ControllerUrlKioscos {
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
         
+        Gson gson = new Gson();
+        
         try{
-            UrlKioscosDTO url = new UrlKioscosDTO();
-            url.setDescripcion(request.getParameter("descripcion"));
-            url.setUrl(request.getParameter("url"));
-            url.setId_usuario_registro(Integer.parseInt(request.getParameter("id_usuario_registro")));
-            url.setFecha_registro(convertStringToSql(request.getParameter("fecha_registro")));
-            
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
                 if(sesion.getId_perfil() == 1){
                     UrlKioscoDao urlDao = new UrlKioscoDao();
-
+                    String jsonString = request.getParameter("data");
+                    JSONObject jsonResponse = new JSONObject(jsonString);
+                    UrlKioscosDTO url = gson.fromJson(jsonResponse.getJSONObject("url").toString(), UrlKioscosDTO.class);
+                    
                     ResultInteger result = urlDao.validaUrl(url.getUrl());
 
                     if(result.getResult().equals(0)){
+                        url.setFecha_registro(convertStringToSql(url.getFecha_registro_string()));
                         urlDao.insertUrlKiosco(url);
 
                         response.setMessage(MSG_SUCESS);
