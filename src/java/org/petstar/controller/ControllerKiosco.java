@@ -30,7 +30,7 @@ public class ControllerKiosco {
     private static final String MSG_SUCESS = "OK";
     private static final String MSG_INVALID = "Valor o Descripción ya existe";
     private static final String MSG_PERFIL = "Este perfil no cuenta con los permisos para realizar la acción";
-    private static final String MSG_IP = "Ip ya registrada";
+    private static final String MSG_IP = "Ya esta en uso la IP ";
     
      public OutputJson insertKiosco(HttpServletRequest request){
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
@@ -173,7 +173,7 @@ public class ControllerKiosco {
                             responseJson.setMessage(MSG_SUCESS);
                             responseJson.setSucessfull(true);
                         }else{
-                            responseJson.setMessage(MSG_IP);
+                            responseJson.setMessage(MSG_IP + kiosco.getIp_privada());
                             responseJson.setSucessfull(false);
                         }
                     }else{
