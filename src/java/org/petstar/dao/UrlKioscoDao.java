@@ -67,4 +67,27 @@ public class UrlKioscoDao {
         }
         return lista;
     }
+    
+    public UrlKioscosDTO getUrlKioscoById(int idUrlKiosco) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("");
+        
+        Object[] params = {idUrlKiosco};
+        ResultSetHandler rsh = new BeanHandler(UrlKioscosDTO.class);
+        UrlKioscosDTO datosUrl = (UrlKioscosDTO) qr.query(sql.toString(), rsh, params);
+        
+        if(datosUrl != null){
+            datosUrl.setFecha_registro(sumarFechasDias(datosUrl.getFecha_registro(), 2));
+            datosUrl.setFecha_registro_string(convertSqlToDay(datosUrl.getFecha_registro()));
+            
+            if(datosUrl.getFecha_modifica_registro() != null){
+                datosUrl.setFecha_modifica_registro(sumarFechasDias(datosUrl.getFecha_modifica_registro(), 2));
+                datosUrl.setFecha_modifica_registro_string(convertSqlToDay(datosUrl.getFecha_modifica_registro()));
+            }
+        }
+        return datosUrl;
+    }
 }

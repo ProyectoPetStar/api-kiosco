@@ -51,11 +51,15 @@ public class ControllerKiosco {
                     ResultInteger result = kioscoDao.insertValidaNombreKiosco(kiosco.getNombre_kiosko());
 
                     if(result.getResult().equals(0)){
-                        kiosco.setFecha_registro(convertStringToSql(kiosco.getFecha_registro_string()));
-                        kioscoDao.insertKiosco(kiosco);
-
-                        response.setMessage(MSG_SUCESS);
-                        response.setSucessfull(true);
+                        ResultInteger ip = kioscoDao.insertValidaIpPrivada(kiosco.getId_planta(), kiosco.getIp_privada());
+                        if(ip.getResult().equals(0)){
+                            kioscoDao.insertKiosco(kiosco);
+                            response.setMessage(MSG_SUCESS);
+                            response.setSucessfull(true);
+                        }else{
+                            response.setMessage(MSG_IP);
+                            response.setSucessfull(false);
+                        }
                     }else{
                         response.setMessage(MSG_INVALID);
                         response.setSucessfull(false);
@@ -166,9 +170,6 @@ public class ControllerKiosco {
                     if(validaNombre.getResult().equals(0)){
                         ResultInteger validaIp = kioscoDao.updateValidaIpPrivada(kiosco.getId_kiosko(), kiosco.getId_planta(), kiosco.getIp_privada());
                         if(validaIp.getResult().equals(0)){
-                            kiosco.setFecha_registro(convertStringToSql(kiosco.getFecha_registro_string()));
-                            kiosco.setFecha_modifica_registro(convertStringToSql(kiosco.getFecha_modifica_registro_string()));
-                            
                             kioscoDao.updateKiosco(kiosco);
                             responseJson.setMessage(MSG_SUCESS);
                             responseJson.setSucessfull(true);
