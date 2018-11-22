@@ -56,6 +56,7 @@ public class UrlKioscos extends HttpServlet {
                     output = controllerUrl.getUrlKioscoById(request);
                     break;
                 case "updateUrlKiosco":
+                    output = controllerUrl.updateUrlKiosco(request);
                     break;
             }
         }catch(Exception ex){
