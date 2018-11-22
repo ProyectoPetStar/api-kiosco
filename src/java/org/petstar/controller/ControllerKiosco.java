@@ -117,9 +117,7 @@ public class ControllerKiosco {
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
         
-        try{
-            
-            
+        try{           
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
                 if(sesion.getId_perfil() == 1){
