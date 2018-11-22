@@ -36,14 +36,27 @@ public class KioscoDAO {
         return count;
     }
     
+    public ResultInteger insertValidaIpPrivada(int idPlanta, String ipPrivada) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_insertValidaIpPrivada ?, ?");
+        Object[] params = {idPlanta, ipPrivada};
+        
+        ResultSetHandler rsh = new BeanHandler(ResultInteger.class);
+        ResultInteger count = (ResultInteger) qr.query(sql.toString(), rsh, params);
+        return count;
+    }
+    
     public void insertKiosco(KioscoDTO kiosco) throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
         
-        sql.append("EXEC sp_insertKiosco ?, ?, ?, ?, ?, ?, ?");
+        sql.append("EXEC sp_insertKiosco ?, ?, ?, ?, ?, ?");
         Object[] params = {kiosco.getNombre_kiosko(), kiosco.getId_planta(), kiosco.getIp_privada(), kiosco.getId_usuario_registro()
-                , kiosco.getFecha_registro(), kiosco.getMarca_kiosco(), kiosco.getModelo_kiosco()};
+                , kiosco.getMarca_kiosco(), kiosco.getModelo_kiosco()};
         
         qr.update(sql.toString(), params);
     }
@@ -88,7 +101,7 @@ public class KioscoDAO {
             datosKiosco.setFecha_registro(sumarFechasDias(datosKiosco.getFecha_registro(), 2));
             datosKiosco.setFecha_registro_string(convertSqlToDay(datosKiosco.getFecha_registro()));
 
-            if(null != datosKiosco.getFecha_modifica_registro()){
+            if(datosKiosco.getFecha_modifica_registro() != null){
                 datosKiosco.setFecha_modifica_registro(sumarFechasDias(datosKiosco.getFecha_modifica_registro(), 2));
                 datosKiosco.setFecha_modifica_registro_string(convertSqlToDay(datosKiosco.getFecha_modifica_registro()));
             }
@@ -102,9 +115,9 @@ public class KioscoDAO {
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
         
-        sql.append("EXEC sp_updateKiosco ?, ?, ?, ?, ?, ?, ?, ?, ?");
+        sql.append("EXEC sp_updateKiosco ?, ?, ?, ?, ?, ?, ?, ?");
         Object[] params = {kiosco.getId_kiosko(), kiosco.getNombre_kiosko(), kiosco.getId_planta(), kiosco.getIp_privada()
-            , kiosco.getId_usuario_modifica_registro(), kiosco.getFecha_modifica_registro(), kiosco.getMarca_kiosco(), kiosco.getModelo_kiosco()
+            , kiosco.getId_usuario_modifica_registro(), kiosco.getMarca_kiosco(), kiosco.getModelo_kiosco()
             , kiosco.getActivo()};
         
         qr.update(sql.toString(), params);
