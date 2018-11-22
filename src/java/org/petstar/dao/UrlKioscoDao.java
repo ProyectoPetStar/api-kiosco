@@ -51,7 +51,7 @@ public class UrlKioscoDao {
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
         
-        sql.append("");
+        sql.append("EXEC sp_selectUrlKiosco");
         
         ResultSetHandler rsh = new BeanListHandler(UrlKioscosDTO.class);
         List<UrlKioscosDTO> lista = (List<UrlKioscosDTO>) qr.query(sql.toString(), rsh);
