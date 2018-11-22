@@ -141,4 +141,15 @@ public class UrlKioscoDao {
         
         qr.update(sql.toString(), params);
     }
+    
+    public void deleteUrlKioscoById(int idUrlKiosco) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_deleteUrlKiosco ?");
+        Object[] params = {idUrlKiosco};
+        
+        qr.update(sql.toString(), params);
+    }
 }
