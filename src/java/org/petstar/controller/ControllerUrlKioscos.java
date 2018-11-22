@@ -5,8 +5,10 @@
  */
 package org.petstar.controller;
 
+import com.google.gson.Gson;
 import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
+import org.json.JSONObject;
 import org.petstar.dto.UrlKioscosDTO;
 import org.petstar.model.OutputJson;
 import org.petstar.model.ResponseJson;
@@ -14,6 +16,7 @@ import static org.petstar.configurations.Utils.convertStringToSql;
 import org.petstar.dao.UrlKioscoDao;
 import org.petstar.dto.ResultInteger;
 import org.petstar.dto.UserDTO;
+import org.petstar.model.UrlKioscoJson;
 
 /**
  *
@@ -31,21 +34,21 @@ public class ControllerUrlKioscos {
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
         
+        Gson gson = new Gson();
+        
         try{
-            UrlKioscosDTO url = new UrlKioscosDTO();
-            url.setDescripcion(request.getParameter("descripcion"));
-            url.setUrl(request.getParameter("url"));
-            url.setId_usuario_registro(Integer.parseInt(request.getParameter("id_usuario_registro")));
-            url.setFecha_registro(convertStringToSql(request.getParameter("fecha_registro")));
-            
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
                 if(sesion.getId_perfil() == 1){
                     UrlKioscoDao urlDao = new UrlKioscoDao();
-
+                    String jsonString = request.getParameter("data");
+                    JSONObject jsonResponse = new JSONObject(jsonString);
+                    UrlKioscosDTO url = gson.fromJson(jsonResponse.getJSONObject("url").toString(), UrlKioscosDTO.class);
+                    
                     ResultInteger result = urlDao.validaUrl(url.getUrl());
 
                     if(result.getResult().equals(0)){
+                        url.setFecha_registro(convertStringToSql(url.getFecha_registro_string()));
                         urlDao.insertUrlKiosco(url);
 
                         response.setMessage(MSG_SUCESS);
@@ -54,6 +57,39 @@ public class ControllerUrlKioscos {
                         response.setMessage(MSG_INVALID);
                         response.setSucessfull(false);
                     }
+                }else{
+                    response.setMessage(MSG_PERFIL);
+                    response.setSucessfull(false);
+                }
+            }else{
+                response.setMessage(MSG_LOGOUT);
+                response.setSucessfull(false);
+            }
+        }catch(Exception ex){
+            response.setMessage(MSG_ERROR + ex.getMessage());
+            response.setSucessfull(false);
+        }
+        output.setResponse(response);
+        return output;
+    }
+    
+    public OutputJson getAllUrlKiosco(HttpServletRequest request){
+        ControllerAutenticacion autenticacion = new ControllerAutenticacion();
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+        
+        try{
+            UserDTO sesion = autenticacion.isValidToken(request);
+            if(sesion != null){
+                if(sesion.getId_perfil() == 1){
+                    UrlKioscoJson data = new UrlKioscoJson();
+                    UrlKioscoDao urlDao = new UrlKioscoDao();
+                    
+                    data.setListUrlKiosco(urlDao.getUrlKiosco());
+                    
+                    output.setData(data);
+                    response.setMessage(MSG_SUCESS);
+                    response.setSucessfull(true);
                 }else{
                     response.setMessage(MSG_PERFIL);
                     response.setSucessfull(false);

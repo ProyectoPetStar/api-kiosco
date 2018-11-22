@@ -47,8 +47,15 @@ public class UrlKioscos extends HttpServlet {
             String action = request.getParameter("action");
             switch(action){
                 case "insertUrlKioscos":
-                output = controllerUrl.insertUrlKioscos(request);
-                break;
+                    output = controllerUrl.insertUrlKioscos(request);
+                    break;                
+                case "getUrlKiosco":
+                    output = controllerUrl.getAllUrlKiosco(request);
+                    break;
+                case "getUrlKioscoById":
+                    break;
+                case "updateUrlKiosco":
+                    break;
             }
         }catch(Exception ex){
             ResponseJson responseJson = new ResponseJson();
