@@ -28,7 +28,7 @@ public class UrlKioscoDao {
         StringBuilder sql = new StringBuilder();
         
         sql.append("EXEC sp_insertPetUrlKioskos ?, ?, ?, ?");
-        Object[] params = {url.getDescripcion(), url.getNombre(), url.getUrl(), url.getId_usuario_registro()};
+        Object[] params = {url.getDescripcion(), url.getNombre().trim(), url.getUrl().trim(), url.getId_usuario_registro()};
         
         qr.update(sql.toString(), params);
     }
@@ -137,7 +137,7 @@ public class UrlKioscoDao {
         StringBuilder sql = new StringBuilder();
         
         sql.append("EXEC sp_updateUrlKiosco ?, ?, ?, ?, ?, ?");
-        Object[] params = {url.getId_url_kiosko(), url.getDescripcion(), url.getNombre(), url.getUrl(), url.getActivo(), url.getId_usuario_modifica_registro()};
+        Object[] params = {url.getId_url_kiosko(), url.getDescripcion(), url.getNombre().trim(), url.getUrl().trim(), url.getActivo(), url.getId_usuario_modifica_registro()};
         
         qr.update(sql.toString(), params);
     }

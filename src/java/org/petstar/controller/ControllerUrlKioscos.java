@@ -26,9 +26,9 @@ public class ControllerUrlKioscos {
     private static final String MSG_LOGOUT = "Inicie sesión nuevamente";
     private static final String MSG_ERROR  = "Descripción de error: ";
     private static final String MSG_SUCESS = "OK";
-    private static final String MSG_INVALID = "Valor o Descripción ya existe";
+    private static final String MSG_INVALID = "Ya esta en uso el nombre: ";
     private static final String MSG_PERFIL = "Este perfil no cuenta con los permisos para realizar la acción";
-    private static final String MSG_URL = "La url ya existe";
+    private static final String MSG_URL = "Ya esta en uso la URL ingresada";
     
     public OutputJson insertUrlKioscos(HttpServletRequest request){
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
@@ -49,14 +49,14 @@ public class ControllerUrlKioscos {
                     ResultInteger result = urlDao.validaUrl(url.getUrl());
 
                     if(result.getResult().equals(0)){
-                        ResultInteger des = urlDao.insertValidaNombre(url.getNombre());
+                        ResultInteger des = urlDao.insertValidaNombre(url.getNombre().trim());
                         if(des.getResult().equals(0)){
                             urlDao.insertUrlKiosco(url);
 
                             response.setMessage(MSG_SUCESS);
                             response.setSucessfull(true);
                         }else{
-                            response.setMessage(MSG_INVALID);
+                            response.setMessage(MSG_INVALID + url.getNombre());
                             response.setSucessfull(false);
                         }                        
                     }else{
@@ -163,9 +163,9 @@ public class ControllerUrlKioscos {
                     JSONObject jsonResponse = new JSONObject(jsonString);
                     UrlKioscosDTO url = gson.fromJson(jsonResponse.getJSONObject("app").toString(), UrlKioscosDTO.class);
                     
-                    ResultInteger des = urlDao.updateValidaNombreUrl(url.getId_url_kiosko(), url.getNombre());
+                    ResultInteger des = urlDao.updateValidaNombreUrl(url.getId_url_kiosko(), url.getNombre().trim());
                     if(des.getResult().equals(0)){
-                        ResultInteger ur = urlDao.updateValidaUrl(url.getId_url_kiosko(), url.getUrl());
+                        ResultInteger ur = urlDao.updateValidaUrl(url.getId_url_kiosko(), url.getUrl().trim());
                         
                         if(ur.getResult().equals(0)){
                             urlDao.updateUrlKiosco(url);
@@ -176,7 +176,7 @@ public class ControllerUrlKioscos {
                             response.setSucessfull(false);
                         }
                     }else{
-                        response.setMessage(MSG_INVALID);
+                        response.setMessage(MSG_INVALID + url.getNombre());
                         response.setSucessfull(false);
                     }
                 }else{
