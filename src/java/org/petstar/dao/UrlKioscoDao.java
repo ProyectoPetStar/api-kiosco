@@ -27,8 +27,8 @@ public class UrlKioscoDao {
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
         
-        sql.append("EXEC sp_insertPetUrlKioskos ?, ?, ?");
-        Object[] params = {url.getDescripcion(), url.getUrl(), url.getId_usuario_registro()};
+        sql.append("EXEC sp_insertPetUrlKioskos ?, ?, ?, ?");
+        Object[] params = {url.getDescripcion(), url.getNombre(), url.getUrl(), url.getId_usuario_registro()};
         
         qr.update(sql.toString(), params);
     }
@@ -46,14 +46,14 @@ public class UrlKioscoDao {
         return count;
     }
     
-    public ResultInteger insertValidaDescripcion(String descripcion) throws Exception{
+    public ResultInteger insertValidaNombre(String nombre) throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
         
         sql.append("EXEC sp_insertValidaDescripcionUrl ?");
         
-        Object[] params = {descripcion};
+        Object[] params = {nombre};
         ResultSetHandler rsh = new BeanHandler(ResultInteger.class);
         ResultInteger count = (ResultInteger) qr.query(sql.toString(), rsh, params);
         return count;
@@ -104,13 +104,13 @@ public class UrlKioscoDao {
         return datosUrl;
     }
     
-    public ResultInteger updateValidaDescripcionUrl(int idUrlKiosco, String descripcion) throws Exception{
+    public ResultInteger updateValidaNombreUrl(int idUrlKiosco, String nombre) throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
         
         sql.append("EXEC sp_updateValidaDescripcionUrl ?, ?");
-        Object[] params = {idUrlKiosco, descripcion};
+        Object[] params = {idUrlKiosco, nombre};
         
         ResultSetHandler rsh = new BeanHandler(ResultInteger.class);
         ResultInteger count = (ResultInteger) qr.query(sql.toString(), rsh, params);
@@ -136,8 +136,8 @@ public class UrlKioscoDao {
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
         
-        sql.append("EXEC sp_updateUrlKiosco ?, ?, ?, ?, ?");
-        Object[] params = {url.getId_url_kiosko(), url.getDescripcion(), url.getUrl(), url.getActivo(), url.getId_usuario_modifica_registro()};
+        sql.append("EXEC sp_updateUrlKiosco ?, ?, ?, ?, ?, ?");
+        Object[] params = {url.getId_url_kiosko(), url.getDescripcion(), url.getNombre(), url.getUrl(), url.getActivo(), url.getId_usuario_modifica_registro()};
         
         qr.update(sql.toString(), params);
     }
