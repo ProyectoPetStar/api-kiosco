@@ -44,7 +44,7 @@ public class ControllerUrlKioscos {
                     UrlKioscoDao urlDao = new UrlKioscoDao();
                     String jsonString = request.getParameter("data");
                     JSONObject jsonResponse = new JSONObject(jsonString);
-                    UrlKioscosDTO url = gson.fromJson(jsonResponse.getJSONObject("url").toString(), UrlKioscosDTO.class);
+                    UrlKioscosDTO url = gson.fromJson(jsonResponse.getJSONObject("app").toString(), UrlKioscosDTO.class);
                     
                     ResultInteger result = urlDao.validaUrl(url.getUrl());
 
@@ -161,7 +161,7 @@ public class ControllerUrlKioscos {
                     UrlKioscoDao urlDao = new UrlKioscoDao();
                     String jsonString = request.getParameter("data");
                     JSONObject jsonResponse = new JSONObject(jsonString);
-                    UrlKioscosDTO url = gson.fromJson(jsonResponse.getJSONObject("url").toString(), UrlKioscosDTO.class);
+                    UrlKioscosDTO url = gson.fromJson(jsonResponse.getJSONObject("app").toString(), UrlKioscosDTO.class);
                     
                     ResultInteger des = urlDao.updateValidaNombreUrl(url.getId_url_kiosko(), url.getNombre());
                     if(des.getResult().equals(0)){
