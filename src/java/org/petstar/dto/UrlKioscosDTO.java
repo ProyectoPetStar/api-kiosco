@@ -14,6 +14,7 @@ import java.sql.Date;
 public class UrlKioscosDTO {
     private int id_url_kiosko;
     private String descripcion;
+    private String nombre;    
     private String imagen;
     private String url;
     private int activo;
@@ -23,6 +24,14 @@ public class UrlKioscosDTO {
     private Date fecha_modifica_registro;
     private String fecha_registro_string;
     private String fecha_modifica_registro_string;
+    
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
     public String getFecha_registro_string() {
         return fecha_registro_string;
