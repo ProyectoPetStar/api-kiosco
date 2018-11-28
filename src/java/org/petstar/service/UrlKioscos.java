@@ -37,18 +37,18 @@ public class UrlKioscos extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Configuration.setHeadersJson(response);
-        
+
         PrintWriter printWriter = response.getWriter();
         OutputJson output = new OutputJson();
         ControllerUrlKioscos controllerUrl = new ControllerUrlKioscos();
         Gson gson = new Gson();
-        
-        try{
+
+        try {
             String action = request.getParameter("action");
-            switch(action){
+            switch (action) {
                 case "insertUrlKioscos":
                     output = controllerUrl.insertUrlKioscos(request);
-                    break;                
+                    break;
                 case "getAllUrlKiosco":
                     output = controllerUrl.getAllUrlKiosco(request);
                     break;
@@ -61,13 +61,16 @@ public class UrlKioscos extends HttpServlet {
                 case "deleteUrlKiosco":
                     output = controllerUrl.deleteUrlKiosco(request);
                     break;
+                case "getAllApps":
+                    output = controllerUrl.getAllApps(request);
+                    break;
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setMessage(ex.getMessage());
             responseJson.setSucessfull(false);
             output.setResponse(responseJson);
-        }finally{
+        } finally {
             printWriter.print(gson.toJson(output));
             printWriter.close();
         }
@@ -102,11 +105,11 @@ public class UrlKioscos extends HttpServlet {
         processRequest(request, response);
     }
 
-     @Override
+    @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
         Configuration.setHeadersJson(response);
     }
-    
+
     /**
      * Returns a short description of the servlet.
      *

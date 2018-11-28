@@ -23,203 +23,224 @@ import org.petstar.model.UrlKioscoJson;
  * @author Ramiro
  */
 public class ControllerUrlKioscos {
+
     private static final String MSG_LOGOUT = "Inicie sesión nuevamente";
-    private static final String MSG_ERROR  = "Descripción de error: ";
+    private static final String MSG_ERROR = "Descripción de error: ";
     private static final String MSG_SUCESS = "OK";
     private static final String MSG_INVALID = "Ya esta en uso el nombre: ";
     private static final String MSG_PERFIL = "Este perfil no cuenta con los permisos para realizar la acción";
     private static final String MSG_URL = "Ya esta en uso la URL ingresada";
-    
-    public OutputJson insertUrlKioscos(HttpServletRequest request){
+
+    public OutputJson insertUrlKioscos(HttpServletRequest request) {
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
-        
+
         Gson gson = new Gson();
-        
-        try{
+
+        try {
             UserDTO sesion = autenticacion.isValidToken(request);
-            if(sesion != null){
-                if(sesion.getId_perfil() == 1){
+            if (sesion != null) {
+                if (sesion.getId_perfil() == 1) {
                     UrlKioscoDao urlDao = new UrlKioscoDao();
                     String jsonString = request.getParameter("data");
                     JSONObject jsonResponse = new JSONObject(jsonString);
                     UrlKioscosDTO url = gson.fromJson(jsonResponse.getJSONObject("app").toString(), UrlKioscosDTO.class);
-                    
+
                     ResultInteger result = urlDao.validaUrl(url.getUrl());
 
-                    if(result.getResult().equals(0)){
+                    if (result.getResult().equals(0)) {
                         ResultInteger des = urlDao.insertValidaNombre(url.getNombre().trim());
-                        if(des.getResult().equals(0)){
+                        if (des.getResult().equals(0)) {
                             urlDao.insertUrlKiosco(url);
 
                             response.setMessage(MSG_SUCESS);
                             response.setSucessfull(true);
-                        }else{
+                        } else {
                             response.setMessage(MSG_INVALID + url.getNombre());
                             response.setSucessfull(false);
-                        }                        
-                    }else{
+                        }
+                    } else {
                         response.setMessage(MSG_URL);
                         response.setSucessfull(false);
                     }
-                }else{
+                } else {
                     response.setMessage(MSG_PERFIL);
                     response.setSucessfull(false);
                 }
-            }else{
+            } else {
                 response.setMessage(MSG_LOGOUT);
                 response.setSucessfull(false);
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             response.setMessage(MSG_ERROR + ex.getMessage());
             response.setSucessfull(false);
         }
         output.setResponse(response);
         return output;
     }
-    
-    public OutputJson getAllUrlKiosco(HttpServletRequest request){
+
+    public OutputJson getAllUrlKiosco(HttpServletRequest request) {
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
-        
-        try{
+
+        try {
             UserDTO sesion = autenticacion.isValidToken(request);
-            if(sesion != null){
-                if(sesion.getId_perfil() == 1){
+            if (sesion != null) {
+                if (sesion.getId_perfil() == 1) {
                     UrlKioscoJson data = new UrlKioscoJson();
                     UrlKioscoDao urlDao = new UrlKioscoDao();
-                    
+
                     data.setListUrlKiosco(urlDao.getUrlKiosco());
-                    
+
                     output.setData(data);
                     response.setMessage(MSG_SUCESS);
                     response.setSucessfull(true);
-                }else{
+                } else {
                     response.setMessage(MSG_PERFIL);
                     response.setSucessfull(false);
                 }
-            }else{
+            } else {
                 response.setMessage(MSG_LOGOUT);
                 response.setSucessfull(false);
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             response.setMessage(MSG_ERROR + ex.getMessage());
             response.setSucessfull(false);
         }
         output.setResponse(response);
         return output;
     }
-    
-    public OutputJson getUrlKioscoById(HttpServletRequest request){
+
+    public OutputJson getUrlKioscoById(HttpServletRequest request) {
         int idUrlKiosco = Integer.parseInt(request.getParameter("id_url_kiosco"));
-        
+
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
-        
-        try{
+
+        try {
             UserDTO sesion = autenticacion.isValidToken(request);
-            if(sesion != null){
-                if(sesion.getId_perfil() == 1){
+            if (sesion != null) {
+                if (sesion.getId_perfil() == 1) {
                     UrlKioscoJson data = new UrlKioscoJson();
                     UrlKioscoDao urlDao = new UrlKioscoDao();
-                    
+
                     data.setUrlKiosco(urlDao.getUrlKioscoById(idUrlKiosco));
-                    
+
                     output.setData(data);
                     response.setMessage(MSG_SUCESS);
                     response.setSucessfull(true);
-                }else{
+                } else {
                     response.setMessage(MSG_PERFIL);
                     response.setSucessfull(false);
                 }
-            }else{
+            } else {
                 response.setMessage(MSG_LOGOUT);
                 response.setSucessfull(false);
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             response.setMessage(MSG_ERROR + ex.getMessage());
             response.setSucessfull(false);
         }
         output.setResponse(response);
         return output;
     }
-    
-    public OutputJson updateUrlKiosco(HttpServletRequest request){
+
+    public OutputJson updateUrlKiosco(HttpServletRequest request) {
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
-        
+
         Gson gson = new Gson();
-        
-        try{
+
+        try {
             UserDTO sesion = autenticacion.isValidToken(request);
-            if(sesion != null){
-                if(sesion.getId_perfil() == 1){
+            if (sesion != null) {
+                if (sesion.getId_perfil() == 1) {
                     UrlKioscoDao urlDao = new UrlKioscoDao();
                     String jsonString = request.getParameter("data");
                     JSONObject jsonResponse = new JSONObject(jsonString);
                     UrlKioscosDTO url = gson.fromJson(jsonResponse.getJSONObject("app").toString(), UrlKioscosDTO.class);
-                    
+
                     ResultInteger des = urlDao.updateValidaNombreUrl(url.getId_url_kiosko(), url.getNombre().trim());
-                    if(des.getResult().equals(0)){
+                    if (des.getResult().equals(0)) {
                         ResultInteger ur = urlDao.updateValidaUrl(url.getId_url_kiosko(), url.getUrl().trim());
-                        
-                        if(ur.getResult().equals(0)){
+
+                        if (ur.getResult().equals(0)) {
                             urlDao.updateUrlKiosco(url);
                             response.setMessage(MSG_SUCESS);
                             response.setSucessfull(true);
-                        }else{
+                        } else {
                             response.setMessage(MSG_URL);
                             response.setSucessfull(false);
                         }
-                    }else{
+                    } else {
                         response.setMessage(MSG_INVALID + url.getNombre());
                         response.setSucessfull(false);
                     }
-                }else{
+                } else {
                     response.setMessage(MSG_PERFIL);
                     response.setSucessfull(false);
                 }
-            }else{
+            } else {
                 response.setMessage(MSG_LOGOUT);
                 response.setSucessfull(false);
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             response.setMessage(MSG_ERROR + ex.getMessage());
             response.setSucessfull(false);
         }
         output.setResponse(response);
         return output;
     }
-    
-    public OutputJson deleteUrlKiosco(HttpServletRequest request){
+
+    public OutputJson deleteUrlKiosco(HttpServletRequest request) {
         int idUrlKiosco = Integer.parseInt(request.getParameter("id_url_kiosco"));
-        
+
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
-        
-        try{
+
+        try {
             UserDTO sesion = autenticacion.isValidToken(request);
-            if(sesion != null){
-                if(sesion.getId_perfil()== 1){
+            if (sesion != null) {
+                if (sesion.getId_perfil() == 1) {
                     UrlKioscoDao urlDao = new UrlKioscoDao();
                     urlDao.deleteUrlKioscoById(idUrlKiosco);
-                    
+
                     response.setMessage(MSG_SUCESS);
                     response.setSucessfull(true);
-                }else{
+                } else {
                     response.setMessage(MSG_PERFIL);
                     response.setSucessfull(false);
                 }
-            }else{
+            } else {
                 response.setMessage(MSG_LOGOUT);
                 response.setSucessfull(false);
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
+            response.setMessage(MSG_ERROR + ex.getMessage());
+            response.setSucessfull(false);
+        }
+        output.setResponse(response);
+        return output;
+    }
+
+    public OutputJson getAllApps(HttpServletRequest request) {
+
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+
+        try {
+            UrlKioscoJson data = new UrlKioscoJson();
+            UrlKioscoDao urlDao = new UrlKioscoDao();
+            data.setListUrlKiosco(urlDao.getUrlKiosco());
+            output.setData(data);
+            response.setMessage(MSG_SUCESS);
+            response.setSucessfull(true);
+        } catch (Exception ex) {
             response.setMessage(MSG_ERROR + ex.getMessage());
             response.setSucessfull(false);
         }
