@@ -16,6 +16,10 @@ import org.petstar.model.OutputJson;
 import org.petstar.model.UserResponseJson;
 import org.petstar.dto.UserDTO;
 import static org.petstar.configurations.Utils.getCurrentDate;
+import java.io.File;
+import org.petstar.configurations.Configuration;
+import static org.petstar.configurations.Utils.encodeFileToBase64;
+import org.petstar.model.ResponseJson;
 
 /**
  *
@@ -86,7 +90,7 @@ public class ControllerUsers {
         int idAcceso = Integer.parseInt(request.getParameter("id_acceso"));
         String newPassword = request.getParameter("new_password");
         String contraseniaActual = request.getParameter("password_actual");
-        
+
         UserResponseJson response = new UserResponseJson();
         OutputJson output = new OutputJson();
         ControllerAutenticacion auth = new ControllerAutenticacion();
@@ -95,17 +99,17 @@ public class ControllerUsers {
             UserDTO usuario = auth.isValidToken(request);
             if (usuario != null) {
                 UsersDAO userDAO = new UsersDAO();
-                
+
                 ResultInteger result = userDAO.changeValidaPassword(contraseniaActual, idAcceso);
-                if(result.getResult().equals(1)){
+                if (result.getResult().equals(1)) {
                     userDAO.changePassword(newPassword, idAcceso);
-                    
+
                     response.setMessage("OK");
                     response.setSucessfull(true);
-                }else{
+                } else {
                     response.setMessage(MSG_PASS);
                     response.setSucessfull(false);
-                }                
+                }
             } else {
                 response.setSucessfull(false);
                 response.setMessage("Inicie sesión nuevamente");
@@ -141,9 +145,9 @@ public class ControllerUsers {
                 String jsonString = request.getParameter("data");
                 JSONObject jsonResponse = new JSONObject(jsonString);
                 UserDTO usuario = gson.fromJson(jsonResponse.getJSONObject("usuario").toString(), UserDTO.class);
-                
+
                 userDAO.updateUser(usuario);
-                
+
                 response.setMessage(MSG_SUCESS);
                 response.setSucessfull(true);
 
@@ -157,6 +161,41 @@ public class ControllerUsers {
         }
         output.setResponse(response);
         return output;
+    }
+
+    public OutputJson getImage(HttpServletRequest request) {
+        String nombre_image = request.getParameter("nombre_image");
+
+
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+
+        ControllerAutenticacion auth = new ControllerAutenticacion();
+        try {
+            UserDTO sesion = auth.isValidToken(request);
+            if (sesion != null) {
+                /**
+                 * Aqui inicia transformacion de imagen a base 64
+                 */
+                File file = new File(Configuration.PATH_USUARIOS + nombre_image);
+                /**
+                 * Aqui termina transformacion de file a base64
+                 */
+                response.setSucessfull(true);
+                response.setMessage(encodeFileToBase64(file));
+
+            } else {
+                response.setSucessfull(false);
+                response.setMessage(MSG_LOGOUT);
+            }
+
+        } catch (Exception ex) {
+            response.setSucessfull(false);
+            response.setMessage("" + ex.getMessage());
+        }
+        output.setResponse(response);
+        return output;
+
     }
 
 }
