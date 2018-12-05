@@ -8,6 +8,8 @@ package org.petstar.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.axis.encoding.Base64;
@@ -27,7 +29,7 @@ public class ControllerUploadImage {
         OutputJson outputJson = new OutputJson();
         ResponseJson responseJson = new ResponseJson();
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
-        
+    
         try{
             UserDTO sesion = autenticacion.isValidToken(request);
             
@@ -39,12 +41,14 @@ public class ControllerUploadImage {
                         {"usuario","pet_usuario_kiosko",Configuration.PATH_USUARIOS,"id_usuario_kiosko"}
                     };
 
-                    StringBuilder stringFile = new StringBuilder();
+                    String stringFile = new String();
+                   
 
                     String object = request.getParameter("object");
-                    stringFile.append(request.getParameter("file"));
+                    stringFile = request.getParameter("file");
+                    stringFile = URLDecoder.decode(stringFile, "UTF-8");
                     int id = Integer.parseInt(request.getParameter("id"));
-
+                    
                     int index = -1;
                     for (int y = 0; y<data.length; y++) {
                         if(data[y][0].equals(object)){
@@ -79,7 +83,7 @@ public class ControllerUploadImage {
         return outputJson;
     }
     
-    private boolean saveFIle(StringBuilder file64, String nameFile, String pathFile){
+    private boolean saveFIle(String file64, String nameFile, String pathFile){
         boolean estatus;
         try{
             StringBuilder stringFile = new StringBuilder();
