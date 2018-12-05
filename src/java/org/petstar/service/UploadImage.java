@@ -6,8 +6,12 @@
 package org.petstar.service;
 
 import com.google.gson.Gson;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +40,7 @@ public class UploadImage extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, FileNotFoundException, ParseException, Exception {
         Configuration.setHeadersJson(response);
 
         PrintWriter out = response.getWriter();
@@ -78,8 +82,14 @@ public class UploadImage extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+            throws ServletException, IOException, FileNotFoundException {
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -92,8 +102,14 @@ public class UploadImage extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+            throws ServletException, IOException, FileNotFoundException {
+         try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
