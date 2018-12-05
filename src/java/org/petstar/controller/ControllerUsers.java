@@ -166,7 +166,6 @@ public class ControllerUsers {
     public OutputJson getImage(HttpServletRequest request) {
         String nombre_image = request.getParameter("nombre_image");
 
-
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
 
@@ -178,11 +177,12 @@ public class ControllerUsers {
                  * Aqui inicia transformacion de imagen a base 64
                  */
                 File file = new File(Configuration.PATH_USUARIOS + nombre_image);
+                response.setMessage(encodeFileToBase64(file));
+                response.setSucessfull(true);
+               
                 /**
                  * Aqui termina transformacion de file a base64
                  */
-                response.setSucessfull(true);
-                response.setMessage(encodeFileToBase64(file));
 
             } else {
                 response.setSucessfull(false);
