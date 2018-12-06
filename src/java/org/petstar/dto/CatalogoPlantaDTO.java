@@ -15,6 +15,7 @@ public class CatalogoPlantaDTO {
     private String estado_planta;
     private String direccion_planta;
     private String ip_publica;
+    private String imagen;
     private int activo;
 
     public int getId_planta() {
@@ -57,6 +58,14 @@ public class CatalogoPlantaDTO {
         this.ip_publica = ip_publica;
     }
 
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+    
     public int getActivo() {
         return activo;
     }
