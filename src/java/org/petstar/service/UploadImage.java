@@ -42,7 +42,7 @@ public class UploadImage extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, FileNotFoundException, ParseException, Exception {
         Configuration.setHeadersJson(response);
-
+        
         PrintWriter out = response.getWriter();
         OutputJson output = new OutputJson();
         ControllerUploadImage controller = new ControllerUploadImage();
@@ -52,18 +52,18 @@ public class UploadImage extends HttpServlet {
             String action = request.getParameter("action");
             switch (action) {
                 case "uploadImage":
-                   output = controller.uploadImage(request);
-                   break;
+                    output = controller.uploadImage(request);
+                    break;
                 default:
                     ResponseJson reponseJson = new ResponseJson();
                     reponseJson.setSucessfull(false);
                     reponseJson.setMessage("Servicio no encontrado");
-                    output.setResponse(reponseJson);                   
+                    output.setResponse(reponseJson);
             }
         } catch (Exception ex) {
             ResponseJson reponseJson = new ResponseJson();
             reponseJson.setSucessfull(false);
-            reponseJson.setMessage(""+ex.toString());
+            reponseJson.setMessage("" + ex.toString());
             output.setResponse(reponseJson);
         } finally {
             out.print(gson.toJson(output));
@@ -82,11 +82,11 @@ public class UploadImage extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, FileNotFoundException {
+
+            throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (ParseException ex) {
-            Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
+
         } catch (Exception ex) {
             Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -102,21 +102,22 @@ public class UploadImage extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, FileNotFoundException {
-         try {
+
+            throws ServletException, IOException {
+        try {
             processRequest(request, response);
-        } catch (ParseException ex) {
-            Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+
     }
 
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
         Configuration.setHeadersJson(response);
     }
-    
+
     /**
      * Returns a short description of the servlet.
      *

@@ -19,6 +19,8 @@ public class Configuration {
     public static final String PATH_URLS     = "C:\\petstar\\images\\urls\\";
     public static final String PATH_KIOSCOS  = "C:\\petstar\\images\\kioscos\\";
     public static final String PATH_USUARIOS = "C:\\petstar\\images\\usuarios\\";
+    public static final String PATH_PLANTAS = "C:\\petstar\\images\\plantas\\";
+
         
     /**
      * Método que permite establecer las cabeceras de un servlet, en particular 
