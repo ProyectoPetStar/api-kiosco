@@ -38,7 +38,8 @@ public class ControllerUploadImage {
                     String[][] data = {
                         {"urls","pet_url_kioskos",Configuration.PATH_URLS,"id_url_kiosko"},
                         {"kiosco","pet_kiosko",Configuration.PATH_KIOSCOS,"id_kiosko"},
-                        {"usuario","pet_usuario_kiosko",Configuration.PATH_USUARIOS,"id_usuario_kiosko"}
+                        {"usuario","pet_usuario_kiosko",Configuration.PATH_USUARIOS,"id_usuario_kiosko"},
+                        {"planta","pet_cat_planta",Configuration.PATH_PLANTAS,"id_planta"},
                     };
 
                     String stringFile = new String();
