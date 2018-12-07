@@ -36,7 +36,7 @@ public class ControllerUploadImage {
             if(sesion != null){
                 if(sesion.getId_perfil() == 1){
                     String[][] data = {
-                        {"urls","pet_url_kioskos",Configuration.PATH_URLS,"id_url_kiosko"},
+                        {"urls","pet_url_kiosko",Configuration.PATH_URLS,"id_url_kiosko"},
                         {"kiosco","pet_kiosko",Configuration.PATH_KIOSCOS,"id_kiosko"},
                         {"usuario","pet_usuario_kiosko",Configuration.PATH_USUARIOS,"id_usuario_kiosko"},
                         {"planta","pet_cat_planta",Configuration.PATH_PLANTAS,"id_planta"},
