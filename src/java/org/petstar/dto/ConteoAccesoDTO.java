@@ -16,6 +16,7 @@ public class ConteoAccesoDTO {
     private Date dia;
     private int id_kiosko;
     private String hora_acceso;
+    private int id_url_kiosko;
 
     public int getId_conteo_acceso() {
         return id_conteo_acceso;
@@ -47,5 +48,13 @@ public class ConteoAccesoDTO {
 
     public void setHora_acceso(String hora_acceso) {
         this.hora_acceso = hora_acceso;
+    }   
+
+    public int getId_url_kiosko() {
+        return id_url_kiosko;
+    }
+
+    public void setId_url_kiosko(int id_url_kiosko) {
+        this.id_url_kiosko = id_url_kiosko;
     }    
 }

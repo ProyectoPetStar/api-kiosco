@@ -14,13 +14,13 @@ import org.petstar.configurations.PoolDataSource;
  * @author Ramiro
  */
 public class ConteoAccesoDAO {
-    public void insertConteoAcceso(String ipPrivada, String ipPublica) throws Exception{
+    public void insertConteoAcceso(String ipPrivada, String ipPublica, int idUrlKiosco) throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
         
-        sql.append("EXEC sp_insertConteoAcceso ?, ?");
-        Object[] params = {ipPrivada, ipPublica};
+        sql.append("EXEC sp_insertConteoAcceso ?, ?, ?");
+        Object[] params = {ipPrivada, ipPublica, idUrlKiosco};
         
         qr.update(sql.toString(), params);
     }

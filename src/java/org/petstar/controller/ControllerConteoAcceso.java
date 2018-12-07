@@ -25,9 +25,10 @@ public class ControllerConteoAcceso {
         try{
             String ipPrivada = request.getParameter("ip_privada");
             String ipPublica = request.getParameter("ip_publica");
+            int idUrlKiosco = Integer.parseInt(request.getParameter("id_url_kiosko"));
             ConteoAccesoDAO conteo = new ConteoAccesoDAO();
             
-            conteo.insertConteoAcceso(ipPrivada, ipPublica);
+            conteo.insertConteoAcceso(ipPrivada, ipPublica, idUrlKiosco);
             response.setMessage(MSG_SUCESS);
             response.setSucessfull(true);
         }catch(Exception ex){
