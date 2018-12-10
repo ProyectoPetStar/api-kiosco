@@ -134,6 +134,11 @@ public class UploadProtectorPantalla extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
+    
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        Configuration.setHeadersFile(response);
+    }
 
     /**
      * Returns a short description of the servlet.
