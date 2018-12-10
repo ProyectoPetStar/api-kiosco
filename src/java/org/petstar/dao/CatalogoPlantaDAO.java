@@ -5,6 +5,7 @@
  */
 package org.petstar.dao;
 
+import java.util.Iterator;
 import java.util.List;
 import javax.sql.DataSource;
 import org.apache.commons.dbutils.QueryRunner;

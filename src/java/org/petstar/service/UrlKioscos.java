@@ -64,6 +64,9 @@ public class UrlKioscos extends HttpServlet {
                 case "getAllApps":
                     output = controllerUrl.getAllApps(request);
                     break;
+                case "getImage":
+                    output = controllerUrl.getImage(request);
+                    break;
             }
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();

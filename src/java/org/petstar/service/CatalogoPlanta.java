@@ -58,6 +58,9 @@ public class CatalogoPlanta extends HttpServlet {
                case "updateCatalogoPlanta":
                    output = controllerPlanta.updateCatalogoPlanta(request);
                    break;
+                case "getImage":
+                    output = controllerPlanta.getImage(request);
+                break;
            }
        }catch(Exception ex){
            ResponseJson responseJson = new ResponseJson();

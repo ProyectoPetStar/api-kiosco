@@ -6,13 +6,17 @@
 package org.petstar.controller;
 
 import com.google.gson.Gson;
+import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
+import org.petstar.configurations.Configuration;
 import org.petstar.dto.UrlKioscosDTO;
 import org.petstar.model.OutputJson;
 import org.petstar.model.ResponseJson;
 import static org.petstar.configurations.Utils.convertStringToSql;
+import static org.petstar.configurations.Utils.encodeFileToBase64;
 import org.petstar.dao.UrlKioscoDao;
 import org.petstar.dto.ResultInteger;
 import org.petstar.dto.UserDTO;
@@ -92,7 +96,14 @@ public class ControllerUrlKioscos {
                     UrlKioscoJson data = new UrlKioscoJson();
                     UrlKioscoDao urlDao = new UrlKioscoDao();
 
-                    data.setListUrlKiosco(urlDao.getUrlKiosco());
+                    List<UrlKioscosDTO> lista = urlDao.getUrlKiosco();
+
+                    for (UrlKioscosDTO item : lista) {
+                        File file = new File(Configuration.PATH_URLS + item.getImagen());
+                        item.setImagen(encodeFileToBase64(file));
+                    }
+
+                    data.setListUrlKiosco(lista);
 
                     output.setData(data);
                     response.setMessage(MSG_SUCESS);
@@ -236,7 +247,14 @@ public class ControllerUrlKioscos {
         try {
             UrlKioscoJson data = new UrlKioscoJson();
             UrlKioscoDao urlDao = new UrlKioscoDao();
-            data.setListUrlKiosco(urlDao.getUrlKiosco());
+
+            List<UrlKioscosDTO> apps = urlDao.getUrlKiosco();
+
+            for (UrlKioscosDTO item : apps) {
+                File file = new File(Configuration.PATH_URLS + item.getImagen());
+                item.setImagen(encodeFileToBase64(file));
+            }
+            data.setListUrlKiosco(apps);
             output.setData(data);
             response.setMessage(MSG_SUCESS);
             response.setSucessfull(true);
@@ -246,5 +264,39 @@ public class ControllerUrlKioscos {
         }
         output.setResponse(response);
         return output;
+    }
+
+    public OutputJson getImage(HttpServletRequest request) {
+        String nombre_image = request.getParameter("nombre_image");
+
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+
+        ControllerAutenticacion auth = new ControllerAutenticacion();
+        try {
+            UserDTO sesion = auth.isValidToken(request);
+            if (sesion != null) {
+                /**
+                 * Aqui inicia transformacion de imagen a base 64
+                 */
+                File file = new File(Configuration.PATH_URLS + nombre_image);
+                response.setMessage(encodeFileToBase64(file));
+                response.setSucessfull(true);
+
+                /**
+                 * Aqui termina transformacion de file a base64
+                 */
+            } else {
+                response.setSucessfull(false);
+                response.setMessage(MSG_LOGOUT);
+            }
+
+        } catch (Exception ex) {
+            response.setSucessfull(false);
+            response.setMessage("" + ex.getMessage());
+        }
+        output.setResponse(response);
+        return output;
+
     }
 }
