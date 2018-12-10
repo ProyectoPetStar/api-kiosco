@@ -65,6 +65,7 @@ public class UploadProtectorPantalla extends HttpServlet {
             }catch(Exception error){
                 action = request.getParameter("action");
             }
+            
             switch(action){
                 case "insertUploadProtectorPantalla":                    
                    output = pantalla.insertUploadProtectorPantalla(request);
