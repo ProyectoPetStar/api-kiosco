@@ -46,7 +46,7 @@ public class Configuration {
     public static void setHeadersFile(HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type , Authorization");
         response.setHeader("Allow", "GET, HEAD, POST, TRACE, OPTIONS");
     }
     
