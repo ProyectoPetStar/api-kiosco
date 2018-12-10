@@ -247,7 +247,14 @@ public class ControllerUrlKioscos {
         try {
             UrlKioscoJson data = new UrlKioscoJson();
             UrlKioscoDao urlDao = new UrlKioscoDao();
-            data.setListUrlKiosco(urlDao.getUrlKiosco());
+
+            List<UrlKioscosDTO> apps = urlDao.getUrlKiosco();
+
+            for (UrlKioscosDTO item : apps) {
+                File file = new File(Configuration.PATH_URLS + item.getImagen());
+                item.setImagen(encodeFileToBase64(file));
+            }
+            data.setListUrlKiosco(apps);
             output.setData(data);
             response.setMessage(MSG_SUCESS);
             response.setSucessfull(true);
