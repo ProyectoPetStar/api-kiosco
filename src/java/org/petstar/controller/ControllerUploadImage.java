@@ -6,8 +6,10 @@
 package org.petstar.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.UUID;
@@ -25,7 +27,7 @@ import org.petstar.model.ResponseJson;
  */
 public class ControllerUploadImage {
     
-    public OutputJson uploadImage(HttpServletRequest request) throws Exception{
+    public OutputJson uploadImage(HttpServletRequest request) throws FileNotFoundException, IOException, ParseException, Exception{
         OutputJson outputJson = new OutputJson();
         ResponseJson responseJson = new ResponseJson();
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();

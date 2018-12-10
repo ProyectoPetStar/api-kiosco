@@ -6,29 +6,32 @@
 package org.petstar.service;
 
 import com.google.gson.Gson;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import org.apache.commons.io.IOUtils;
 import org.petstar.configurations.Configuration;
-import org.petstar.controller.ControllerLogin;
-import org.petstar.controller.ControllerUploadImage;
 import org.petstar.model.OutputJson;
 import org.petstar.model.ResponseJson;
 
 /**
  *
- * @author Alfredo Neri
+ * @author Ramiro
  */
-@WebServlet(name = "UploadImage", urlPatterns = {"/UploadImage"})
-public class UploadImage extends HttpServlet {
+@WebServlet(name = "UploadShape", urlPatterns = {"/UploadShape"})
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 15, // 15 MB
+        maxFileSize = 1024 * 1024 * 15, // 15 MB
+        maxRequestSize = 1024 * 1024 * 15, // 15 MB
+        location = Configuration.PATH_PROTECTOR
+)
+public class UploadShape extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,36 +43,34 @@ public class UploadImage extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, FileNotFoundException, ParseException, Exception {
+            throws ServletException, IOException {
         Configuration.setHeadersJson(response);
-        
         PrintWriter out = response.getWriter();
         OutputJson output = new OutputJson();
-        ControllerUploadImage controller = new ControllerUploadImage();
-
+        ResponseJson responseJson = new ResponseJson();
         Gson gson = new Gson();
-        try {
-            String action = request.getParameter("action");
-            switch (action) {
-                case "uploadImage":
-                    output = controller.uploadImage(request);
-                    break;
-                default:
-                    ResponseJson reponseJson = new ResponseJson();
-                    reponseJson.setSucessfull(false);
-                    reponseJson.setMessage("Servicio no encontrado");
-                    output.setResponse(reponseJson);
-            }
-        } catch (Exception ex) {
-            ResponseJson reponseJson = new ResponseJson();
-            reponseJson.setSucessfull(false);
-            reponseJson.setMessage("" + ex.toString());
-            output.setResponse(reponseJson);
-        } finally {
+        String layerName = null;
+        
+        try{
+            
+        }catch(Exception ex){
+            responseJson.setMessage("Error" + ex.getMessage());
+            responseJson.setSucessfull(false);
+            output.setResponse(responseJson);
+        }finally{
             out.print(gson.toJson(output));
             out.close();
         }
     }
+    
+    public String getFileName(final Part part) {
+    for (String content : part.getHeader("content-disposition").split(";")) {
+        if (content.trim().startsWith("filename")) {
+            return content.substring(
+                    content.indexOf('=') + 1).trim().replace("\"", "");
+        }
+    }    return null;
+}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -82,14 +83,8 @@ public class UploadImage extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-
-        } catch (Exception ex) {
-            Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -102,17 +97,10 @@ public class UploadImage extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (Exception ex) {
-            Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-
+        processRequest(request, response);
     }
-
+    
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
         Configuration.setHeadersJson(response);
@@ -125,7 +113,7 @@ public class UploadImage extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "UploadShape";
     }// </editor-fold>
 
 }

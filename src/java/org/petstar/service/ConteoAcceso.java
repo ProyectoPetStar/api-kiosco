@@ -6,29 +6,24 @@
 package org.petstar.service;
 
 import com.google.gson.Gson;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.petstar.configurations.Configuration;
-import org.petstar.controller.ControllerLogin;
-import org.petstar.controller.ControllerUploadImage;
+import org.petstar.controller.ControllerConteoAcceso;
 import org.petstar.model.OutputJson;
 import org.petstar.model.ResponseJson;
 
 /**
  *
- * @author Alfredo Neri
+ * @author Ramiro
  */
-@WebServlet(name = "UploadImage", urlPatterns = {"/UploadImage"})
-public class UploadImage extends HttpServlet {
+@WebServlet(name = "ConteoAcceso", urlPatterns = {"/ConteoAcceso"})
+public class ConteoAcceso extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,34 +35,29 @@ public class UploadImage extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, FileNotFoundException, ParseException, Exception {
+            throws ServletException, IOException {
         Configuration.setHeadersJson(response);
         
-        PrintWriter out = response.getWriter();
+        PrintWriter printWriter = response.getWriter();
         OutputJson output = new OutputJson();
-        ControllerUploadImage controller = new ControllerUploadImage();
-
+        ControllerConteoAcceso controllerConteo = new ControllerConteoAcceso();
         Gson gson = new Gson();
-        try {
+        
+        try{
             String action = request.getParameter("action");
-            switch (action) {
-                case "uploadImage":
-                    output = controller.uploadImage(request);
+            switch(action){
+                case "insertConteoAcceso":
+                    output = controllerConteo.insertConteoAcceso(request);
                     break;
-                default:
-                    ResponseJson reponseJson = new ResponseJson();
-                    reponseJson.setSucessfull(false);
-                    reponseJson.setMessage("Servicio no encontrado");
-                    output.setResponse(reponseJson);
             }
-        } catch (Exception ex) {
-            ResponseJson reponseJson = new ResponseJson();
-            reponseJson.setSucessfull(false);
-            reponseJson.setMessage("" + ex.toString());
-            output.setResponse(reponseJson);
-        } finally {
-            out.print(gson.toJson(output));
-            out.close();
+        }catch(Exception ex){
+            ResponseJson responseJson = new ResponseJson();
+            responseJson.setMessage(ex.getMessage());
+            responseJson.setSucessfull(false);
+            output.setResponse(responseJson);
+        }finally{
+            printWriter.print(gson.toJson(output));
+            printWriter.close();
         }
     }
 
@@ -82,14 +72,8 @@ public class UploadImage extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-
-        } catch (Exception ex) {
-            Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -102,17 +86,10 @@ public class UploadImage extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (Exception ex) {
-            Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-
+        processRequest(request, response);
     }
-
+    
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
         Configuration.setHeadersJson(response);
