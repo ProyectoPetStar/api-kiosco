@@ -46,13 +46,9 @@ public class UploadProtectorPantalla extends HttpServlet {
         PrintWriter printWriter = response.getWriter();
         ControllerUploadProtectorPantalla pantalla = new ControllerUploadProtectorPantalla();
         try{
-            String action = "";
-            try{
-                action = IOUtils.toString(request.getPart("action").getInputStream(), "UTF-8");
-            }catch(Exception error){
-                action = request.getParameter("action");
-            }
             
+            String action = request.getParameter("action");
+
             switch(action){
                 case "insertUploadProtectorPantalla":                    
                    output = pantalla.insertUploadProtectorPantalla(request);
