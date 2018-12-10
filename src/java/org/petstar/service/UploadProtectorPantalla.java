@@ -30,8 +30,9 @@ import org.petstar.configurations.Configuration;
 
 /**
  *
- * @author Ramiro
+ * @author Tech-pro
  */
+@MultipartConfig
 @WebServlet(name = "UploadProtectorPantalla", urlPatterns = {"/UploadProtectorPantalla"})
 public class UploadProtectorPantalla extends HttpServlet {
 
@@ -134,6 +135,11 @@ public class UploadProtectorPantalla extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
+    
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        Configuration.setHeadersFile(response);
+    }
 
     /**
      * Returns a short description of the servlet.
@@ -142,7 +148,7 @@ public class UploadProtectorPantalla extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Service image";
     }// </editor-fold>
 
 }
