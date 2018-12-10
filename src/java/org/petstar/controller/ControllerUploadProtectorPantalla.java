@@ -35,33 +35,19 @@ public class ControllerUploadProtectorPantalla {
             int id_usuario = Integer.parseInt(idUsuario);
 
             final Part filePart = request.getPart("file");
-<<<<<<< HEAD
-            UploadShape ups = new UploadShape();
             
-            String nombreArchivo = ups.getFileName(filePart);
-            String subField = nombreArchivo.substring(nombreArchivo.length()-3, nombreArchivo.length());
-            String archivo = "protector_"+UUID.randomUUID() + "."+subField;
-            
-            File folder = new File("C:\\petstar\\images\\protectorPantalla\\");
-            if(!folder.exists()){
-=======
-
-
             String nombreArchivo = getFileName(filePart);
             String subField = nombreArchivo.substring(nombreArchivo.length() - 3, nombreArchivo.length());
+            String archivo = "protector_"+UUID.randomUUID() + "."+subField;
 
             File folder = new File("C:\\petstar\\protectorPantalla\\");
             if (!folder.exists()) {
->>>>>>> c0b73901fd25fcef801002e671d1ac37778b6eb6
                 folder.mkdir();
             }
 
             String sFichero = "";
-<<<<<<< HEAD
-            sFichero = "C:\\petstar\\images\\protectorPantalla\\" +archivo;
-=======
-            sFichero = "C:\\petstar\\protectorPantalla\\" + UUID.randomUUID() + "." + subField;
->>>>>>> c0b73901fd25fcef801002e671d1ac37778b6eb6
+
+            sFichero = "C:\\petstar\\images\\protectorPantalla\\" +archivo;         
 
             OutputStream outFile = null;
             InputStream filecontent = null;
