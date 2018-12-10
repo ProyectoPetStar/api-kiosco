@@ -22,7 +22,7 @@ import org.petstar.model.ResponseJson;
 
 /**
  *
- * @author Ramiro
+ * @author Tech-pro
  */
 
 @MultipartConfig
@@ -110,7 +110,7 @@ public class UploadProtectorPantalla extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Service image";
     }// </editor-fold>
 
 }
