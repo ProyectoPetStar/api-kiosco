@@ -40,14 +40,15 @@ public class ControllerUploadProtectorPantalla {
             
             String nombreArchivo = ups.getFileName(filePart);
             String subField = nombreArchivo.substring(nombreArchivo.length()-3, nombreArchivo.length());
+            String archivo = "protector_"+UUID.randomUUID() + "."+subField;
             
-            File folder = new File("C:\\petstar\\protectorPantalla\\");
+            File folder = new File("C:\\petstar\\images\\protectorPantalla\\");
             if(!folder.exists()){
                 folder.mkdir();
             }
 
             String sFichero = "";
-            sFichero = "C:\\petstar\\protectorPantalla\\" +UUID.randomUUID() + "."+subField;
+            sFichero = "C:\\petstar\\images\\protectorPantalla\\" +archivo;
 
             OutputStream outFile = null;
             InputStream filecontent = null;
@@ -63,7 +64,7 @@ public class ControllerUploadProtectorPantalla {
             
             imagen.setNombre(nombre);
             imagen.setDescripcion(descripcion);
-            imagen.setImagen(nombreArchivo);
+            imagen.setImagen(archivo);
             imagen.setId_usuario_registro(id_usuario);
             
             UploadProtectorPantallaDAO pantallaDao = new UploadProtectorPantallaDAO();            
