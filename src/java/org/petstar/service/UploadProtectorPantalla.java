@@ -5,6 +5,7 @@
  */
 package org.petstar.service;
 
+import com.google.gson.Gson;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -14,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -27,11 +29,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import org.apache.commons.io.IOUtils;
 import org.petstar.configurations.Configuration;
+import org.petstar.controller.ControllerUploadProtectorPantalla;
+import org.petstar.model.OutputJson;
+import org.petstar.model.ResponseJson;
 
 /**
  *
  * @author Ramiro
  */
+
+@MultipartConfig
 @WebServlet(name = "UploadProtectorPantalla", urlPatterns = {"/UploadProtectorPantalla"})
 public class UploadProtectorPantalla extends HttpServlet {
 
@@ -47,6 +54,10 @@ public class UploadProtectorPantalla extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Configuration.setHeadersFile(response);
+        OutputJson output = new OutputJson();
+        Gson gson = new Gson();
+        PrintWriter printWriter = response.getWriter();
+        ControllerUploadProtectorPantalla pantalla = new ControllerUploadProtectorPantalla();
         try{
             String action = "";
             try{
@@ -55,54 +66,18 @@ public class UploadProtectorPantalla extends HttpServlet {
                 action = request.getParameter("action");
             }
             switch(action){
-                case "insertUploadProtectorPantalla":
-                    String nombre = IOUtils.toString(request.getPart("nombre").getInputStream(), "UTF-8");
-                    String descripcion = IOUtils.toString(request.getPart("descripcion").getInputStream(), "UTF-8");
-                    String seleccion = IOUtils.toString(request.getPart("seleccion").getInputStream(), "UTF-8");
-                    String idUsuario = IOUtils.toString(request.getPart("id_usuario").getInputStream(), "UTF-8");
-                    
-                    int seleccion_imagen = Integer.parseInt(seleccion);
-                    int id_usuario = Integer.parseInt(idUsuario);
-                    
-                    final Part filePart = request.getPart("file");
-                    UploadShape ups = new UploadShape();
-                    
-                    String nombreArchivo = ups.getFileName(filePart);
-                    String subField = nombreArchivo.substring(nombreArchivo.length()-3, nombreArchivo.length());
-                                        
-                    File folder = new File("C:\\petstar\\protectorPantalla\\");
-                    if(!folder.exists()){
-                        folder.mkdir();
-                    }
-                    
-                    String sFichero = "";
-                    sFichero = "C:\\petstar\\protectorPantalla\\" +UUID.randomUUID() + subField;
-                    
-                    OutputStream outFile = null;
-                    InputStream filecontent = null;
-                    
-                    try{
-                        outFile = new FileOutputStream(new File(sFichero));
-                        filecontent = filePart.getInputStream();
-                        int read = 0;
-                        final byte[] bytes = new byte[1024];
-                        while((read = filecontent.read(bytes)) != -1){
-                            outFile.write(bytes, 0, read);
-                        }
-                    }catch(Exception ex){
-                        System.out.println(ex);
-                    }finally{
-                        if(outFile != null){
-                            outFile.close();
-                        }
-                        if(filecontent != null){
-                            filecontent.close();
-                        }
-                    }
-                    break;
+                case "insertUploadProtectorPantalla":                    
+                   output = pantalla.insertUploadProtectorPantalla(request);
+                   break;
             }
-        }catch(Exception ex){
-            response.getWriter().print(ex.getMessage());
+        } catch (Exception ex) {
+            ResponseJson responseJson = new ResponseJson();
+            responseJson.setMessage(ex.getMessage());
+            responseJson.setSucessfull(false);
+            output.setResponse(responseJson);
+        } finally {
+            printWriter.print(gson.toJson(output));
+            printWriter.close();
         }
     }
 
