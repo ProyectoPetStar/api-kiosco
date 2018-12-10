@@ -25,7 +25,7 @@ import org.petstar.model.ResponseJson;
 
 /**
  *
- * @author Alfredo Neri
+ * @author Tech-pro
  */
 @WebServlet(name = "UploadImage", urlPatterns = {"/UploadImage"})
 public class UploadImage extends HttpServlet {
