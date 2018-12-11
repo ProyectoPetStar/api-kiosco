@@ -69,8 +69,8 @@ public class UploadProtectorPantallaDAO {
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
         
-        sql.append("EXEC sp_updateImagen ?, ?, ?");
-        Object[] params = {imagen.getId_imagen(), imagen.getNombre(), imagen.getImagen()};
+        sql.append("EXEC sp_updateImagen ?, ?");
+        Object[] params = {imagen.getId_imagen(), imagen.getImagen()};
         
         qr.update(sql.toString(), params);
     }

@@ -152,7 +152,6 @@ public class ControllerUploadProtectorPantalla {
             imagenDTO ima = new imagenDTO();
             
             String idImagen = IOUtils.toString(request.getPart("id_imagen").getInputStream(), "UTF-8");
-            String nombre = IOUtils.toString(request.getPart("nombre").getInputStream(), "UTF-8");
             String imagen = IOUtils.toString(request.getPart("imagen").getInputStream(), "UTF-8");
             
             int id_imagen = Integer.parseInt(idImagen);
@@ -192,7 +191,6 @@ public class ControllerUploadProtectorPantalla {
             }
             
             ima.setId_imagen(id_imagen);
-            ima.setNombre(nombre);
             ima.setImagen(archivo);
             
             UploadProtectorPantallaDAO protectorDao = new UploadProtectorPantallaDAO();
