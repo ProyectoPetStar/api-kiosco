@@ -40,7 +40,7 @@ public class ControllerUploadProtectorPantalla {
             String subField = nombreArchivo.substring(nombreArchivo.length() - 3, nombreArchivo.length());
             String archivo = "protector_"+UUID.randomUUID() + "."+subField;
 
-            File folder = new File("C:\\petstar\\protectorPantalla\\");
+            File folder = new File("C:\\petstar\\images\\protectorPantalla\\");
             if (!folder.exists()) {
                 folder.mkdir();
             }
