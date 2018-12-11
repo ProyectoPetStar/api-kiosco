@@ -76,10 +76,10 @@ public class ControllerUploadProtectorPantalla {
             UploadProtectorPantallaDAO pantallaDao = new UploadProtectorPantallaDAO();
             pantallaDao.insertImagen(imagen);
 
-            response.setMessage("Ok");
+            response.setMessage(MSG_SUCESS);
             response.setSucessfull(true);
         } catch (Exception ex) {
-            response.setMessage("Error" + ex.getMessage());
+            response.setMessage(MSG_ERROR + ex.getMessage());
             response.setSucessfull(false);
         }
         output.setResponse(response);
@@ -113,6 +113,30 @@ public class ControllerUploadProtectorPantalla {
             response.setMessage(MSG_SUCESS);
             response.setSucessfull(true);
         } catch (Exception ex) {
+            response.setMessage(MSG_ERROR + ex.getMessage());
+            response.setSucessfull(false);
+        }
+        output.setResponse(response);
+        return output;
+    }
+    
+    public OutputJson updateDatosProtectorPantalla(HttpServletRequest request){
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+        
+        try{
+            imagenDTO imagen = new imagenDTO();
+            imagen.setId_imagen(Integer.parseInt(request.getParameter("id_imagen")));
+            imagen.setNombre(request.getParameter("nombre"));
+            imagen.setDescripcion(request.getParameter("descripcion"));
+            imagen.setId_usuario_modifica_registro(Integer.parseInt(request.getParameter("id_usuario_modifica_registro")));
+            
+            UploadProtectorPantallaDAO protectorDao = new UploadProtectorPantallaDAO();
+            protectorDao.updateDatosProtectorPantalla(imagen);
+            
+            response.setMessage(MSG_SUCESS);
+            response.setSucessfull(true);
+        }catch(Exception ex){
             response.setMessage(MSG_ERROR + ex.getMessage());
             response.setSucessfull(false);
         }
