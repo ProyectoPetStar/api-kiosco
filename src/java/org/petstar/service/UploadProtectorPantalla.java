@@ -53,6 +53,9 @@ public class UploadProtectorPantalla extends HttpServlet {
                 case "insertUploadProtectorPantalla":                    
                    output = pantalla.insertUploadProtectorPantalla(request);
                    break;
+                case "getProtectorPantalla":
+                    output = pantalla.getProtectorPantalla(request);
+                   break;
             }
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();

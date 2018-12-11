@@ -17,14 +17,17 @@ import org.apache.commons.io.IOUtils;
 import org.petstar.dao.UploadProtectorPantallaDAO;
 import org.petstar.dto.imagenDTO;
 import org.petstar.model.OutputJson;
+import org.petstar.model.ProtectorPantallaJson;
 import org.petstar.model.ResponseJson;
 /**
  *
  * @author Ramiro
  */
 public class ControllerUploadProtectorPantalla {
+    private static final String MSG_SUCESS = "OK";
+    private static final String MSG_ERROR  = "Descripción de error: ";
 
-    public OutputJson insertUploadProtectorPantalla(HttpServletRequest request) throws Exception {
+    public OutputJson insertUploadProtectorPantalla(HttpServletRequest request){
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
         try {
@@ -73,6 +76,31 @@ public class ControllerUploadProtectorPantalla {
             response.setSucessfull(true);
         } catch (Exception ex) {
             response.setMessage("Error" + ex.getMessage());
+            response.setSucessfull(false);
+        }
+        output.setResponse(response);
+        return output;
+    }
+    
+    public OutputJson getProtectorPantalla(HttpServletRequest request){
+        int idImagen = Integer.parseInt(request.getParameter("id_imagen"));
+        
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+        
+        try{
+            UploadProtectorPantallaDAO protectorDao = new UploadProtectorPantallaDAO();
+            ProtectorPantallaJson data = new ProtectorPantallaJson();
+            
+            data.setImagen(protectorDao.getProtectorPantallaById(idImagen));
+            
+            //File file = new File("C:\\petstar\\images\\ProtectorPantalla\\" + data.setImagen(nombre));
+            
+            output.setData(data);
+            response.setMessage(MSG_SUCESS);
+            response.setSucessfull(true);
+        }catch(Exception ex){
+            response.setMessage(MSG_ERROR + ex.getMessage());
             response.setSucessfull(false);
         }
         output.setResponse(response);
