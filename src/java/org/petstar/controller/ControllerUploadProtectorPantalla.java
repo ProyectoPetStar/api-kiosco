@@ -102,7 +102,7 @@ public class ControllerUploadProtectorPantalla {
              * Aqui inicia transformacion de imagen a base 64
              */
             File file = new File("C:\\petstar\\images\\ProtectorPantalla\\" + img.getImagen());
-            img.setImagen(encodeFileToBase64(file));
+            img.setImg_base64(encodeFileToBase64(file));
 
             /**
              * Aqui termina transformacion de file a base64
