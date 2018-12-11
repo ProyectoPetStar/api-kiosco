@@ -49,8 +49,18 @@ public class UploadProtectorPantallaDAO {
                 imagen.setFecha_modifica_registro(sumarFechasDias(imagen.getFecha_modifica_registro(), 2));
                 imagen.setFecha_modifica_registro_string(convertSqlToDay(imagen.getFecha_modifica_registro()));
             }
-        }
-        
+        }       
         return imagen;
+    }
+    
+    public void updateDatosProtectorPantalla(imagenDTO imagen) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_updateDatosImagen ?, ?, ?, ?");
+        Object[] params = {imagen.getId_imagen(), imagen.getNombre(), imagen.getDescripcion(), imagen.getId_usuario_modifica_registro()};
+        
+        qr.update(sql.toString(), params);
     }
 }
