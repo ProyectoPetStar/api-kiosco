@@ -144,6 +144,71 @@ public class ControllerUploadProtectorPantalla {
         return output;
     }
 
+    public OutputJson updateImagen(HttpServletRequest request){
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+        
+        try{
+            imagenDTO ima = new imagenDTO();
+            
+            String idImagen = IOUtils.toString(request.getPart("id_imagen").getInputStream(), "UTF-8");
+            String nombre = IOUtils.toString(request.getPart("nombre").getInputStream(), "UTF-8");
+            String imagen = IOUtils.toString(request.getPart("imagen").getInputStream(), "UTF-8");
+            
+            int id_imagen = Integer.parseInt(idImagen);
+            
+            final Part filePart = request.getPart("file");
+
+            String nombreArchivo = getFileName(filePart);
+            String subField = nombreArchivo.substring(nombreArchivo.length() - 3, nombreArchivo.length());
+            String archivo = "protector_" + UUID.randomUUID() + "." + subField;
+
+            File folder = new File("C:\\petstar\\images\\protectorPantalla\\");
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+
+            String sFichero = "";
+            String sFicheroDos = "";
+
+            sFichero = "C:\\petstar\\images\\protectorPantalla\\" + archivo;
+            sFicheroDos = "C:\\petstar\\images\\protectorPantalla\\" + imagen;
+            
+            File fichero = new File(sFicheroDos);
+            if(fichero.exists()){
+                fichero.delete();
+            }
+
+            OutputStream outFile = null;
+            InputStream filecontent = null;
+
+            outFile = new FileOutputStream(new File(sFichero));
+            filecontent = filePart.getInputStream();
+            int read = 0;
+
+            final byte[] bytes = new byte[1024];
+            while ((read = filecontent.read(bytes)) != -1) {
+                outFile.write(bytes, 0, read);
+            }
+            
+            ima.setId_imagen(id_imagen);
+            ima.setNombre(nombre);
+            ima.setImagen(archivo);
+            
+            UploadProtectorPantallaDAO protectorDao = new UploadProtectorPantallaDAO();
+            protectorDao.updateImagen(ima);
+            
+            response.setMessage(MSG_SUCESS);
+            response.setSucessfull(true);
+            
+        }catch(Exception ex){
+            response.setMessage(MSG_ERROR + ex.getMessage());
+            response.setSucessfull(false);
+        }
+        output.setResponse(response);
+        return output;
+    }
+        
     public String getFileName(final Part part) {
         for (String content : part.getHeader("content-disposition").split(";")) {
             if (content.trim().startsWith("filename")) {

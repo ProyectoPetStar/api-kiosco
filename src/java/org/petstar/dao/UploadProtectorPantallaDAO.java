@@ -63,4 +63,15 @@ public class UploadProtectorPantallaDAO {
         
         qr.update(sql.toString(), params);
     }
+    
+    public void updateImagen(imagenDTO imagen) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_updateImagen ?, ?, ?");
+        Object[] params = {imagen.getId_imagen(), imagen.getNombre(), imagen.getImagen()};
+        
+        qr.update(sql.toString(), params);
+    }
 }
