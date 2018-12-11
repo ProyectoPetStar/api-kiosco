@@ -21,6 +21,8 @@ public class imagenDTO {
     private Date fecha_registro;
     private int id_usuario_modifica_registro;
     private Date fecha_modifica_registro;
+    private String fecha_registro_string;
+    private String fecha_modifica_registro_string;
 
     public int getId_imagen() {
         return id_imagen;
@@ -93,6 +95,20 @@ public class imagenDTO {
     public void setFecha_modifica_registro(Date fecha_modifica_registro) {
         this.fecha_modifica_registro = fecha_modifica_registro;
     }
-    
-    
+
+    public String getFecha_registro_string() {
+        return fecha_registro_string;
+    }
+
+    public void setFecha_registro_string(String fecha_registro_string) {
+        this.fecha_registro_string = fecha_registro_string;
+    }
+
+    public String getFecha_modifica_registro_string() {
+        return fecha_modifica_registro_string;
+    }
+
+    public void setFecha_modifica_registro_string(String fecha_modifica_registro_string) {
+        this.fecha_modifica_registro_string = fecha_modifica_registro_string;
+    }   
 }

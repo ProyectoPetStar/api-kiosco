@@ -97,7 +97,7 @@ public class KioscoDAO {
         KioscoDTO datosKiosco = (KioscoDTO) qr.query(sql.toString(), rsh, params);
         CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
         
-        if(datosKiosco!= null){
+        if(datosKiosco != null){
             datosKiosco.setFecha_registro(sumarFechasDias(datosKiosco.getFecha_registro(), 2));
             datosKiosco.setFecha_registro_string(convertSqlToDay(datosKiosco.getFecha_registro()));
 
