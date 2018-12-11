@@ -14,20 +14,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import org.apache.commons.io.IOUtils;
+import org.petstar.configurations.Configuration;
+import static org.petstar.configurations.Utils.encodeFileToBase64;
 import org.petstar.dao.UploadProtectorPantallaDAO;
 import org.petstar.dto.imagenDTO;
 import org.petstar.model.OutputJson;
 import org.petstar.model.ProtectorPantallaJson;
 import org.petstar.model.ResponseJson;
+
 /**
  *
  * @author Ramiro
  */
 public class ControllerUploadProtectorPantalla {
-    private static final String MSG_SUCESS = "OK";
-    private static final String MSG_ERROR  = "Descripción de error: ";
 
-    public OutputJson insertUploadProtectorPantalla(HttpServletRequest request){
+    private static final String MSG_SUCESS = "OK";
+    private static final String MSG_ERROR = "Descripción de error: ";
+
+    public OutputJson insertUploadProtectorPantalla(HttpServletRequest request) {
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
         try {
@@ -38,10 +42,10 @@ public class ControllerUploadProtectorPantalla {
             int id_usuario = Integer.parseInt(idUsuario);
 
             final Part filePart = request.getPart("file");
-            
+
             String nombreArchivo = getFileName(filePart);
             String subField = nombreArchivo.substring(nombreArchivo.length() - 3, nombreArchivo.length());
-            String archivo = "protector_"+UUID.randomUUID() + "."+subField;
+            String archivo = "protector_" + UUID.randomUUID() + "." + subField;
 
             File folder = new File("C:\\petstar\\images\\protectorPantalla\\");
             if (!folder.exists()) {
@@ -50,7 +54,7 @@ public class ControllerUploadProtectorPantalla {
 
             String sFichero = "";
 
-            sFichero = "C:\\petstar\\images\\protectorPantalla\\" +archivo;         
+            sFichero = "C:\\petstar\\images\\protectorPantalla\\" + archivo;
 
             OutputStream outFile = null;
             InputStream filecontent = null;
@@ -81,25 +85,34 @@ public class ControllerUploadProtectorPantalla {
         output.setResponse(response);
         return output;
     }
-    
-    public OutputJson getProtectorPantalla(HttpServletRequest request){
+
+    public OutputJson getProtectorPantalla(HttpServletRequest request) {
         int idImagen = Integer.parseInt(request.getParameter("id_imagen"));
-        
+
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
-        
-        try{
+
+        try {
             UploadProtectorPantallaDAO protectorDao = new UploadProtectorPantallaDAO();
             ProtectorPantallaJson data = new ProtectorPantallaJson();
-            
-            data.setImagen(protectorDao.getProtectorPantallaById(idImagen));
-            
-            //File file = new File("C:\\petstar\\images\\ProtectorPantalla\\" + data.setImagen(nombre));
-            
+
+            imagenDTO img = protectorDao.getProtectorPantallaById(idImagen);
+
+            /**
+             * Aqui inicia transformacion de imagen a base 64
+             */
+            File file = new File("C:\\petstar\\images\\ProtectorPantalla\\" + img.getImagen());
+            img.setImagen(encodeFileToBase64(file));
+
+            /**
+             * Aqui termina transformacion de file a base64
+             */
+            data.setImagen(img);
+
             output.setData(data);
             response.setMessage(MSG_SUCESS);
             response.setSucessfull(true);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             response.setMessage(MSG_ERROR + ex.getMessage());
             response.setSucessfull(false);
         }
