@@ -54,8 +54,8 @@ public class Utils {
      */
     public static String encodeFileToBase64(File file) throws IOException {
         String encodedfile = null;
-        try {
-            FileInputStream fileInputStreamReader = new FileInputStream(file);
+        FileInputStream fileInputStreamReader = new FileInputStream(file);
+        try {            
             byte[] bytes = new byte[(int) file.length()];
             fileInputStreamReader.read(bytes);
             encodedfile = new String(Base64.getEncoder().encode(bytes), "UTF-8");
@@ -65,6 +65,8 @@ public class Utils {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }finally{
+            fileInputStreamReader.close();
         }
         return encodedfile;
     }
