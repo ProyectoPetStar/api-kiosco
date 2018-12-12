@@ -15,6 +15,7 @@ import org.petstar.configurations.PoolDataSource;
 import static org.petstar.configurations.Utils.convertSqlToDay;
 import static org.petstar.configurations.Utils.convertSqlToDayHour;
 import static org.petstar.configurations.Utils.sumarFechasDias;
+import org.petstar.dto.ResultString;
 import org.petstar.dto.imagenDTO;
 
 /**
@@ -98,7 +99,7 @@ public class UploadProtectorPantallaDAO {
         return lista;
     }
     
-    public void seleccionImagen(imagenDTO imagen) throws Exception{
+    public ResultString seleccionImagen(imagenDTO imagen) throws Exception{
         DataSource ds = PoolDataSource.getDataSource();
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
@@ -106,6 +107,8 @@ public class UploadProtectorPantallaDAO {
         sql.append("EXEC sp_seleccionImagen ?, ?");
         Object[] params = {imagen.getId_imagen(), imagen.getId_usuario_modifica_registro()};
         
-        qr.update(sql.toString(), params);
+        ResultSetHandler rsh = new BeanHandler(ResultString.class);
+        ResultString fecha = (ResultString) qr.query(sql.toString(), rsh ,params);
+        return fecha;
     }
 }

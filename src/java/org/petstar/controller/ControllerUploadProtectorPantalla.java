@@ -18,6 +18,7 @@ import org.apache.commons.io.IOUtils;
 import org.petstar.configurations.Configuration;
 import static org.petstar.configurations.Utils.encodeFileToBase64;
 import org.petstar.dao.UploadProtectorPantallaDAO;
+import org.petstar.dto.ResultString;
 import org.petstar.dto.imagenDTO;
 import org.petstar.model.OutputJson;
 import org.petstar.model.ProtectorPantallaJson;
@@ -250,9 +251,9 @@ public class ControllerUploadProtectorPantalla {
             imagen.setId_usuario_modifica_registro(Integer.parseInt(request.getParameter("id_usuario_modifica_registro")));
             
             UploadProtectorPantallaDAO protectorDao = new UploadProtectorPantallaDAO();
-            protectorDao.seleccionImagen(imagen);
+            ResultString fecha = protectorDao.seleccionImagen(imagen);
             
-            response.setMessage(MSG_SUCESS);
+            response.setMessage(fecha.getResult());
             response.setSucessfull(true);
         }catch(Exception ex){
             response.setMessage(MSG_ERROR + ex.getMessage());
