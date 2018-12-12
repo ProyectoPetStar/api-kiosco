@@ -61,6 +61,9 @@ public class UploadProtectorPantalla extends HttpServlet {
                    break;
                 case "updateImagen":
                    output = pantalla.updateImagen(request);
+                   break;                   
+                case "getAllImagen":
+                   output = pantalla.getAllImagen(request);
                    break;
             }
         } catch (Exception ex) {

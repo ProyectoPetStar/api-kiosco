@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -204,6 +205,33 @@ public class ControllerUploadProtectorPantalla {
             response.setMessage(archivo);
             response.setSucessfull(true);
             
+        }catch(Exception ex){
+            response.setMessage(MSG_ERROR + ex.getMessage());
+            response.setSucessfull(false);
+        }
+        output.setResponse(response);
+        return output;
+    }
+    
+    public OutputJson getAllImagen(HttpServletRequest request){
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+        
+        try{
+            ProtectorPantallaJson data = new ProtectorPantallaJson();
+            UploadProtectorPantallaDAO dao = new UploadProtectorPantallaDAO();
+            
+            List<imagenDTO> lista = dao.getAllKioscos();
+            
+            for(imagenDTO ima : lista){
+                File file = new File("C:\\petstar\\images\\ProtectorPantalla\\" + ima.getImagen());
+                ima.setImg_base64(encodeFileToBase64(file));
+            }
+            
+            data.setListImagen(lista);
+            output.setData(data);
+            response.setMessage(MSG_SUCESS);
+            response.setSucessfull(true);
         }catch(Exception ex){
             response.setMessage(MSG_ERROR + ex.getMessage());
             response.setSucessfull(false);
