@@ -13,6 +13,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.petstar.configurations.PoolDataSource;
 import static org.petstar.configurations.Utils.convertSqlToDay;
+import static org.petstar.configurations.Utils.convertSqlToDayHour;
 import static org.petstar.configurations.Utils.sumarFechasDias;
 import org.petstar.dto.imagenDTO;
 
@@ -48,8 +49,7 @@ public class UploadProtectorPantallaDAO {
             imagen.setFecha_registro_string(convertSqlToDay(imagen.getFecha_registro()));
             
             if(imagen.getFecha_modifica_registro() != null){
-                imagen.setFecha_modifica_registro(sumarFechasDias(imagen.getFecha_modifica_registro(), 2));
-                imagen.setFecha_modifica_registro_string(convertSqlToDay(imagen.getFecha_modifica_registro()));
+                imagen.setFecha_modifica_registro_string(convertSqlToDayHour(imagen.getFecha_modifica_registro()));
             }
         }       
         return imagen;
@@ -92,10 +92,20 @@ public class UploadProtectorPantallaDAO {
             imagen.setFecha_registro_string(convertSqlToDay(imagen.getFecha_registro()));
             
             if(imagen.getFecha_modifica_registro() != null){
-                imagen.setFecha_modifica_registro(sumarFechasDias(imagen.getFecha_modifica_registro(), 2));
-                imagen.setFecha_modifica_registro_string(convertSqlToDay(imagen.getFecha_modifica_registro()));
+                imagen.setFecha_modifica_registro_string(convertSqlToDayHour(imagen.getFecha_modifica_registro()));
             }
         }
         return lista;
+    }
+    
+    public void seleccionImagen(imagenDTO imagen) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_seleccionImagen ?, ?");
+        Object[] params = {imagen.getId_imagen(), imagen.getId_usuario_modifica_registro()};
+        
+        qr.update(sql.toString(), params);
     }
 }
