@@ -239,6 +239,28 @@ public class ControllerUploadProtectorPantalla {
         output.setResponse(response);
         return output;
     }
+    
+    public OutputJson seleccionImagen(HttpServletRequest request){
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+        
+        try{
+            imagenDTO imagen = new imagenDTO();
+            imagen.setId_imagen(Integer.parseInt(request.getParameter("id_imagen")));
+            imagen.setId_usuario_modifica_registro(Integer.parseInt(request.getParameter("id_usuario_modifica_registro")));
+            
+            UploadProtectorPantallaDAO protectorDao = new UploadProtectorPantallaDAO();
+            protectorDao.seleccionImagen(imagen);
+            
+            response.setMessage(MSG_SUCESS);
+            response.setSucessfull(true);
+        }catch(Exception ex){
+            response.setMessage(MSG_ERROR + ex.getMessage());
+            response.setSucessfull(false);
+        }
+        output.setResponse(response);
+        return output;
+    }
         
     public String getFileName(final Part part) {
         for (String content : part.getHeader("content-disposition").split(";")) {
@@ -249,5 +271,4 @@ public class ControllerUploadProtectorPantalla {
         }
         return null;
     }
-
 }

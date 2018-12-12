@@ -98,4 +98,15 @@ public class UploadProtectorPantallaDAO {
         }
         return lista;
     }
+    
+    public void seleccionImagen(imagenDTO imagen) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_seleccionImagen ?, ?");
+        Object[] params = {imagen.getId_imagen(), imagen.getId_usuario_modifica_registro()};
+        
+        qr.update(sql.toString(), params);
+    }
 }
