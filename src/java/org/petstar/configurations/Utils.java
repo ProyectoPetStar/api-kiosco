@@ -66,7 +66,7 @@ public class Utils {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }finally{
-            fileInputStreamReader.close();
+             fileInputStreamReader.close();
         }
         return encodedfile;
     }

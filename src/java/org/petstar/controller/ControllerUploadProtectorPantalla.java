@@ -67,6 +67,9 @@ public class ControllerUploadProtectorPantalla {
             while ((read = filecontent.read(bytes)) != -1) {
                 outFile.write(bytes, 0, read);
             }
+            
+            outFile.flush();
+            outFile.close();
 
             imagen.setNombre(nombre);
             imagen.setDescripcion(descripcion);
@@ -171,7 +174,7 @@ public class ControllerUploadProtectorPantalla {
             String sFicheroDos = "";
 
             sFichero = "C:\\petstar\\images\\protectorPantalla\\" + archivo;
-            sFicheroDos = "C:\\petstar\\images\\protectorPantalla\\" + imagen;
+            sFicheroDos = "C:\\petstar\\images\\protectorPantalla/" + imagen;
             
             File fichero = new File(sFicheroDos);
             if(fichero.exists()){
@@ -189,6 +192,8 @@ public class ControllerUploadProtectorPantalla {
             while ((read = filecontent.read(bytes)) != -1) {
                 outFile.write(bytes, 0, read);
             }
+            outFile.flush();
+            outFile.close();
             
             ima.setId_imagen(id_imagen);
             ima.setImagen(archivo);
@@ -196,7 +201,7 @@ public class ControllerUploadProtectorPantalla {
             UploadProtectorPantallaDAO protectorDao = new UploadProtectorPantallaDAO();
             protectorDao.updateImagen(ima);
             
-            response.setMessage(MSG_SUCESS);
+            response.setMessage(archivo);
             response.setSucessfull(true);
             
         }catch(Exception ex){
