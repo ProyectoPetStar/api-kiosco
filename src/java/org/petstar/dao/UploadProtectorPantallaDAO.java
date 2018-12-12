@@ -49,7 +49,6 @@ public class UploadProtectorPantallaDAO {
             imagen.setFecha_registro_string(convertSqlToDay(imagen.getFecha_registro()));
             
             if(imagen.getFecha_modifica_registro() != null){
-                imagen.setFecha_modifica_registro(sumarFechasDias(imagen.getFecha_modifica_registro(), 2));
                 imagen.setFecha_modifica_registro_string(convertSqlToDayHour(imagen.getFecha_modifica_registro()));
             }
         }       
@@ -93,7 +92,6 @@ public class UploadProtectorPantallaDAO {
             imagen.setFecha_registro_string(convertSqlToDay(imagen.getFecha_registro()));
             
             if(imagen.getFecha_modifica_registro() != null){
-                imagen.setFecha_modifica_registro(sumarFechasDias(imagen.getFecha_modifica_registro(), 2));
                 imagen.setFecha_modifica_registro_string(convertSqlToDayHour(imagen.getFecha_modifica_registro()));
             }
         }
