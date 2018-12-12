@@ -38,6 +38,13 @@ public class Utils {
 
         return sFecha;
     }
+    
+    public static String convertSqlToDayHour(java.sql.Date fecha) {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        String sFecha = format.format(fecha);
+
+        return sFecha;
+    }
 
     public static java.sql.Date sumarFechasDias(java.sql.Date fch, int dias) {
         Calendar cal = new GregorianCalendar();

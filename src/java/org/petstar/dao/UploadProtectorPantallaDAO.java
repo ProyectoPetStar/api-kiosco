@@ -13,6 +13,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.petstar.configurations.PoolDataSource;
 import static org.petstar.configurations.Utils.convertSqlToDay;
+import static org.petstar.configurations.Utils.convertSqlToDayHour;
 import static org.petstar.configurations.Utils.sumarFechasDias;
 import org.petstar.dto.imagenDTO;
 
@@ -49,7 +50,7 @@ public class UploadProtectorPantallaDAO {
             
             if(imagen.getFecha_modifica_registro() != null){
                 imagen.setFecha_modifica_registro(sumarFechasDias(imagen.getFecha_modifica_registro(), 2));
-                imagen.setFecha_modifica_registro_string(convertSqlToDay(imagen.getFecha_modifica_registro()));
+                imagen.setFecha_modifica_registro_string(convertSqlToDayHour(imagen.getFecha_modifica_registro()));
             }
         }       
         return imagen;
@@ -93,7 +94,7 @@ public class UploadProtectorPantallaDAO {
             
             if(imagen.getFecha_modifica_registro() != null){
                 imagen.setFecha_modifica_registro(sumarFechasDias(imagen.getFecha_modifica_registro(), 2));
-                imagen.setFecha_modifica_registro_string(convertSqlToDay(imagen.getFecha_modifica_registro()));
+                imagen.setFecha_modifica_registro_string(convertSqlToDayHour(imagen.getFecha_modifica_registro()));
             }
         }
         return lista;
