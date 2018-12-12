@@ -48,14 +48,14 @@ public class ControllerUploadProtectorPantalla {
             String subField = nombreArchivo.substring(nombreArchivo.length() - 3, nombreArchivo.length());
             String archivo = "protector_" + UUID.randomUUID() + "." + subField;
 
-            File folder = new File("C:\\petstar\\images\\protectorPantalla\\");
+            File folder = new File(Configuration.PATH_PROTECTOR);
             if (!folder.exists()) {
                 folder.mkdir();
             }
 
             String sFichero = "";
 
-            sFichero = "C:\\petstar\\images\\protectorPantalla\\" + archivo;
+            sFichero = Configuration.PATH_PROTECTOR + archivo;
 
             OutputStream outFile = null;
             InputStream filecontent = null;
@@ -105,7 +105,7 @@ public class ControllerUploadProtectorPantalla {
             /**
              * Aqui inicia transformacion de imagen a base 64
              */
-            File file = new File("C:\\petstar\\images\\ProtectorPantalla\\" + img.getImagen());
+            File file = new File(Configuration.PATH_PROTECTOR + img.getImagen());
             img.setImg_base64(encodeFileToBase64(file));
 
             /**
@@ -166,7 +166,7 @@ public class ControllerUploadProtectorPantalla {
             String subField = nombreArchivo.substring(nombreArchivo.length() - 3, nombreArchivo.length());
             String archivo = "protector_" + UUID.randomUUID() + "." + subField;
 
-            File folder = new File("C:\\petstar\\images\\protectorPantalla\\");
+            File folder = new File(Configuration.PATH_PROTECTOR);
             if (!folder.exists()) {
                 folder.mkdir();
             }
@@ -174,8 +174,8 @@ public class ControllerUploadProtectorPantalla {
             String sFichero = "";
             String sFicheroDos = "";
 
-            sFichero = "C:\\petstar\\images\\protectorPantalla\\" + archivo;
-            sFicheroDos = "C:\\petstar\\images\\protectorPantalla/" + imagen;
+            sFichero = Configuration.PATH_PROTECTOR + archivo;
+            sFicheroDos = Configuration.PATH_PROTECTOR + imagen;
             
             File fichero = new File(sFicheroDos);
             if(fichero.exists()){
@@ -224,7 +224,7 @@ public class ControllerUploadProtectorPantalla {
             List<imagenDTO> lista = dao.getAllKioscos();
             
             for(imagenDTO ima : lista){
-                File file = new File("C:\\petstar\\images\\ProtectorPantalla\\" + ima.getImagen());
+                File file = new File(Configuration.PATH_PROTECTOR + ima.getImagen());
                 ima.setImg_base64(encodeFileToBase64(file));
             }
             
