@@ -68,6 +68,9 @@ public class UploadProtectorPantalla extends HttpServlet {
                 case "seleccionImagen":
                    output = pantalla.seleccionImagen(request);
                    break;
+                case "deleteImagen":
+                   output = pantalla.deleteImagen(request);
+                   break;
             }
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();

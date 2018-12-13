@@ -15,6 +15,7 @@ import org.petstar.configurations.PoolDataSource;
 import static org.petstar.configurations.Utils.convertSqlToDay;
 import static org.petstar.configurations.Utils.convertSqlToDayHour;
 import static org.petstar.configurations.Utils.sumarFechasDias;
+import org.petstar.dto.ResultInteger;
 import org.petstar.dto.ResultString;
 import org.petstar.dto.imagenDTO;
 
@@ -110,5 +111,40 @@ public class UploadProtectorPantallaDAO {
         ResultSetHandler rsh = new BeanHandler(ResultString.class);
         ResultString fecha = (ResultString) qr.query(sql.toString(), rsh ,params);
         return fecha;
+    }
+    
+    public ResultInteger validaSeleccionImagen(int idImagen) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_validaSeleccionImagen ?");
+        Object[] params ={idImagen};
+        
+        ResultSetHandler rsh = new BeanHandler(ResultInteger.class);
+        ResultInteger result = (ResultInteger) qr.query(sql.toString(), rsh, params);
+                
+        return result;
+    }
+    
+    public void updateDefaultImagen() throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_updateSeleccionDefault");
+        
+        qr.update(sql.toString());
+    }
+    
+    public void deleteImagen(imagenDTO imagen) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_deleteImagen ?");
+        Object[] params = {imagen.getId_imagen()};
+        
+        qr.update(sql.toString(), params);
     }
 }
