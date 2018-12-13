@@ -18,6 +18,7 @@ import org.apache.commons.io.IOUtils;
 import org.petstar.configurations.Configuration;
 import static org.petstar.configurations.Utils.encodeFileToBase64;
 import org.petstar.dao.UploadProtectorPantallaDAO;
+import org.petstar.dto.ResultInteger;
 import org.petstar.dto.ResultString;
 import org.petstar.dto.imagenDTO;
 import org.petstar.model.OutputJson;
@@ -254,6 +255,51 @@ public class ControllerUploadProtectorPantalla {
             ResultString fecha = protectorDao.seleccionImagen(imagen);
             
             response.setMessage(fecha.getResult());
+            response.setSucessfull(true);
+        }catch(Exception ex){
+            response.setMessage(MSG_ERROR + ex.getMessage());
+            response.setSucessfull(false);
+        }
+        output.setResponse(response);
+        return output;
+    }
+    
+    public OutputJson deleteImagen(HttpServletRequest request){
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+        
+        try{
+            imagenDTO imagen = new imagenDTO();
+            imagen.setId_imagen(Integer.parseInt(request.getParameter("id_imagen")));
+            imagen.setImagen(request.getParameter("imagen"));
+            
+            UploadProtectorPantallaDAO protectorDao = new UploadProtectorPantallaDAO();     
+            
+            ResultInteger result = protectorDao.validaSeleccionImagen(imagen.getId_imagen());
+            
+            if(result.getResult().equals(1)){
+                protectorDao.updateDefaultImagen();        
+                protectorDao.deleteImagen(imagen);                
+            }else
+            {
+                protectorDao.deleteImagen(imagen);              
+            }
+            
+            File folder = new File(Configuration.PATH_PROTECTOR);
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+
+            String sFichero = "";
+            
+            sFichero = Configuration.PATH_PROTECTOR + imagen.getImagen();
+                        
+            File fichero = new File(sFichero);
+            if(fichero.exists()){
+                fichero.delete();
+            }        
+            
+            response.setMessage(MSG_SUCESS);
             response.setSucessfull(true);
         }catch(Exception ex){
             response.setMessage(MSG_ERROR + ex.getMessage());
