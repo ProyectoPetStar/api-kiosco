@@ -30,7 +30,7 @@ public class SocketServer {
 
     @OnClose
     public void onClose(Session session) {
-        //System.out.println("onClose::" +  session.getId());
+        this.onMessage("{type: 'info_dashboard'}", session);
     }
 
     @OnMessage
