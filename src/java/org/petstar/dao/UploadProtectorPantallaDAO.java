@@ -147,4 +147,32 @@ public class UploadProtectorPantallaDAO {
         
         qr.update(sql.toString(), params);
     }
+    
+    public ResultInteger insertValidaNombre(String nombre) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_insertValidaNombreImagen ?");
+        Object[] params ={nombre};
+        
+        ResultSetHandler rsh = new BeanHandler(ResultInteger.class);
+        ResultInteger result = (ResultInteger) qr.query(sql.toString(), rsh, params);
+                
+        return result;       
+    }
+    
+    public ResultInteger updateValidaNombre(int idImagen, String nombre) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_updateValidaNombre ?, ?");
+        Object[] params = {idImagen, nombre};
+        
+        ResultSetHandler rsh = new BeanHandler(ResultInteger.class);
+        ResultInteger result = (ResultInteger) qr.query(sql.toString(), rsh, params);
+        
+        return result;
+    }
 }
