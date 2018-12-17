@@ -254,6 +254,7 @@ public class ControllerUrlKioscos {
                 File file = new File(Configuration.PATH_URLS + item.getImagen());
                 item.setImagen(encodeFileToBase64(file));
             }
+            data.setPrivateIp(request.getRemoteAddr());
             data.setListUrlKiosco(apps);
             output.setData(data);
             response.setMessage(MSG_SUCESS);

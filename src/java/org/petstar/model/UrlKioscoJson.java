@@ -15,6 +15,7 @@ import org.petstar.dto.UrlKioscosDTO;
 public class UrlKioscoJson {
     private UrlKioscosDTO urlKiosco;
     private List<UrlKioscosDTO> listUrlKiosco;
+    private String privateIp;
 
     public UrlKioscosDTO getUrlKiosco() {
         return urlKiosco;
@@ -31,4 +32,14 @@ public class UrlKioscoJson {
     public void setListUrlKiosco(List<UrlKioscosDTO> listUrlKiosco) {
         this.listUrlKiosco = listUrlKiosco;
     }   
+
+    public String getPrivateIp() {
+        return privateIp;
+    }
+
+    public void setPrivateIp(String privateIp) {
+        this.privateIp = privateIp;
+    }
+    
+
 }
