@@ -60,7 +60,7 @@ public class SocketServer {
         Iterator<Session> sesiones = session.getOpenSessions().iterator();
 
         while (sesiones.hasNext()) {
-            String cadena_template = "{ip_publica:PUBLICA,ip_privada:PRIVADA}";
+            String cadena_template = "{\"ip_publica\":\"PUBLICA\",\"ip_privada\":\"PRIVADA\"}";
             Session session_index = sesiones.next();
             String rol = session_index.getPathParameters().get("role");
 
