@@ -47,8 +47,7 @@ public class UploadProtectorPantallaDAO {
         imagenDTO imagen = (imagenDTO) qr.query(sql.toString(), rsh, params);
         
         if(imagen != null){
-            imagen.setFecha_registro(sumarFechasDias(imagen.getFecha_registro(), 2));
-            imagen.setFecha_registro_string(convertSqlToDay(imagen.getFecha_registro()));
+            imagen.setFecha_registro_string(convertSqlToDayHour(imagen.getFecha_registro()));
             
             if(imagen.getFecha_modifica_registro() != null){
                 imagen.setFecha_modifica_registro_string(convertSqlToDayHour(imagen.getFecha_modifica_registro()));
@@ -90,8 +89,7 @@ public class UploadProtectorPantallaDAO {
         List<imagenDTO> lista = (List<imagenDTO>) qr.query(sql.toString(), rsh);
         
         for(imagenDTO imagen : lista){
-            imagen.setFecha_registro(sumarFechasDias(imagen.getFecha_registro(), 2));
-            imagen.setFecha_registro_string(convertSqlToDay(imagen.getFecha_registro()));
+            imagen.setFecha_registro_string(convertSqlToDayHour(imagen.getFecha_registro()));
             
             if(imagen.getFecha_modifica_registro() != null){
                 imagen.setFecha_modifica_registro_string(convertSqlToDayHour(imagen.getFecha_modifica_registro()));
