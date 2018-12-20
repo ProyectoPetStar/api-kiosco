@@ -119,4 +119,16 @@ public class CatalogoPlantaDAO {
         
         qr.update(sql.toString(), params);
     }
+    
+    public List<CatalogoPlantaDTO> getAllPlantasActivas() throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_selectPlantaActivo");
+        
+        ResultSetHandler rsh = new BeanListHandler(CatalogoPlantaDTO.class);
+        List<CatalogoPlantaDTO> lista = (List<CatalogoPlantaDTO>) qr.query(sql.toString(), rsh);
+        return lista;
+    }   
 }

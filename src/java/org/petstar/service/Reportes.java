@@ -49,6 +49,9 @@ public class Reportes extends HttpServlet {
                 case "conteoKiosco":
                     output = controllerReportes.getConteoKiosco(request);
                     break;
+                case "reporteByDia":
+                    output = controllerReportes.reporteByDia(request);
+                    break;
             }
         }catch(Exception ex){
             ResponseJson responseJson = new ResponseJson();
@@ -88,6 +91,11 @@ public class Reportes extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+    }
+    
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        Configuration.setHeadersJson(response);
     }
 
     /**

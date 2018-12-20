@@ -5,6 +5,7 @@
  */
 package org.petstar.dao;
 
+import java.sql.Date;
 import java.util.List;
 import javax.sql.DataSource;
 import org.apache.commons.dbutils.QueryRunner;
@@ -54,5 +55,18 @@ public class ReportesDAO {
         ResultSetHandler rsh = new BeanHandler(PlantaDTO.class);
         PlantaDTO aplicacion = (PlantaDTO) qr.query(sql.toString(), rsh);
         return aplicacion;
+    }
+    
+    public List<ReportesDTO> reporteByDia(int idKiosco, int idPlanta, Date fecha) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_selectReporteByDia ?, ?, ?");
+        Object[] params = {idKiosco, idPlanta, fecha};
+        
+        ResultSetHandler rsh = new BeanListHandler(ReportesDTO.class);
+        List<ReportesDTO> lista = (List<ReportesDTO>) qr.query(sql.toString(), rsh, params);
+        return lista;
     }
 }
