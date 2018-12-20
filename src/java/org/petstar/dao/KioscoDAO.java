@@ -148,4 +148,28 @@ public class KioscoDAO {
         ResultInteger count = (ResultInteger) qr.query(sql.toString(), rsh, params);
         return count;
     }
+    
+    public List<KioscoDTO> getAllKioscosActivos() throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_selectKioscoActivo");
+        
+        ResultSetHandler rsh = new BeanListHandler(KioscoDTO.class);
+        List<KioscoDTO> lista = (List<KioscoDTO>) qr.query(sql.toString(), rsh);
+        CatalogoPlantaDAO plantaDao = new CatalogoPlantaDAO();
+        
+        for(KioscoDTO kiosco : lista){
+            kiosco.setFecha_registro(sumarFechasDias(kiosco.getFecha_registro(), 2));
+            kiosco.setFecha_registro_string(convertSqlToDay(kiosco.getFecha_registro()));
+
+            if(null != kiosco.getFecha_modifica_registro()){
+                kiosco.setFecha_modifica_registro(sumarFechasDias(kiosco.getFecha_modifica_registro(), 2));
+                kiosco.setFecha_modifica_registro_string(convertSqlToDay(kiosco.getFecha_modifica_registro()));
+            }
+            kiosco.setPlanta(plantaDao.getAllPlantasById(kiosco.getId_planta()));
+        }
+        return lista;
+    }
 }

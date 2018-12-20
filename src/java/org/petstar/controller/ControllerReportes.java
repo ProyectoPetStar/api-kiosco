@@ -5,7 +5,10 @@
  */
 package org.petstar.controller;
 
+import java.sql.Date;
+import java.text.ParseException;
 import javax.servlet.http.HttpServletRequest;
+import static org.petstar.configurations.Utils.convertStringToSql;
 import org.petstar.dao.CatalogoPlantaDAO;
 import org.petstar.dao.KioscoDAO;
 import org.petstar.dao.ReportesDAO;
@@ -24,10 +27,8 @@ public class ControllerReportes {
     private static final String MSG_LOGOUT = "Inicie sesión nuevamente";
     private static final String MSG_ERROR  = "Descripción de error: ";
     private static final String MSG_SUCESS = "OK";
-    private static final String MSG_INVALID = "Valor o Descripción ya existe";
     private static final String MSG_PERFIL = "Este perfil no cuenta con los permisos para realizar la acción";
-    private static final String MSG_IP = "Ya esta en uso la IP ";
-    
+        
     public OutputJson getConteoKiosco(HttpServletRequest request){
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
         OutputJson output = new OutputJson();
@@ -45,8 +46,8 @@ public class ControllerReportes {
                    PlantaDTO plantaUtilzada = reportes.plantaMasUtilizada();
                    
                    data.setListReportes(reportes.conteoKiosco());
-                   data.setListPlanta(planta.getAllPlantas());
-                   data.setListKiosco(kiosco.getAllKioscos());
+                   data.setListPlanta(planta.getAllPlantasActivas());
+                   data.setListKiosco(kiosco.getAllKioscosActivos());
                    data.setAplicacion(aplicacion);
                    data.setPlanta(plantaUtilzada);
                    
@@ -61,6 +62,43 @@ public class ControllerReportes {
                response.setMessage(MSG_LOGOUT);
                response.setSucessfull(false);
            }
+        }catch(Exception ex){
+            response.setMessage(MSG_ERROR + ex.getMessage());
+            response.setSucessfull(false);
+        }
+        output.setResponse(response);
+        return output;
+    }
+    
+    public OutputJson reporteByDia(HttpServletRequest request) {
+        ControllerAutenticacion autenticacion = new ControllerAutenticacion();
+        OutputJson output = new OutputJson();
+        ResponseJson response = new ResponseJson();
+        
+        try{
+            int idKiosco = Integer.parseInt(request.getParameter("id_kiosco"));
+            int idPlanta = Integer.parseInt(request.getParameter("id_planta"));
+            Date fecha = convertStringToSql(request.getParameter("fecha"));
+            
+            UserDTO sesion = autenticacion.isValidToken(request);
+            if(sesion != null){
+                if(sesion.getId_perfil() == 1){
+                    ReportesJson data = new ReportesJson();
+                    ReportesDAO reportes = new ReportesDAO();
+                    
+                    data.setListReportes(reportes.reporteByDia(idKiosco, idPlanta, fecha));
+                    
+                    output.setData(data);
+                    response.setMessage(MSG_SUCESS);
+                    response.setSucessfull(true);
+                }else{
+                    response.setMessage(MSG_PERFIL);
+                    response.setSucessfull(false);
+                }
+            }else{
+                response.setMessage(MSG_LOGOUT);
+                response.setSucessfull(false);
+            }
         }catch(Exception ex){
             response.setMessage(MSG_ERROR + ex.getMessage());
             response.setSucessfull(false);
