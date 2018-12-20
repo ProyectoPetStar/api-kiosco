@@ -12,7 +12,7 @@ import org.petstar.model.ResponseJson;
 
 /**
  *
- * @author Ramiro
+ * @author Tech-Pro
  */
 public class ControllerConteoAcceso {
     private static final String MSG_SUCESS = "OK";
