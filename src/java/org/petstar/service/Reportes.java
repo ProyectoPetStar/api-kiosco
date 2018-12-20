@@ -52,6 +52,9 @@ public class Reportes extends HttpServlet {
                 case "reporteByDia":
                     output = controllerReportes.reporteByDia(request);
                     break;
+                case "reporteByAplicacion":
+                    output = controllerReportes.reporteByAplicacion(request);
+                    break;
             }
         }catch(Exception ex){
             ResponseJson responseJson = new ResponseJson();

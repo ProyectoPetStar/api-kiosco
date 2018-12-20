@@ -69,4 +69,17 @@ public class ReportesDAO {
         List<ReportesDTO> lista = (List<ReportesDTO>) qr.query(sql.toString(), rsh, params);
         return lista;
     }
+    
+    public List<ReportesDTO> reporteByAplicacion(int idKiosco, int idPlanta, Date fecha) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_selectReportByKiosco ?, ?, ?");
+        Object[] params = {idKiosco, idPlanta, fecha};
+        
+        ResultSetHandler rsh = new BeanListHandler(ReportesDTO.class);
+        List<ReportesDTO> lista = (List<ReportesDTO>) qr.query(sql.toString(), rsh, params);
+        return lista;
+    }
 }
