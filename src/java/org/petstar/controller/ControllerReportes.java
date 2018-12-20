@@ -106,4 +106,41 @@ public class ControllerReportes {
         output.setResponse(response);
         return output;
     }
+    
+    public OutputJson reporteByAplicacion(HttpServletRequest request) {
+        ControllerAutenticacion autenticacion = new ControllerAutenticacion();
+        OutputJson output = new OutputJson();
+        ResponseJson response = new ResponseJson();
+        
+        try{
+            int idKiosco = Integer.parseInt(request.getParameter("id_kiosco"));
+            int idPlanta = Integer.parseInt(request.getParameter("id_planta"));
+            Date fecha = convertStringToSql(request.getParameter("fecha"));
+            
+            UserDTO sesion = autenticacion.isValidToken(request);
+            if(sesion != null){
+                if(sesion.getId_perfil() == 1){
+                    ReportesJson data = new ReportesJson();
+                    ReportesDAO reportes = new ReportesDAO();
+                    
+                    data.setListReportes(reportes.reporteByAplicacion(idKiosco, idPlanta, fecha));
+                    
+                    output.setData(data);
+                    response.setMessage(MSG_SUCESS);
+                    response.setSucessfull(true);
+                }else{
+                    response.setMessage(MSG_PERFIL);
+                    response.setSucessfull(false);
+                }
+            }else{
+                response.setMessage(MSG_LOGOUT);
+                response.setSucessfull(false);
+            }
+        }catch(Exception ex){
+            response.setMessage(MSG_ERROR + ex.getMessage());
+            response.setSucessfull(false);
+        }
+        output.setResponse(response);
+        return output;
+    }
 }
