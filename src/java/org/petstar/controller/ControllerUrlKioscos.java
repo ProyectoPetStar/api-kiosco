@@ -249,13 +249,43 @@ public class ControllerUrlKioscos {
             UrlKioscoDao urlDao = new UrlKioscoDao();
 
             List<UrlKioscosDTO> apps = urlDao.getUrlKiosco();
+            String nombre_wallpaper = urlDao.getNameWallpaper().getResult();
+            
+            File file_wallpaper = new File(Configuration.PATH_PROTECTOR + nombre_wallpaper);
+            data.setWallpaper(encodeFileToBase64(file_wallpaper));
 
             for (UrlKioscosDTO item : apps) {
                 File file = new File(Configuration.PATH_URLS + item.getImagen());
                 item.setImagen(encodeFileToBase64(file));
             }
-            data.setPrivateIp(request.getRemoteAddr());
+           
             data.setListUrlKiosco(apps);
+            output.setData(data);
+            response.setMessage(MSG_SUCESS);
+            response.setSucessfull(true);
+        } catch (Exception ex) {
+            response.setMessage(MSG_ERROR + ex.getMessage());
+            response.setSucessfull(false);
+        }
+        output.setResponse(response);
+        return output;
+    }
+    
+     public OutputJson getStartKiosco(HttpServletRequest request) {
+
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+
+        try {
+            UrlKioscoJson data = new UrlKioscoJson();
+            UrlKioscoDao urlDao = new UrlKioscoDao();
+
+            String nombre_wallpaper = urlDao.getNameWallpaper().getResult();
+            
+            File file_wallpaper = new File(Configuration.PATH_PROTECTOR + nombre_wallpaper);
+            data.setWallpaper(encodeFileToBase64(file_wallpaper)); 
+            
+            data.setPrivateIp(request.getRemoteAddr());
             output.setData(data);
             response.setMessage(MSG_SUCESS);
             response.setSucessfull(true);

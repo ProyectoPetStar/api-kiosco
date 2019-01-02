@@ -16,6 +16,7 @@ import static org.petstar.configurations.Utils.convertSqlToDay;
 import static org.petstar.configurations.Utils.sumarFechasDias;
 import org.petstar.dto.ResultInteger;
 import org.petstar.dto.UrlKioscosDTO;
+import org.petstar.dto.ResultString;
 
 /**
  *
@@ -151,5 +152,15 @@ public class UrlKioscoDao {
         Object[] params = {idUrlKiosco};
         
         qr.update(sql.toString(), params);
+    }
+    
+    public ResultString getNameWallpaper() throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        sql.append("EXEC sp_selectNombreImagenByActivo ");
+        ResultSetHandler rsh = new BeanHandler(ResultString.class);
+        ResultString wallpaper = (ResultString) qr.query(sql.toString(), rsh );
+        return wallpaper;
     }
 }

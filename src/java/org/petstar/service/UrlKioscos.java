@@ -61,6 +61,9 @@ public class UrlKioscos extends HttpServlet {
                 case "deleteUrlKiosco":
                     output = controllerUrl.deleteUrlKiosco(request);
                     break;
+                case "getStartKiosco":
+                     output = controllerUrl.getStartKiosco(request);
+                    break;
                 case "getAllApps":
                     output = controllerUrl.getAllApps(request);
                     break;
