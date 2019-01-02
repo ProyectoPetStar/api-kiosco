@@ -16,6 +16,7 @@ public class UrlKioscoJson {
     private UrlKioscosDTO urlKiosco;
     private List<UrlKioscosDTO> listUrlKiosco;
     private String privateIp;
+    private String wallpaper;
 
     public UrlKioscosDTO getUrlKiosco() {
         return urlKiosco;
@@ -40,6 +41,16 @@ public class UrlKioscoJson {
     public void setPrivateIp(String privateIp) {
         this.privateIp = privateIp;
     }
+
+    public String getWallpaper() {
+        return wallpaper;
+    }
+
+    public void setWallpaper(String wallpaper) {
+        this.wallpaper = wallpaper;
+    }
+    
+    
     
 
 }
