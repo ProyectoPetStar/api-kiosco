@@ -6,9 +6,6 @@
 package org.petstar.controller;
 
 import com.google.gson.Gson;
-import static com.oracle.jrockit.jfr.Transition.To;
-import java.sql.Date;
-import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
 import org.petstar.dao.UsersDAO;
@@ -16,23 +13,17 @@ import org.petstar.dto.ResultInteger;
 import org.petstar.model.OutputJson;
 import org.petstar.model.UserResponseJson;
 import org.petstar.dto.UserDTO;
-import static org.petstar.configurations.Utils.getCurrentDate;
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.PasswordAuthentication;
 import java.util.Properties;
 import java.util.UUID;
-import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.security.auth.Subject;
 import org.petstar.configurations.Configuration;
 import static org.petstar.configurations.Utils.encodeFileToBase64;
 import org.petstar.dto.CorreoDTO;
@@ -234,7 +225,7 @@ public class ControllerUsers {
                 correo.setUsuarioCorreo("rlunaaragon@gmail.com");
                 correo.setDestino(destino);
                 correo.setAsunto("Contraseña Nueva");
-                correo.setMensaje("Su nueva contraseña es " +contrasenia);
+                correo.setMensaje("Su nueva contraseña es: " +contrasenia);
                 
                 if(this.sendMessage(correo)){
                     user.changePassword(contrasenia, id.getResult());
