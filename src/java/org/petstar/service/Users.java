@@ -55,7 +55,10 @@ public class Users extends HttpServlet {
                     break;
                 case "getImage":
                     output = controller.getImage(request);
-                break;
+                    break;
+                case "recuperarPassword":
+                    output = controller.recuperarContrasenia(request);
+                    break;
             }
         } catch (Exception ex) {
             ResponseJson reponseJson = new ResponseJson();
