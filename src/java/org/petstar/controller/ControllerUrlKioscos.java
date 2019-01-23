@@ -281,11 +281,12 @@ public class ControllerUrlKioscos {
             UrlKioscoDao urlDao = new UrlKioscoDao();
 
             String nombre_wallpaper = urlDao.getNameWallpaper().getResult();
+           
             
             File file_wallpaper = new File(Configuration.PATH_PROTECTOR + nombre_wallpaper);
             data.setWallpaper(encodeFileToBase64(file_wallpaper)); 
             
-            data.setPrivateIp(request.getRemoteAddr());
+            
             output.setData(data);
             response.setMessage(MSG_SUCESS);
             response.setSucessfull(true);
