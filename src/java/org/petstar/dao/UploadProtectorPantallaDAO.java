@@ -103,12 +103,38 @@ public class UploadProtectorPantallaDAO {
         QueryRunner qr = new QueryRunner(ds);
         StringBuilder sql = new StringBuilder();
         
-        sql.append("EXEC sp_seleccionImagen ?, ?");
-        Object[] params = {imagen.getId_imagen(), imagen.getId_usuario_modifica_registro()};
+        sql.append("EXEC sp_seleccionImagen ?, ?, ?");
+        Object[] params = {imagen.getPosicion(), imagen.getId_usuario_modifica_registro(), imagen.getId_imagen()};
         
         ResultSetHandler rsh = new BeanHandler(ResultString.class);
         ResultString fecha = (ResultString) qr.query(sql.toString(), rsh ,params);
         return fecha;
+    }
+    
+    public ResultString seleccionNombreImagen(int id_imagen) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_selectNombreImagen ?");
+        Object[] params = {id_imagen};
+        
+        ResultSetHandler rsh = new BeanHandler(ResultString.class);
+        ResultString nombre = (ResultString) qr.query(sql.toString(), rsh, params);
+        return nombre;
+    }
+    
+    public ResultString seleccionNombreWallpaper(int posicion) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_nombreWallpaper ?");
+        Object[] params = {posicion};
+        
+        ResultSetHandler rsh = new BeanHandler(ResultString.class);
+        ResultString nombre = (ResultString) qr.query(sql.toString(), rsh, params);
+        return nombre;
     }
     
     public ResultInteger validaSeleccionImagen(int idImagen) throws Exception{

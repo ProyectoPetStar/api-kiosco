@@ -23,6 +23,8 @@ public class imagenDTO {
     private Date fecha_modifica_registro;
     private String fecha_registro_string;
     private String fecha_modifica_registro_string;
+    private String wallpaper;
+    private int posicion;
     
     /*
      * img_base64 variable solo para almacenar la img base64
@@ -124,6 +126,20 @@ public class imagenDTO {
     public void setImg_base64(String img_base64) {
         this.img_base64 = img_base64;
     }
-    
-    
+
+    public String getWallpaper() {
+        return wallpaper;
+    }
+
+    public void setWallpaper(String wallpaper) {
+        this.wallpaper = wallpaper;
+    }
+
+    public int getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
+    }   
 }
