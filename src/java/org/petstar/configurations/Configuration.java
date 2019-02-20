@@ -21,6 +21,7 @@ public class Configuration {
     public static final String PATH_PROTECTOR = "C:\\petstar\\images\\protectorPantalla\\";
     public static final String PATH_USUARIOS = "C:\\petstar\\images\\usuarios\\";
     public static final String PATH_PLANTAS = "C:\\petstar\\images\\plantas\\";
+    public static final String PATH_WALLPAPER = "C:\\petstar\\images\\wallpaper\\";
 
         
     /**

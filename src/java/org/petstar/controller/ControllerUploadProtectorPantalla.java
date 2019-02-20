@@ -6,7 +6,9 @@
 package org.petstar.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
@@ -322,20 +324,74 @@ public class ControllerUploadProtectorPantalla {
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
-        
+                
         try{
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
                 if(sesion.getId_perfil() == 1){
+                    int id_imagen = Integer.parseInt(request.getParameter("id_imagen"));
+                    int posicion = Integer.parseInt(request.getParameter("posicion"));
+                    
                     imagenDTO imagen = new imagenDTO();
+                    
+                    imagen.setPosicion(Integer.parseInt(request.getParameter("posicion")));
                     imagen.setId_imagen(Integer.parseInt(request.getParameter("id_imagen")));
                     imagen.setId_usuario_modifica_registro(Integer.parseInt(request.getParameter("id_usuario")));
-
+                   
                     UploadProtectorPantallaDAO protectorDao = new UploadProtectorPantallaDAO();
-                    ResultString fecha = protectorDao.seleccionImagen(imagen);
-
-                    response.setMessage(fecha.getResult());
-                    response.setSucessfull(true);
+                    
+                    
+                    
+                    ResultString nombreImagen = protectorDao.seleccionNombreImagen(id_imagen);
+                                        
+                    if(nombreImagen != null)
+                    {                     
+                        ResultString fecha = protectorDao.seleccionImagen(imagen);
+                        
+                        if(fecha != null)
+                        {
+                            File folder = new File(Configuration.PATH_WALLPAPER);
+                            if (!folder.exists()) {
+                                folder.mkdir();
+                            }
+                            
+                            if(this.copiarArchivo(nombreImagen.getResult()))
+                            {
+                                ResultString nombreWallpaper = protectorDao.seleccionNombreWallpaper(posicion);
+                                if(nombreWallpaper != null){
+                                    File f1 = new File(Configuration.PATH_WALLPAPER + nombreImagen.getResult());
+                                    File f2 = new File(Configuration.PATH_WALLPAPER + nombreWallpaper.getResult());
+                                    
+                                    boolean correcto = f1.renameTo(f2);
+                                    
+                                    if(correcto){
+                                        response.setMessage(fecha.getResult());
+                                        response.setSucessfull(true);
+                                    }
+                                    else{
+                                        response.setMessage("No se pudo renombrar el archivo");
+                                        response.setSucessfull(false);
+                                    }                                   
+                                }
+                                else{
+                                    response.setMessage("Error");
+                                    response.setSucessfull(false);
+                                }                              
+                            }
+                            else{
+                                response.setMessage("No se copio correctamente la imagen");
+                                response.setSucessfull(false);
+                            }                      
+                        }
+                        else{
+                            response.setMessage("NO TRAJO NADA");
+                            response.setSucessfull(false);
+                        }                        
+                    }
+                    else{
+                        response.setMessage("No se encontró el nombre");
+                        response.setSucessfull(false);
+                    }             
                 }else{
                     response.setMessage(MSG_PERFIL);
                     response.setSucessfull(false);
@@ -417,5 +473,36 @@ public class ControllerUploadProtectorPantalla {
             }
         }
         return null;
+    }
+    
+    public boolean copiarArchivo(String nombre){
+        File protector = new File(Configuration.PATH_PROTECTOR+nombre);
+        File wallpaper = new File(Configuration.PATH_WALLPAPER+nombre);
+        
+        if(protector.exists()){
+            try{
+                InputStream in = new FileInputStream(protector);
+                OutputStream out = new FileOutputStream(wallpaper);
+                
+                byte[] buf = new byte[1024];
+                int len;
+                
+                while((len = in.read(buf)) > 0){
+                    out.write(buf, 0, len);
+                }
+                
+                in.close();
+                out.close();
+                
+                return true;
+            }   
+            catch(IOException ioe){
+                ioe.printStackTrace();
+                return false;
+            }
+        }
+        else{
+            return false;
+        }        
     }
 }
