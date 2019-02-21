@@ -364,30 +364,30 @@ public class ControllerUploadProtectorPantalla {
 
                     ResultInteger result = protectorDao.validaSeleccionImagen(imagen.getId_imagen());
 
-                    if(result.getResult().equals(1)){
-                        protectorDao.updateDefaultImagen();        
-                        protectorDao.deleteImagen(imagen);                
-                    }else
-                    {
-                        protectorDao.deleteImagen(imagen);              
+                    if(result.getResult().equals(0)){
+                        protectorDao.deleteImagen(imagen);
+                        
+                        File folder = new File(Configuration.PATH_PROTECTOR);
+                        if (!folder.exists()) {
+                            folder.mkdir();
+                        }
+
+                        String sFichero = "";
+
+                        sFichero = Configuration.PATH_PROTECTOR + imagen.getImagen();
+
+                        File fichero = new File(sFichero);
+                        if(fichero.exists()){
+                            fichero.delete();
+                        }        
+
+                        response.setMessage(MSG_SUCESS);
+                        response.setSucessfull(true);
                     }
-
-                    File folder = new File(Configuration.PATH_PROTECTOR);
-                    if (!folder.exists()) {
-                        folder.mkdir();
-                    }
-
-                    String sFichero = "";
-
-                    sFichero = Configuration.PATH_PROTECTOR + imagen.getImagen();
-
-                    File fichero = new File(sFichero);
-                    if(fichero.exists()){
-                        fichero.delete();
-                    }        
-
-                    response.setMessage(MSG_SUCESS);
-                    response.setSucessfull(true);
+                    else{
+                        response.setMessage("La imagen se encuentra en uso, no se puede eliminar");
+                        response.setSucessfull(false);
+                    }                  
                 }else{
                     response.setMessage(MSG_PERFIL);
                     response.setSucessfull(false);
@@ -412,70 +412,5 @@ public class ControllerUploadProtectorPantalla {
             }
         }
         return null;
-    }
-    
-    public boolean copiarArchivo(String nombre){
-        File protector = new File(Configuration.PATH_PROTECTOR+nombre);
-        File wallpaper = new File(Configuration.PATH_WALLPAPER+nombre);
-        
-        if(protector.exists()){
-            try{
-                InputStream in = new FileInputStream(protector);
-                OutputStream out = new FileOutputStream(wallpaper);
-                
-                byte[] buf = new byte[1024];
-                int len;
-                
-                while((len = in.read(buf)) > 0){
-                    out.write(buf, 0, len);
-                }
-                
-                in.close();
-                out.close();
-                
-                return true;
-            }   
-            catch(IOException ioe){
-                ioe.printStackTrace();
-                return false;
-            }
-        }
-        else{
-            return false;
-        }        
-    }
-    
-    public OutputJson estatusImagenWallpaper(HttpServletRequest request){
-        ControllerAutenticacion autenticacion = new ControllerAutenticacion();
-        ResponseJson response = new ResponseJson();
-        OutputJson output = new OutputJson();
-        
-        try{
-            UserDTO sesion = autenticacion.isValidToken(request);
-            if(sesion != null){
-               if(sesion.getId_perfil() == 1){
-                   UploadProtectorPantallaDAO protector = new UploadProtectorPantallaDAO();
-                   int idImagen = Integer.parseInt(request.getParameter("id_imagen"));
-                   
-                   protector.seleccionarWallpaper(idImagen);
-                   response.setMessage(MSG_SUCESS);
-                   response.setSucessfull(true);
-               }
-               else{
-                   response.setMessage(MSG_PERFIL);
-                   response.setSucessfull(false);
-               }                   
-            }
-            else{
-                response.setMessage(MSG_LOGOUT);
-                response.setSucessfull(false);
-            }
-        }
-        catch(Exception ex){
-            response.setMessage(MSG_ERROR + ex.getMessage());
-            response.setSucessfull(false);
-        }
-        output.setResponse(response);
-        return output;
-    }
+    }    
 }
