@@ -199,4 +199,15 @@ public class UploadProtectorPantallaDAO {
         
         return result;
     }
+    
+    public void seleccionarWallpaper(int idImagen) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_seleccionarWallpaper ?");
+        Object[] params = {idImagen};
+        
+        qr.update(sql.toString(), params);        
+    }
 }
