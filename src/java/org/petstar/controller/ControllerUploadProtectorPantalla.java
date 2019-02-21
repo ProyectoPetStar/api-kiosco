@@ -131,16 +131,6 @@ public class ControllerUploadProtectorPantalla {
                     ProtectorPantallaJson data = new ProtectorPantallaJson();
 
                     imagenDTO img = protectorDao.getProtectorPantallaById(idImagen);
-
-                    /**
-                     * Aqui inicia transformacion de imagen a base 64
-                     */
-                    File file = new File(Configuration.PATH_PROTECTOR + img.getImagen());
-                    img.setImg_base64(encodeFileToBase64(file));
-
-                    /**
-                     * Aqui termina transformacion de file a base64
-                     */
                     data.setImagen(img);
 
                     output.setData(data);
@@ -294,11 +284,6 @@ public class ControllerUploadProtectorPantalla {
                     UploadProtectorPantallaDAO dao = new UploadProtectorPantallaDAO();
 
                     List<imagenDTO> lista = dao.getAllKioscos();
-
-                    for(imagenDTO ima : lista){
-                        File file = new File(Configuration.PATH_PROTECTOR + ima.getImagen());
-                        ima.setImg_base64(encodeFileToBase64(file));
-                    }
 
                     data.setListImagen(lista);
                     output.setData(data);
