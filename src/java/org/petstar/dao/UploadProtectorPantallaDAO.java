@@ -189,4 +189,18 @@ public class UploadProtectorPantallaDAO {
         
         return result;
     }   
+    
+    public ResultInteger validaWallpaper(int idImagen) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("Exec sp_validaWallpaper ?");
+        Object[] params = {idImagen};
+        
+        ResultSetHandler rsh = new BeanHandler(ResultInteger.class);
+        ResultInteger result = (ResultInteger) qr.query(sql.toString(), rsh, params);
+        
+        return result;
+    }
 }

@@ -309,26 +309,33 @@ public class ControllerUploadProtectorPantalla {
         ControllerAutenticacion autenticacion = new ControllerAutenticacion();
         ResponseJson response = new ResponseJson();
         OutputJson output = new OutputJson();
+        UploadProtectorPantallaDAO protectorDao = new UploadProtectorPantallaDAO();
+        imagenDTO imagen = new imagenDTO();
+        
+        imagen.setPosicion(Integer.parseInt(request.getParameter("posicion")));
+        imagen.setId_imagen(Integer.parseInt(request.getParameter("id_imagen")));
+        imagen.setId_usuario_modifica_registro(Integer.parseInt(request.getParameter("id_usuario")));
                 
         try{
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
                 if(sesion.getId_perfil() == 1){
-                    imagenDTO imagen = new imagenDTO();
+                    int idImagen = Integer.parseInt(request.getParameter("id_usuario"));
+                    ResultInteger valida = protectorDao.validaWallpaper(idImagen);
                     
-                    imagen.setPosicion(Integer.parseInt(request.getParameter("posicion")));
-                    imagen.setId_imagen(Integer.parseInt(request.getParameter("id_imagen")));
-                    imagen.setId_usuario_modifica_registro(Integer.parseInt(request.getParameter("id_usuario")));
-                   
-                    UploadProtectorPantallaDAO protectorDao = new UploadProtectorPantallaDAO();
-                    
-                    ResultString fecha = protectorDao.seleccionImagen(imagen);
-                    if(fecha != null){
-                        response.setMessage(fecha.getResult());
-                        response.setSucessfull(true);
+                    if(valida.getResult().equals(0)){
+                        ResultString fecha = protectorDao.seleccionImagen(imagen);
+                        if(fecha != null){
+                            response.setMessage(fecha.getResult());
+                            response.setSucessfull(true);
+                        }
+                        else{
+                            response.setMessage("ERROR NO SE CONCRETÓ LA ACCIÓN");
+                            response.setSucessfull(false);
+                        }
                     }
                     else{
-                        response.setMessage("ERROR NO SE CONCRETÓ LA ACCIÓN");
+                        response.setMessage("Esta imagen ya esta siendo utilizada en el protector, elija otra");
                         response.setSucessfull(false);
                     }
                 }else{
