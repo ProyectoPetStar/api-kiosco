@@ -320,7 +320,7 @@ public class ControllerUploadProtectorPantalla {
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
                 if(sesion.getId_perfil() == 1){
-                    int idImagen = Integer.parseInt(request.getParameter("id_usuario"));
+                    int idImagen = Integer.parseInt(request.getParameter("id_imagen"));
                     ResultInteger valida = protectorDao.validaWallpaper(idImagen);
                     
                     if(valida.getResult().equals(0)){
