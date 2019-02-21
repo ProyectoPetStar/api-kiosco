@@ -20,8 +20,7 @@ public class Configuration {
     public static final String PATH_KIOSCOS  = "C:\\xampp\\htdocs\\images_kiosco\\kioscos\\";
     public static final String PATH_PROTECTOR = "C:\\xampp\\htdocs\\images_kiosco\\protectorPantalla\\";
     public static final String PATH_USUARIOS = "C:\\xampp\\htdocs\\images_kiosco\\usuarios\\";
-    public static final String PATH_PLANTAS = "C:\\xampp\\htdocs\\images_kiosco\\plantas\\";
-    public static final String PATH_WALLPAPER = "C:\\xampp\\htdocs\\images_kiosco\\wallpaper\\";
+    public static final String PATH_PLANTAS = "C:\\xampp\\htdocs\\images_kiosco\\plantas\\";    
 
         
     /**
