@@ -434,5 +434,50 @@ public class ControllerUploadProtectorPantalla {
             }
         }
         return null;
-    }    
+    }
+    
+    public OutputJson changeStatus(HttpServletRequest request){
+        ControllerAutenticacion autenticacion = new ControllerAutenticacion();
+        ResponseJson response = new ResponseJson();
+        OutputJson output = new OutputJson();
+                
+        try{
+            UserDTO sesion = autenticacion.isValidToken(request);
+            if(sesion != null){
+                if(sesion.getId_perfil() == 1){
+                    UploadProtectorPantallaDAO protector = new UploadProtectorPantallaDAO();
+                    int idImagen = Integer.parseInt(request.getParameter("id_imagen"));
+                    
+                    protector.cambiarStatus(idImagen);
+                    if(protector != null){
+                        ProtectorPantallaJson data = new ProtectorPantallaJson();
+                        
+                        List<imagenDTO> lista = protector.getImagenesWallpaper(idImagen);
+                        
+                        int i = 0;
+                        for(imagenDTO ima : lista){
+                            protector.cambiarWallpaper(ima.getId_imagen(), i+1);
+                            i++;
+                        }                       
+                        response.setMessage(MSG_SUCESS);
+                        response.setSucessfull(true);
+                    }else{
+                        response.setMessage("ERROR");
+                        response.setSucessfull(false);
+                    }
+                }else{
+                    response.setMessage(MSG_PERFIL);
+                    response.setSucessfull(false);
+                }
+            }else{
+                response.setMessage(MSG_LOGOUT);
+                response.setSucessfull(false);
+            }
+        }catch(Exception ex){
+            response.setMessage(MSG_ERROR);
+            response.setSucessfull(false);
+        }
+        output.setResponse(response);
+        return output;
+    }
 }

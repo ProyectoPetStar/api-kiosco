@@ -203,4 +203,40 @@ public class UploadProtectorPantallaDAO {
         
         return result;
     }
+    
+    public void cambiarStatus(int idImagen) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_cambiarStatusImagen ?");
+        Object[] params = {idImagen};
+        
+        qr.update(sql.toString(), params);
+    }
+    
+    public List<imagenDTO> getImagenesWallpaper(int idImagen) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_selectImagenesWallpaper ?");
+        Object[] params = {idImagen};
+        
+        ResultSetHandler rsh = new BeanListHandler(imagenDTO.class);
+        List<imagenDTO> lista = (List<imagenDTO>) qr.query(sql.toString(), rsh, params);
+                
+        return lista;
+    }
+    
+    public void cambiarWallpaper(int idImagen, int posicion) throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_updateCampoWallpaper ?, ?");
+        Object[] params = {idImagen, posicion};
+        
+        qr.update(sql.toString(), params);
+    }
 }
