@@ -16,12 +16,12 @@ public class Configuration {
     /**
     * Se agregan rutas para guardar archivos de imagen
     */
-    public static final String PATH_URLS     = "C:\\petstar\\images\\urls\\";
-    public static final String PATH_KIOSCOS  = "C:\\petstar\\images\\kioscos\\";
-    public static final String PATH_PROTECTOR = "C:\\petstar\\images\\protectorPantalla\\";
-    public static final String PATH_USUARIOS = "C:\\petstar\\images\\usuarios\\";
-    public static final String PATH_PLANTAS = "C:\\petstar\\images\\plantas\\";
-    public static final String PATH_WALLPAPER = "C:\\petstar\\images\\wallpaper\\";
+    public static final String PATH_URLS     = "C:\\xampp\\htdocs\\images_kiosco\\urls\\";
+    public static final String PATH_KIOSCOS  = "C:\\xampp\\htdocs\\images_kiosco\\kioscos\\";
+    public static final String PATH_PROTECTOR = "C:\\xampp\\htdocs\\images_kiosco\\protectorPantalla\\";
+    public static final String PATH_USUARIOS = "C:\\xampp\\htdocs\\images_kiosco\\usuarios\\";
+    public static final String PATH_PLANTAS = "C:\\xampp\\htdocs\\images_kiosco\\plantas\\";
+    public static final String PATH_WALLPAPER = "C:\\xampp\\htdocs\\images_kiosco\\wallpaper\\";
 
         
     /**

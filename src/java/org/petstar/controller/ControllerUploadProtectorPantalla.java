@@ -340,7 +340,21 @@ public class ControllerUploadProtectorPantalla {
                    
                     UploadProtectorPantallaDAO protectorDao = new UploadProtectorPantallaDAO();
                     
+                    ResultString nombreAnterior = protectorDao.seleccionNombreWallpaper(posicion);
                     
+                    File folder = new File(Configuration.PATH_WALLPAPER);
+                    if (!folder.exists()) {
+                        folder.mkdir();
+                    }
+                    
+                    String sFichero = "";
+                    sFichero = Configuration.PATH_WALLPAPER + nombreAnterior.getResult();
+                    
+                    File fichero = new File(sFichero);
+                    
+                    if(fichero.exists()){
+                        fichero.delete();
+                    }
                     
                     ResultString nombreImagen = protectorDao.seleccionNombreImagen(id_imagen);
                                         
@@ -350,11 +364,6 @@ public class ControllerUploadProtectorPantalla {
                         
                         if(fecha != null)
                         {
-                            File folder = new File(Configuration.PATH_WALLPAPER);
-                            if (!folder.exists()) {
-                                folder.mkdir();
-                            }
-                            
                             if(this.copiarArchivo(nombreImagen.getResult()))
                             {
                                 ResultString nombreWallpaper = protectorDao.seleccionNombreWallpaper(posicion);
