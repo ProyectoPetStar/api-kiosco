@@ -329,9 +329,6 @@ public class ControllerUploadProtectorPantalla {
             UserDTO sesion = autenticacion.isValidToken(request);
             if(sesion != null){
                 if(sesion.getId_perfil() == 1){
-                    int id_imagen = Integer.parseInt(request.getParameter("id_imagen"));
-                    int posicion = Integer.parseInt(request.getParameter("posicion"));
-                    
                     imagenDTO imagen = new imagenDTO();
                     
                     imagen.setPosicion(Integer.parseInt(request.getParameter("posicion")));
@@ -340,67 +337,15 @@ public class ControllerUploadProtectorPantalla {
                    
                     UploadProtectorPantallaDAO protectorDao = new UploadProtectorPantallaDAO();
                     
-                    ResultString nombreAnterior = protectorDao.seleccionNombreWallpaper(posicion);
-                    
-                    File folder = new File(Configuration.PATH_WALLPAPER);
-                    if (!folder.exists()) {
-                        folder.mkdir();
-                    }
-                    
-                    String sFichero = "";
-                    sFichero = Configuration.PATH_WALLPAPER + nombreAnterior.getResult();
-                    
-                    File fichero = new File(sFichero);
-                    
-                    if(fichero.exists()){
-                        fichero.delete();
-                    }
-                    
-                    ResultString nombreImagen = protectorDao.seleccionNombreImagen(id_imagen);
-                                        
-                    if(nombreImagen != null)
-                    {                     
-                        ResultString fecha = protectorDao.seleccionImagen(imagen);
-                        
-                        if(fecha != null)
-                        {
-                            if(this.copiarArchivo(nombreImagen.getResult()))
-                            {
-                                ResultString nombreWallpaper = protectorDao.seleccionNombreWallpaper(posicion);
-                                if(nombreWallpaper != null){
-                                    File f1 = new File(Configuration.PATH_WALLPAPER + nombreImagen.getResult());
-                                    File f2 = new File(Configuration.PATH_WALLPAPER + nombreWallpaper.getResult());
-                                    
-                                    boolean correcto = f1.renameTo(f2);
-                                    
-                                    if(correcto){
-                                        response.setMessage(fecha.getResult());
-                                        response.setSucessfull(true);
-                                    }
-                                    else{
-                                        response.setMessage("No se pudo renombrar el archivo");
-                                        response.setSucessfull(false);
-                                    }                                   
-                                }
-                                else{
-                                    response.setMessage("Error");
-                                    response.setSucessfull(false);
-                                }                              
-                            }
-                            else{
-                                response.setMessage("No se copio correctamente la imagen");
-                                response.setSucessfull(false);
-                            }                      
-                        }
-                        else{
-                            response.setMessage("NO TRAJO NADA");
-                            response.setSucessfull(false);
-                        }                        
+                    ResultString fecha = protectorDao.seleccionImagen(imagen);
+                    if(fecha != null){
+                        response.setMessage(fecha.getResult());
+                        response.setSucessfull(true);
                     }
                     else{
-                        response.setMessage("No se encontró el nombre");
+                        response.setMessage("ERROR NO SE CONCRETÓ LA ACCIÓN");
                         response.setSucessfull(false);
-                    }             
+                    }
                 }else{
                     response.setMessage(MSG_PERFIL);
                     response.setSucessfull(false);
