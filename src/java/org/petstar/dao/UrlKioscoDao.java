@@ -163,4 +163,15 @@ public class UrlKioscoDao {
         ResultString wallpaper = (ResultString) qr.query(sql.toString(), rsh );
         return wallpaper;
     }
+    
+    public List<ResultString> getListNameWallpaper() throws Exception{
+        DataSource ds = PoolDataSource.getDataSource();
+        QueryRunner qr = new QueryRunner(ds);
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("EXEC sp_selectNombreImagenByActivo");
+        ResultSetHandler rsh = new BeanListHandler(ResultString.class);
+        List<ResultString> wallpaper = (List<ResultString>) qr.query(sql.toString(), rsh);
+        return wallpaper;
+    }
 }

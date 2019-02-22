@@ -6,6 +6,7 @@
 package org.petstar.model;
 
 import java.util.List;
+import org.petstar.dto.ResultString;
 import org.petstar.dto.UrlKioscosDTO;
 
 /**
@@ -15,8 +16,8 @@ import org.petstar.dto.UrlKioscosDTO;
 public class UrlKioscoJson {
     private UrlKioscosDTO urlKiosco;
     private List<UrlKioscosDTO> listUrlKiosco;
+    private List<ResultString> wallpapers;
     
-    private String wallpaper;
 
     public UrlKioscosDTO getUrlKiosco() {
         return urlKiosco;
@@ -34,15 +35,12 @@ public class UrlKioscoJson {
         this.listUrlKiosco = listUrlKiosco;
     }   
 
-    public String getWallpaper() {
-        return wallpaper;
+    public List<ResultString> getWallpapers() {
+        return wallpapers;
     }
 
-    public void setWallpaper(String wallpaper) {
-        this.wallpaper = wallpaper;
-    }
-    
-    
-    
-
+    public void setWallpapers(List<ResultString> wallpapers) {
+        this.wallpapers = wallpapers;
+    }  
+   
 }
