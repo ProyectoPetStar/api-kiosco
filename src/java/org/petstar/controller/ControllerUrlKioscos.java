@@ -19,7 +19,9 @@ import static org.petstar.configurations.Utils.convertStringToSql;
 import static org.petstar.configurations.Utils.encodeFileToBase64;
 import org.petstar.dao.UrlKioscoDao;
 import org.petstar.dto.ResultInteger;
+import org.petstar.dto.ResultString;
 import org.petstar.dto.UserDTO;
+import org.petstar.model.ResultStringJson;
 import org.petstar.model.UrlKioscoJson;
 
 /**
@@ -248,17 +250,15 @@ public class ControllerUrlKioscos {
             UrlKioscoJson data = new UrlKioscoJson();
             UrlKioscoDao urlDao = new UrlKioscoDao();
 
-            List<UrlKioscosDTO> apps = urlDao.getUrlKiosco();
-            String nombre_wallpaper = urlDao.getNameWallpaper().getResult();
+            List<UrlKioscosDTO> apps = urlDao.getUrlKiosco();           
+            List<ResultString> lista = urlDao.getListNameWallpaper();
             
-            File file_wallpaper = new File(Configuration.PATH_PROTECTOR + nombre_wallpaper);
-            data.setWallpaper(encodeFileToBase64(file_wallpaper));
-
             for (UrlKioscosDTO item : apps) {
                 File file = new File(Configuration.PATH_URLS + item.getImagen());
                 item.setImagen(encodeFileToBase64(file));
             }
            
+            data.setWallpapers(lista);
             data.setListUrlKiosco(apps);
             output.setData(data);
             response.setMessage(MSG_SUCESS);
@@ -277,16 +277,12 @@ public class ControllerUrlKioscos {
         OutputJson output = new OutputJson();
 
         try {
-            UrlKioscoJson data = new UrlKioscoJson();
+            ResultStringJson data = new ResultStringJson();
             UrlKioscoDao urlDao = new UrlKioscoDao();
 
-            String nombre_wallpaper = urlDao.getNameWallpaper().getResult();
+            List<ResultString> lista = urlDao.getListNameWallpaper();
            
-            
-            File file_wallpaper = new File(Configuration.PATH_PROTECTOR + nombre_wallpaper);
-            data.setWallpaper(encodeFileToBase64(file_wallpaper)); 
-            
-            
+            data.setListResultString(lista);
             output.setData(data);
             response.setMessage(MSG_SUCESS);
             response.setSucessfull(true);
