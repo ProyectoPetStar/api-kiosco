@@ -9,7 +9,7 @@ import java.sql.Date;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class ConteoAccesoDTO {
     private int id_conteo_acceso;

@@ -5,8 +5,7 @@
  */
 package org.petstar.dao;
 
-import java.sql.Date;
-import java.sql.SQLException;
+
 import org.petstar.configurations.PoolDataSource;
 import javax.sql.DataSource;
 import org.apache.commons.dbutils.QueryRunner;
@@ -18,7 +17,7 @@ import org.petstar.dto.UserDTO;
 
 /**
  *
- * @author Tech-Pro
+ * @author TECH-PRO
  */
 
 public class UsersDAO {

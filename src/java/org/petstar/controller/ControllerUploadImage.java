@@ -23,7 +23,7 @@ import org.petstar.model.ResponseJson;
 
 /**
  *
- * @author Alfredo Neri
+ * @author TECH-PRO
  */
 public class ControllerUploadImage {
     

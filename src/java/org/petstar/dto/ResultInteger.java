@@ -7,7 +7,7 @@ package org.petstar.dto;
 
 /**
  *
- * @author Tech-Pro
+ * @author TECH-PRO
  */
 public class ResultInteger {
     private Integer result;

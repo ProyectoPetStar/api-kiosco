@@ -18,7 +18,7 @@ import org.petstar.dto.ResultInteger;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class CatalogoPlantaDAO {
     

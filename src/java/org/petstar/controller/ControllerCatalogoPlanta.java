@@ -21,8 +21,8 @@ import org.petstar.model.OutputJson;
 import org.petstar.model.ResponseJson;
 
 /**
- *
- * @author Ramiro
+ * 
+ * @author TECH-PRO
  */
 public class ControllerCatalogoPlanta {
 

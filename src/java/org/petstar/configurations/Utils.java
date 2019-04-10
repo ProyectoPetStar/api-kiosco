@@ -20,8 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author Ramiro
+ * Clase de utilidades (metodos comunes utilizados en diferentes clases)
+ * @author TECH-PRO
  */
 public class Utils {
 

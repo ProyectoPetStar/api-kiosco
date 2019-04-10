@@ -10,7 +10,7 @@ import org.petstar.dto.CatalogoPlantaDTO;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class CatalogoPlantaJson {
     private CatalogoPlantaDTO planta;

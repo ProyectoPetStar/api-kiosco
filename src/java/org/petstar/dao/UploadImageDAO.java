@@ -11,7 +11,7 @@ import org.petstar.configurations.PoolDataSource;
 
 /**
  *
- * @author Alfredo Neri
+ * @author TECH-PRO
  */
 public class UploadImageDAO {
     

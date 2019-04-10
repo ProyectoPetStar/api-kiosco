@@ -19,7 +19,7 @@ import org.petstar.dto.ResultInteger;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class KioscoDAO {
     public ResultInteger insertValidaNombreKiosco (String nombre_kiosco) throws Exception{

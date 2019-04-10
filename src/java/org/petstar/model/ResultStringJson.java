@@ -10,7 +10,7 @@ import org.petstar.dto.ResultString;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class ResultStringJson {
     private ResultString result;

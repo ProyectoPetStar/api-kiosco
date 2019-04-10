@@ -19,7 +19,7 @@ import org.petstar.dto.UserDTO;
 
 /**
  * Controllador de Autenticación
- * @author Tech-Pro
+ * @author TECH-PRO
  */
 public class ControllerAutenticacion {
 

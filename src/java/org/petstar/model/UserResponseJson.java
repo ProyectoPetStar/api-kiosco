@@ -8,7 +8,7 @@ import org.petstar.dto.UserDTO;
 
 /**
  * Modelado de JSON Usuarios
- * @author Tech-Pro
+ * @author TECH-PRO
  */
 public class UserResponseJson extends ResponseJson{
     private UserDTO usuario;

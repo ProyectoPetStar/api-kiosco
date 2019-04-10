@@ -10,7 +10,7 @@ import org.petstar.dto.KioscoDTO;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class KioscoJson {
     private KioscoDTO kiosco;

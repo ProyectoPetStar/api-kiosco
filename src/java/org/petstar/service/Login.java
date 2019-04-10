@@ -14,10 +14,11 @@ import org.petstar.model.ResponseJson;
 import org.petstar.model.OutputJson;
 
 /**
+ * Clase java ENDPOINT
  * Clase que administra el control de acceso al sistema, en base al usuario y
  * contraseña proporcionados
  *
- * @author Tech-Pro
+ * @author TECH-PRO
  */
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {

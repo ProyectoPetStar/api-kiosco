@@ -10,15 +10,14 @@ import org.apache.commons.dbcp.BasicDataSource;
 
 /**
  * Clase que permite definir atributos y metodos de trabajo; 
- * @author Tech-Pro
+ * @author TECH-PRO
  */
 public class PoolDataSource {
 
     private static final String USERNAME = "mxetad";
     private static final String PASSWORD = "Tech-Pr0+18";
     private static final String BD = "db_kiosco";
-    private static final String HOSTNAME = "192.168.60.2";
-    //private static final String HOSTNAME = "localhost";
+    private static final String HOSTNAME = "localhost";
     private static final String PORT = "1433";
     private static final String CLASS_NAME = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static final String URL = "jdbc:sqlserver://" + HOSTNAME + ":" + PORT + ";DatabaseName=" + BD + ";user=" + USERNAME + ";Password=" + PASSWORD + "";

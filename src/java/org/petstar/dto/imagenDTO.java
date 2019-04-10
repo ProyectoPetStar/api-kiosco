@@ -9,7 +9,7 @@ import java.sql.Date;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class imagenDTO {
     private int id_imagen;

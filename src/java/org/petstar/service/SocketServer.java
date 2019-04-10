@@ -19,8 +19,8 @@ import javax.websocket.server.ServerEndpoint;
 
 
 /**
- *
- * @author Tech-Pro
+ * Clase java abre y controla conexiones websocket 
+ * @author TECH-PRO
  */
 @ServerEndpoint("/P3t5t4rWs/{role}")
 public class SocketServer {

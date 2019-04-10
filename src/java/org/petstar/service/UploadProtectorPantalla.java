@@ -14,15 +14,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.io.IOUtils;
 import org.petstar.configurations.Configuration;
 import org.petstar.controller.ControllerUploadProtectorPantalla;
 import org.petstar.model.OutputJson;
 import org.petstar.model.ResponseJson;
 
 /**
- *
- * @author Tech-pro
+ * Clase java ENDPOINT
+ * @author TECH-PRO
  */
 
 @MultipartConfig

@@ -14,7 +14,7 @@ import org.petstar.dto.ReportesDTO;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class ReportesJson {
     private ReportesDTO reportes;

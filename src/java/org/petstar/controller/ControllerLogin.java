@@ -17,7 +17,7 @@ import org.petstar.model.UserResponseJson;
 
 /**
  *
- * @author Tech-Pro
+ * @author TECH-PRO
  */
 public class ControllerLogin {
 

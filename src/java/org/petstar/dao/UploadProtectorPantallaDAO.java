@@ -12,16 +12,14 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.petstar.configurations.PoolDataSource;
-import static org.petstar.configurations.Utils.convertSqlToDay;
 import static org.petstar.configurations.Utils.convertSqlToDayHour;
-import static org.petstar.configurations.Utils.sumarFechasDias;
 import org.petstar.dto.ResultInteger;
 import org.petstar.dto.ResultString;
 import org.petstar.dto.imagenDTO;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class UploadProtectorPantallaDAO {
     public void insertImagen(imagenDTO imagen) throws Exception{

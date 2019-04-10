@@ -14,10 +14,8 @@ import org.petstar.model.ResponseJson;
 import org.petstar.model.OutputJson;
 
 /**
- * Clase que administra el control de acceso al sistema, en base al usuario y
- * contraseña proporcionados
- *
- * @author Tech-Pro
+ * Clase que administra cambio de contraseña y recuepera información del usuario 
+ * @author TECH-PRO
  */
 @WebServlet(name = "Users", urlPatterns = {"/Users"})
 public class Users extends HttpServlet {

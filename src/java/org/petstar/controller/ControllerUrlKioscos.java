@@ -26,7 +26,7 @@ import org.petstar.model.UrlKioscoJson;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class ControllerUrlKioscos {
 

@@ -11,7 +11,7 @@ import org.petstar.dto.UrlKioscosDTO;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class UrlKioscoJson {
     private UrlKioscosDTO urlKiosco;

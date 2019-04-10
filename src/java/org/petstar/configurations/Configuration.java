@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Clase que permite definir variables de directorios de trabajo; 
  * asi como las cabeceras de los servlets.
- * @author admin
+ * @author TECH-PRO
  */
 
 public class Configuration {

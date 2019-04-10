@@ -6,15 +6,11 @@
 package org.petstar.controller;
 
 import com.google.gson.Gson;
-import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
-import static org.petstar.configurations.Utils.convertSqlToDay;
 import org.petstar.dto.KioscoDTO;
 import org.petstar.model.OutputJson;
 import org.petstar.model.ResponseJson;
-import static org.petstar.configurations.Utils.convertStringToSql;
-import static org.petstar.configurations.Utils.sumarFechasDias;
 import org.petstar.dao.KioscoDAO;
 import org.petstar.dto.ResultInteger;
 import org.petstar.dto.UserDTO;
@@ -22,7 +18,7 @@ import org.petstar.model.KioscoJson;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class ControllerKiosco {
     private static final String MSG_LOGOUT = "Inicie sesión nuevamente";

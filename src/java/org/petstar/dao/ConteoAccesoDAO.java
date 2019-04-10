@@ -11,7 +11,7 @@ import org.petstar.configurations.PoolDataSource;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class ConteoAccesoDAO {
     public void insertConteoAcceso(String ipPrivada, String ipPublica, int idUrlKiosco) throws Exception{

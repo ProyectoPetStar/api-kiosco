@@ -20,7 +20,7 @@ import org.petstar.dto.ResultString;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class UrlKioscoDao {
     public void insertUrlKiosco(UrlKioscosDTO url) throws Exception{

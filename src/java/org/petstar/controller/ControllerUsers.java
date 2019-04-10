@@ -31,7 +31,7 @@ import org.petstar.model.ResponseJson;
 
 /**
  *
- * @author Tech-Pro
+ * @author TECH-PRO
  */
 public class ControllerUsers {
 

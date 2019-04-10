@@ -5,18 +5,17 @@
  */
 package org.petstar.dao;
 
-import java.util.List;
+
 import javax.sql.DataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
-import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.petstar.configurations.PoolDataSource;
 import org.petstar.dto.CatalogoPerfilDTO;
 
 /**
  *
- * @author Tech-pro
+ * @author TECH-PRO
  */
 public class CatalogoPerfilDAO {
     

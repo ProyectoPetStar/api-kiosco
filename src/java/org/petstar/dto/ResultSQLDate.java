@@ -4,7 +4,7 @@ import java.sql.Date;
 
 /**
  *
- * @author Tech-Pro
+ * @author TECH-PRO
  */
 public class ResultSQLDate {
     private Date result;

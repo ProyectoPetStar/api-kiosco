@@ -10,7 +10,7 @@ import org.petstar.dto.imagenDTO;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class ProtectorPantallaJson {
     private imagenDTO imagen;

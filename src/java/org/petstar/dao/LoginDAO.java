@@ -14,7 +14,7 @@ import org.petstar.dto.UserDTO;
 
 /**
  *
- * @author Tech-Pro
+ * @author TECH-PRO
  */
 
 public class LoginDAO {

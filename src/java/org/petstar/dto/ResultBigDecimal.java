@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 /**
  *
- * @author Tech-Pro
+ * @author TECH-PRO
  */
 public class ResultBigDecimal {
     private BigDecimal result;

@@ -15,7 +15,7 @@ import org.petstar.dto.ResultString;
 
 /**
  * Clase DAO de Autenticación
- * @author Tech-Pro
+ * @author TECH-PRO
  */
 
 public class AutenticacionDAO {

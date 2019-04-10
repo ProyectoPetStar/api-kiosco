@@ -19,8 +19,8 @@ import org.petstar.model.OutputJson;
 import org.petstar.model.ResponseJson;
 
 /**
- *
- * @author Ramiro
+ * Clase java ENDPOINT
+ * @author TECH-PRO
  */
 @WebServlet(name = "UrlKioscos", urlPatterns = {"/UrlKioscos"})
 public class UrlKioscos extends HttpServlet {

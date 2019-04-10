@@ -7,7 +7,7 @@ package org.petstar.dto;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class CatalogoPlantaDTO {
     private int id_planta;

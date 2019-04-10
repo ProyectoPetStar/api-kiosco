@@ -19,7 +19,7 @@ import org.petstar.dto.ReportesDTO;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class ReportesDAO {
     public List<ReportesDTO> conteoKiosco() throws Exception{

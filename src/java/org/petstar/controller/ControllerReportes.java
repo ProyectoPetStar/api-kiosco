@@ -21,7 +21,7 @@ import org.petstar.model.ResponseJson;
 
 /**
  *
- * @author Ramiro
+ * @author TECH-PRO
  */
 public class ControllerReportes {
     private static final String MSG_LOGOUT = "Inicie sesión nuevamente";
